@@ -221,7 +221,7 @@
   </main>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXhDVzvrd1IWMKTu_-GTQ8L7zIXcinuPl63vP5AEnGTECS79znYwtyi5UR1Z3ZuKFj/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxNaaPcOZveMrg2z0JpiU-z8Dm1R3XhGupy_vbzTVkKSZKQY-EAxAu4qEMadd-826Hk/exec';
 
     function forceLogout(message) {
       if (message) alert(message);
@@ -235,6 +235,51 @@
       const mm = String(now.getMonth() + 1).padStart(2, '0');
       const dd = String(now.getDate()).padStart(2, '0');
       return `${yy}-${mm}-${dd}`;
+    }
+
+    function callScriptJsonp(paramsObj, timeoutMs = 12000) {
+      return new Promise((resolve, reject) => {
+        const cbName = '__gas_dash_cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+        const script = document.createElement('script');
+        let settled = false;
+
+        const cleanup = () => {
+          if (script.parentNode) script.parentNode.removeChild(script);
+          try { delete window[cbName]; } catch (_) { window[cbName] = undefined; }
+        };
+
+        const timer = setTimeout(() => {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          reject(new Error('TIMEOUT'));
+        }, timeoutMs);
+
+        window[cbName] = function(data) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          cleanup();
+          resolve(data);
+        };
+
+        const query = Object.keys(paramsObj)
+          .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(paramsObj[k])}`)
+          .join('&');
+
+        script.src = `${SCRIPT_URL}?${query}&callback=${encodeURIComponent(cbName)}&_t=${Date.now()}`;
+        script.async = true;
+
+        script.onerror = function() {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          cleanup();
+          reject(new Error('SCRIPT_LOAD_ERROR'));
+        };
+
+        document.body.appendChild(script);
+      });
     }
 
     // ==========================================
@@ -374,16 +419,14 @@
         }
       }
 
-      // Google Sheet မှ Status / ExpireDate ပြန်လည်စစ်ဆေးခြင်း
+      // Google Sheet မှ Status / ExpireDate ကို JSONP ဖြင့် ပြန်လည်စစ်ဆေးခြင်း
       try {
-        const url = new URL(SCRIPT_URL);
-        url.searchParams.append('action', 'checkstatus');
-        url.searchParams.append('username', state.username);
+        const data = await callScriptJsonp({
+          action: 'checkstatus',
+          username: state.username
+        });
 
-        const res = await fetch(url.toString(), { redirect: 'follow' });
-        const data = await res.json();
-
-        if (!data.success) return;
+        if (!data || !data.success) return;
 
         if (data.status && data.status.toUpperCase() !== 'ACTIVE') {
           forceLogout('သင့်အကောင့် အသုံးပြုခွင့်ကို ခေတ္တပိတ်ထားပါသည်။');
