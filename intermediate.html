@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intermediate Level - English လေ့လာရေး</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Noto Sans Myanmar"', '"Inter"', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Noto Sans Myanmar', sans-serif; background-color: #F8FAFC; color: #0F172A; overflow-x: hidden; line-height: 1.8; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .audio-btn:active { transform: scale(0.9); }
+    .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="dashboard.html" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors flex items-center gap-2">
+          <span>←</span> Dashboard
+        </a>
+        <span class="font-bold text-slate-900 hidden sm:block">🌳 Intermediate Level</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800" id="xpBadge">⚡ 0 XP</span>
+        <button onclick="logout()" class="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors">ထွက်မည်</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIEW 1: LESSON GRID -->
+  <main id="gridView" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 fade-in">
+    
+    <!-- Hero Banner (Indigo Theme) -->
+    <div class="rounded-3xl p-8 sm:p-12 mb-10 text-white shadow-xl relative overflow-hidden bg-gradient-to-r from-indigo-700 to-purple-600">
+      <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10"></div>
+      <div class="absolute bottom-0 right-32 -mb-10 w-32 h-32 rounded-full bg-white opacity-10"></div>
+      
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-4xl">🌳</span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 border border-white/30">CEFR B1/B2</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold mb-2">Intermediate Level</h1>
+          <p class="text-sm sm:text-base opacity-90 max-w-2xl leading-relaxed">
+            လုပ်ငန်းခွင်သုံး English၊ အင်တာဗျူး၊ တရားဝင်အီးမေးလ်များနှင့် သဒ္ဒါအဆင့်မြင့်များ (Conditionals, Passive, Reported Speech) ကို လေ့လာပါ။
+          </p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl min-w-[200px] text-center">
+          <p class="text-sm font-bold mb-1">တိုးတက်မှု</p>
+          <p class="text-3xl font-extrabold" id="heroProgressText">0 / 14</p>
+          <div class="w-full bg-black/20 h-2 rounded-full mt-3 overflow-hidden">
+            <div id="heroProgressBar" class="bg-white h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">📖 သင်ခန်းစာများ</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="lessonGrid"></div>
+  </main>
+
+  <!-- VIEW 2: LESSON DETAIL -->
+  <main id="detailView" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <button onclick="closeLesson()" class="mb-6 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+      <span>←</span> သင်ခန်းစာများသို့ ပြန်သွား
+    </button>
+
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-2 h-full bg-indigo-500"></div>
+      <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full mb-3 inline-block" id="dUnit">Unit 1</span>
+      <h1 class="text-3xl font-extrabold text-slate-900 mb-2" id="dTitle">Job Interview</h1>
+      <p class="text-lg text-slate-500 mb-4" id="dTitleMM">အလုပ်အင်တာဗျူး</p>
+      <p class="text-slate-700 leading-relaxed text-sm" id="dExplanation">Explanation...</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">📝 ၁။ စကားလုံးများ (Detailed Vocabulary)</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dVocabGrid"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">💬 ၂။ စကားပြော Patterns</h2>
+      <div class="space-y-3" id="dPatternList"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🔊 ၃။ စာပိုဒ်နှင့် AI အသံ (Long Paragraph)</h2>
+      <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+        <p class="text-slate-800 text-lg leading-loose mb-4" id="dParaEN">English paragraph...</p>
+        <button onclick="speakText(document.getElementById('dParaEN').innerText)" class="px-5 py-2.5 rounded-xl bg-indigo-800 hover:bg-indigo-900 text-white text-sm font-bold shadow-sm transition-all flex items-center gap-2 mb-6">
+          🔊 AI အသံဖြင့် နားထောင်မည်
+        </button>
+        <div class="p-5 bg-indigo-50 rounded-xl border border-indigo-100">
+          <p class="text-sm text-indigo-900 leading-loose" id="dParaMM">မြန်မာလို ရှင်းလင်းချက်...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🗣️ ၄။ Conversation လေ့ကျင့်ခန်း</h2>
+      <div class="space-y-3" id="dConversationList"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">🎯 ၅။ Practical Exercise</h2>
+      <p class="text-sm text-slate-500 mb-6">မြန်မာစာကြောင်းအပြည့်အစုံကို AI ဖတ်ပြမည်။ သင်က English လို ပြောကြည့်ပါ။ ပြီးလျှင် Show Answer နှိပ်ပါ။</p>
+      <div class="space-y-4" id="dPracticalList"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">📝 ၆။ Mock Test</h2>
+      <p class="text-sm text-slate-500 mb-6">မေးခွန်း ၅ ခု ဖြေဆိုပြီးလျှင် ရမှတ်ကြည့်ပါ။ ၄ ခုအထက် ရလျှင် Pass ဖြစ်ပါသည်။</p>
+      <div class="space-y-6" id="dMockTestList"></div>
+      <button onclick="submitMockTest()" class="mt-6 px-8 py-3 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white font-bold shadow-md transition-all">
+        📊 ရမှတ်ကြည့်မည်
+      </button>
+      <div id="mockResultBox" class="mt-4 hidden p-5 rounded-2xl text-center"></div>
+    </div>
+
+    <div class="text-center mb-10">
+      <button onclick="completeLesson()" id="completeBtn" class="px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-xl shadow-indigo-600/30 transition-all transform hover:-translate-y-1">
+        ✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)
+      </button>
+    </div>
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. AUTHENTICATION & GLOBAL FUNCTIONS
+    // ==========================================
+    const stateData = localStorage.getItem('englishPlatformState');
+    if (!stateData) {
+      alert('ဤစာမျက်နှာကို ကြည့်ရှုရန် ဦးစွာ Key ID ဖြင့် ဝင်ရောက်ပါ။');
+      window.location.href = 'login.html';
+    }
+    let state = JSON.parse(stateData);
+    document.getElementById('xpBadge').innerText = `⚡ ${state.xp || 0} XP`;
+
+    function speakText(text, lang = 'en-US') {
+      if (!('speechSynthesis' in window)) return alert('Browser တွင် AI အသံ မပံ့ပိုးပါ။');
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      u.rate = 0.9;
+      window.speechSynthesis.speak(u);
+    }
+
+    function startSpeech(index) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return alert('Speech Recognition မပံ့ပိုးပါ။');
+      const rec = new SR();
+      rec.lang = 'en-US';
+      rec.onresult = (e) => {
+        document.getElementById(`user-speak-${index}`).innerText = `🗣️ သင်ပြောသည်: "${e.results[0][0].transcript}"`;
+        document.getElementById(`ans-box-${index}`).classList.remove('hidden');
+      };
+      rec.start();
+      alert('🎤 ပြောပါ...');
+    }
+
+    // ==========================================
+    // 2. MASSIVE DATA FOR 14 LESSONS (Intermediate B1/B2)
+    // ==========================================
+    const lessonsData = [
+      // Lesson 1
+      {
+        id: 'int-1', unit: 'Unit 1', title: 'Job Interview Mastery', titleMM: 'အလုပ်အင်တာဗျူး ဖြေဆိုနည်း',
+        explanation: 'နိုင်ငံတကာ ကုမ္ပဏီများနှင့် Remote အလုပ်အင်တာဗျူးများတွင် မေးလေ့ရှိသော Tell me about yourself နှင့် Strengths/Weaknesses မေးခွန်းများကို ယုံကြည်မှုရှိရှိ ဖြေဆိုနည်း ဖြစ်ပါသည်။',
+        vocab: [
+          ['Experience', 'အတွေ့အကြုံ - လုပ်ငန်းခွင်တွင် လုပ်ကိုင်ခဲ့သည့် ကာလနှင့် ရရှိခဲ့သော ကျွမ်းကျင်မှုဖြစ်သည်။'],
+          ['Strengths', 'အားသာချက်များ - မိမိတွင် ထူးချွန်ပြီး အလုပ်ရှင်ကို အကျိုးပြုနိုင်မည့် စွမ်းရည်များဖြစ်သည်။'],
+          ['Weaknesses', 'အားနည်းချက်များ - မိမိတွင် ပိုမိုကောင်းမွန်အောင် ပြုပြင်ရမည့် ချို့ယွင်းချက်များဖြစ်သည်။'],
+          ['Candidate', 'အလုပ်လျှောက်ထားသူ - အလုပ်တစ်ခုအတွက် ရွေးချယ်ခံရရန် လျှောက်ထားသူဖြစ်သည်။'],
+          ['Resume/CV', 'ကိုယ်ရေးအချက်အလက် - မိမိ၏ ပညာအရည်အချင်း၊ အတွေ့အကြုံများ ပါဝင်သော စာရွက်စာတမ်းဖြစ်သည်။'],
+          ['Confident', 'ယုံကြည်မှုရှိသော - မိမိကိုယ်ကို ယုံကြည်မှုရှိပြီး တည်ငြိမ်စွာ ပြောဆိုနိုင်ခြင်းဖြစ်သည်။'],
+          ['Handle', 'ကိုင်တွယ်ဖြေရှင်းသည် - ပြဿနာတစ်ခုကို ထိန်းချုပ်ပြီး ဖြေရှင်းခြင်းဖြစ်သည်။'],
+          ['Collaborate', 'ပူးပေါင်းဆောင်ရွက်သည် - အဖွဲ့တစ်ခုအနေဖြင့် အတူတကွ လုပ်ဆောင်ခြင်းဖြစ်သည်။'],
+          ['Achieve', 'အောင်မြင်စွာ ပြီးမြောက်သည် - ရည်မှန်းချက်တစ်ခုကို ကြိုးစားပြီး အောင်မြင်ခြင်းဖြစ်သည်။'],
+          ['Opportunity', 'အခွင့်အလမ်း - အလုပ်အကိုင် သို့မဟုတ် တိုးတက်မှုအတွက် ကောင်းမွန်သော အခွင့်အရေးဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Tell me about yourself.', 'သင့်အကြောင်း ပြောပြပါ။ (အတွေ့အကြုံနှင့် ပညာအရည်အချင်းကို အနှစ်ချုပ်)'],
+          ['What are your strengths?', 'သင့်အားသာချက်တွေက ဘာလဲ?'],
+          ['Why do you want this job?', 'ဒီအလုပ်ကို ဘာကြောင့် လိုချင်တာလဲ?'],
+          ['Where do you see yourself in 5 years?', '၅ နှစ်အတွင်း သင်ကိုယ်တိုင် ဘယ်လိုနေရာမျိုးမှာ ရှိနေမယ်လို့ မြင်လဲ?'],
+          ['Do you have any questions for us?', 'ကျွန်တော်တို့ကို မေးစရာ မေးခွန်းရှိလား?']
+        ],
+        paragraphEN: 'Preparing for a job interview is a crucial step in building your career. When the interviewer asks you to "Tell me about yourself," you should focus on your professional background and key achievements. One of my main strengths is my ability to solve complex problems under tight deadlines. I am also a great team player who can collaborate effectively with colleagues. When discussing weaknesses, it is better to mention a real area for improvement and explain how you are actively working on it. You should maintain eye contact and speak with a confident voice. Remember that an interview is a two-way conversation; you are also evaluating if the company is a good fit for you. Asking thoughtful questions at the end shows your genuine interest in the opportunity.',
+        paragraphMM: 'အလုပ်အင်တာဗျူးအတွက် ပြင်ဆင်ခြင်းဟာ သင့်ရဲ့ အသက်မွေးဝမ်းကျောင်းကို တည်ဆောက်ရာမှာ အလွန်အရေးကြီးတဲ့ အဆင့်တစ်ခု ဖြစ်ပါတယ်။ အင်တာဗျူးမေးသူက "သင့်အကြောင်း ပြောပြပါ" လို့ မေးလာတဲ့အခါ သင့်ရဲ့ လုပ်ငန်းခွင်အတွေ့အကြုံနဲ့ အဓိကအောင်မြင်မှုတွေကို အာရုံစိုက်ပြီး ပြောပြသင့်ပါတယ်။ ကျွန်တော့်ရဲ့ အဓိကအားသာချက်တွေထဲက တစ်ခုကတော့ အချိန်ကန့်သတ်ချက်အတွင်း ရှုပ်ထွေးတဲ့ ပြဿနာတွေကို ဖြေရှင်းနိုင်တဲ့ စွမ်းရည်ပါပဲ။ ကျွန်တော်ဟာ လုပ်ဖော်ကိုင်ဖက်တွေနဲ့ ထိရောက်စွာ ပူးပေါင်းဆောင်ရွက်နိုင်တဲ့ အဖွဲ့သားကောင်းတစ်ယောက်လည်း ဖြစ်ပါတယ်။ အားနည်းချက်တွေအကြောင်း ဆွေးနွေးတဲ့အခါ တကယ်တိုးတက်ဖို့ လိုအပ်တဲ့ ကဏ္ဍတစ်ခုကို ဖော်ပြပြီး အဲဒါကို ဘယ်လို လက်ရှိကြိုးစားပြုပြင်နေတယ်ဆိုတာကို ရှင်းပြဖို့ ပိုကောင်းပါတယ်။ မျက်လုံးချင်းဆက်ပြီး ယုံကြည်မှုရှိတဲ့ အသံနဲ့ ပြောဆိုသင့်ပါတယ်။ အင်တာဗျူးဆိုတာ အပြန်အလှန်ပြောဆိုတဲ့ စကားဝိုင်းဖြစ်တယ်ဆိုတာ သတိရပါ၊ ကုမ္ပဏီက သင့်အတွက် သင့်တော်မှုရှိ/မရှိကိုလည်း သင်က ဆန်းစစ်နေတာဖြစ်ပါတယ်။ အဆုံးမှာ စဉ်းစားပြီးမေးတဲ့ မေးခွန်းလေးတွေက အဲဒီအခွင့်အလမ်းအပေါ် သင့်ရဲ့ စိတ်ဝင်တစားမှုကို ပြသနေတာပါ။',
+        conversation: [
+          ['A','Tell me a little about yourself.','သင့်အကြောင်း နည်းနည်းလောက် ပြောပြပါ။'],
+          ['B','I have three years of experience in digital marketing.','ကျွန်တော့်မှာ ဒစ်ဂျစ်တယ် မားကတ်တင်း အတွေ့အကြုံ ၃ နှစ် ရှိပါတယ်။'],
+          ['A','What is your greatest strength?','သင့်ရဲ့ အကြီးမားဆုံး အားသာချက်က ဘာလဲ?'],
+          ['B','I am very good at solving problems and working under pressure.','ကျွန်တော်က ပြဿနာဖြေရှင်းတာနဲ့ ဖိအားအောက်မှာ အလုပ်လုပ်တာကို အရမ်းကောင်းပါတယ်။'],
+          ['A','Why do you want to work here?','ဒီမှာ ဘာကြောင့် အလုပ်လုပ်ချင်တာလဲ?'],
+          ['B','I believe my skills will add value to your company.','ကျွန်တော့်ရဲ့ ကျွမ်းကျင်မှုတွေက လူကြီးမင်းတို့ ကုမ္ပဏီအတွက် တန်ဖိုးထပ်တိုးစေမယ်လို့ ယုံကြည်ပါတယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော့်မှာ အတွေ့အကြုံ ၃ နှစ်ရှိပြီး ဒီအလုပ်အတွက် အရမ်းစိတ်ဝင်စားပါတယ်။', 'I have three years of experience and I am very interested in this job.'],
+          ['ကျွန်တော့်ရဲ့ အားသာချက်ကတော့ အဖွဲ့နဲ့ ပူးပေါင်းလုပ်ဆောင်နိုင်ခြင်းပါပဲ။', 'My main strength is my ability to collaborate with a team.'],
+          ['ဒီကုမ္ပဏီမှာ ကျွန်တော့်ရဲ့ ကျွမ်းကျင်မှုတွေ ပိုပြီးတိုးတက်လာမယ်လို့ မျှော်လင့်ပါတယ်။', 'I expect my skills to grow further in this company.'],
+          ['ကျွန်တော့်ရဲ့ အားနည်းချက်ကတော့ ဖိအားများတဲ့အခါ အလုပ်ရှုပ်တတ်ခြင်းပါပဲ။', 'My weakness is that I get overwhelmed when under a lot of pressure.'],
+          ['၅ နှစ်အတွင်းမှာ ကျွန်တော်ဟာ အဖွဲ့ခေါင်းဆောင်တစ်ယောက် ဖြစ်နေမယ်လို့ မြင်ပါတယ်။', 'I see myself as a team leader in five years.'],
+          ['ကျွန်တော့်ကို ဒီအခွင့်အလမ်းပေးတဲ့အတွက် ကျေးဇူးတင်ပါတယ်။', 'Thank you for giving me this opportunity.']
+        ],
+        mockTest: [
+          ["'Tell me about ___'",['you','yourself','yours','your'],1],
+          ["'What are your ___?'",['strong','strengths','strongly','stronger'],1],
+          ["'Why do you want ___ job?'",['a','an','this','that'],2],
+          ["'Where do you see yourself ___ 5 years?'",['in','on','at','by'],0],
+          ["'I have three years of ___'",['experience','experiences','experienced','experiencing'],0]
+        ]
+      },
+      // Lesson 2
+      {
+        id: 'int-2', unit: 'Unit 2', title: 'Formal Email Writing', titleMM: 'တရားဝင် အီးမေးလ် ရေးသားခြင်း',
+        explanation: 'နိုင်ငံခြား လုပ်ဖော်ကိုင်ဖက်များ၊ တက္ကသိုလ် ပါမောက္ခများနှင့် Client များထံသို့ အီးမေးလ် ပေးပို့ရာတွင် ယဉ်ကျေးသိမ်မွေ့ပြီး တိကျပြတ်သားသော အသုံးအနှုန်းများ ရေးသားနည်း ဖြစ်သည်။',
+        vocab: [
+          ['Attached', 'ပူးတွဲပါရှိသော - အီးမေးလ်နှင့်အတူ ဖိုင် သို့မဟုတ် စာရွက်စာတမ်း ပါဝင်နေခြင်းဖြစ်သည်။'],
+          ['Regarding', 'နှင့် ပတ်သက်၍ - အီးမေးလ်၏ အဓိကအကြောင်းအရာကို ရည်ညွှန်းရာတွင် သုံးသည်။'],
+          ['Inquire', 'စုံစမ်းမေးမြန်းသည် - အချက်အလက်တစ်ခုကို သိလိုသည့်အတွက် မေးမြန်းခြင်းဖြစ်သည်။'],
+          ['Follow up', 'ဆက်လက်စုံစမ်းသည် - ယခင်က ပို့ထားသော အကြောင်းအရာနှင့် ပတ်သက်၍ ထပ်မံသိလိုခြင်းဖြစ်သည်။'],
+          ['Schedule', 'အချိန်ဇယား - အစည်းအဝေး သို့မဟုတ် လုပ်ဆောင်ရမည့် အစီအစဉ်များဖြစ်သည်။'],
+          ['Confirm', 'အတည်ပြုသည် - အချက်အလက်တစ်ခု မှန်/မမှန် သေချာအောင် ပြုလုပ်ခြင်းဖြစ်သည်။'],
+          ['Apologize', 'တောင်းပန်သည် - မိမိ၏ အမှား သို့မဟုတ် အနှောင့်အယှက်အတွက် ဝမ်းနည်းကြောင်း ပြောခြင်းဖြစ်သည်။'],
+          ['Sincerely', 'ရိုးသားစွာ - တရားဝင်အီးမေးလ် အဆုံးသတ်ရာတွင် သုံးသော ယဉ်ကျေးသည့် စကားလုံးဖြစ်သည်။'],
+          ['Response', 'တုံ့ပြန်မှု - အီးမေးလ် သို့မဟုတ် မေးခွန်းတစ်ခုအတွက် ပြန်လည်ဖြေကြားခြင်းဖြစ်သည်။'],
+          ['Inconvenience', 'အဆင်မပြေမှု - အနှောင့်အယှက် သို့မဟုတ် ခက်ခဲမှု ဖြစ်ပေါ်စေခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Dear [Name],', 'ချစ်ခင်ရသော [နာမည်] (တရားဝင်စာစတင်ရန်)'],
+          ['I am writing to inquire about...', 'ကျွန်တော် ... အကြောင်း စုံစမ်းမေးမြန်းရန် စာရေးနေခြင်းဖြစ်ပါသည်။'],
+          ['Please find the attached file.', 'ပူးတွဲပါဖိုင်ကို ကြည့်ရှုပေးပါ။'],
+          ['I look forward to hearing from you.', 'သင့်ထံမှ ပြန်ကြားချက်ကို စောင့်မျှော်နေပါသည်။'],
+          ['Best regards / Sincerely,', 'လှိုက်လှဲစွာ / ရိုသေစွာ (စာအဆုံးသတ်ရန်)']
+        ],
+        paragraphEN: 'Writing a formal email is a very important skill in the modern workplace. When you write an email to a client or a colleague, you must always use a professional tone. Start with a polite greeting, such as "Dear Mr. Smith" or "Dear Hiring Manager." Clearly state the purpose of your email in the first paragraph. For example, "I am writing to inquire about the upcoming project schedule." If you are sending a document, remember to mention it by saying, "Please find the attached report for your review." Always keep your sentences short and to the point. Avoid using slang or emojis in formal emails. Before you finish, make sure to proofread for any spelling errors. End your email with "I look forward to your response" and close with "Best regards" followed by your name. This shows respect and professionalism.',
+        paragraphMM: 'တရားဝင် အီးမေးလ် ရေးသားခြင်းဟာ ခေတ်သစ် လုပ်ငန်းခွင်မှာ အလွန်အရေးကြီးတဲ့ ကျွမ်းကျင်မှုတစ်ခု ဖြစ်ပါတယ်။ Client တွေ ဒါမှမဟုတ် လုပ်ဖော်ကိုင်ဖက်တွေကို အီးမေးလ် ရေးတဲ့အခါ ပရော်ဖက်ရှင်နယ်ဆန်တဲ့ လေသံကို အမြဲသုံးဖို့ လိုပါတယ်။ "Dear Mr. Smith" သို့မဟုတ် "Dear Hiring Manager" လိုမျိုး ယဉ်ကျေးတဲ့ နှုတ်ခွန်းဆက်စကားနဲ့ စတင်ပါ။ ပထမဆုံး စာပိုဒ်မှာ သင့်အီးမေးလ်ရဲ့ ရည်ရွယ်ချက်ကို ရှင်းရှင်းလင်းလင်း ဖော်ပြပါ။ ဥပမာ - "I am writing to inquire about the upcoming project schedule." လိုမျိုးပေါ့။ စာရွက်စာတမ်းတစ်ခု ပို့တယ်ဆိုရင် "Please find the attached report for your review." လို့ ဖော်ပြဖို့ မမေ့ပါနဲ့။ ဝါကျတွေကို တိုတိုနဲ့ ထိရောက်အောင် အမြဲထားပါ။ တရားဝင်အီးမေးလ်တွေမှာ လူပြောစကားလုံးတွေ (Slang) ဒါမှမဟုတ် အီမိုဂျီတွေ မသုံးသင့်ပါဘူး။ မပြီးခင် စာလုံးပေါင်းအမှားတွေ ရှိ/မရှိ ပြန်စစ်ပါ။ "I look forward to your response" နဲ့ အဆုံးသတ်ပြီး သင့်နာမည်နဲ့အတူ "Best regards" လို့ ရေးပြီး ပိတ်ပါ။ ဒါက လေးစားမှုနဲ့ ပရော်ဖက်ရှင်နယ်ဆန်မှုကို ပြသနေတာပါ။',
+        conversation: [
+          ['A','Did you send the email to the client?','ဖောက်သည်ဆီ အီးမေးလ် ပို့ပြီးပြီလား?'],
+          ['B','Yes, I did. I attached the contract as well.','ဟုတ်တယ်။ စာချုပ်ကိုလည်း ပူးတွဲပို့ထားတယ်။'],
+          ['A','Great. Did you use a formal tone?','ကောင်းတယ်။ တရားဝင် လေသံကို သုံးခဲ့လား?'],
+          ['B','Yes, I started with "Dear Mr. John" and ended with "Best regards."','ဟုတ်တယ်၊ "Dear Mr. John" နဲ့ စပြီး "Best regards" နဲ့ အဆုံးသတ်ခဲ့တယ်။'],
+          ['A','Perfect. Did you ask about the meeting schedule?','အရမ်းကောင်းတယ်။ အစည်းအဝေး အချိန်ဇယားအကြောင်း မေးခဲ့လား?'],
+          ['B','Yes, I inquired about it in the second paragraph.','ဟုတ်တယ်၊ ဒုတိယစာပိုဒ်မှာ မေးမြန်းထားတယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော် ပရောဂျက်အခြေအနေကို စုံစမ်းဖို့ အီးမေးလ် ရေးနေပါတယ်။', 'I am writing an email to inquire about the project status.'],
+          ['ကျေးဇူးပြုပြီး ပူးတွဲပါစာရွက်စာတမ်းကို ကြည့်ရှုပေးပါ။', 'Please find the attached document for your review.'],
+          ['သင့်ထံမှ မကြာမီ ပြန်ကြားချက် ရမယ်လို့ မျှော်လင့်ပါတယ်။', 'I look forward to hearing from you soon.'],
+          ['အဆင်မပြေမှုဖြစ်တဲ့အတွက် ကျွန်တော် အရမ်းတောင်းပန်ပါတယ်။', 'I sincerely apologize for the inconvenience.'],
+          ['အစည်းအဝေးအချိန်ဇယားကို အတည်ပြုပေးဖို့ လိုအပ်ပါတယ်။', 'I need to confirm the meeting schedule.'],
+          ['ဒီအီးမေးလ်ကို သင့်ရဲ့ မန်နေဂျာဆီ ပို့ပေးလို့ ရမလား?', 'Could you please forward this email to your manager?']
+        ],
+        mockTest: [
+          ["'I am writing to ___ about the project.'",['inquire','ask','say','tell'],0],
+          ["'Please find the ___ file.'",['attach','attached','attaching','attaches'],1],
+          ["'I look forward to ___ from you.'",['hear','hearing','heard','hears'],1],
+          ["'___ regards,'",['Best','Good','Nice','Well'],0],
+          ["'I apologize for the ___ .'",['inconvenience','convenient','inconvenient','convenience'],0]
+        ]
+      },
+      // Lesson 3
+      {
+        id: 'int-3', unit: 'Unit 3', title: 'Conditionals (Type 1, 2, 3)', titleMM: 'အခြေအနေပြ ဝါကျများ',
+        explanation: 'ဖြစ်နိုင်ခြေရှိသော၊ စိတ်ကူးယဉ်သော၊ ဖြစ်မလာတဲ့ အတိတ်က အခြေအနေများကို ပြောဆိုရာတွင် If ပါဝင်သော Conditional ဝါကျများကို သုံးပါသည်။',
+        vocab: [
+          ['Condition', 'အခြေအနေ - တစ်စုံတစ်ခု ဖြစ်ပျက်ရန် လိုအပ်သော အခြေအနေဖြစ်သည်။'],
+          ['Result', 'ရလဒ် - အခြေအနေတစ်ခုကြောင့် ဖြစ်ပေါ်လာသော အကျိုးဆက်ဖြစ်သည်။'],
+          ['Probable', 'ဖြစ်နိုင်ခြေရှိသော - ဖြစ်လာနိုင်သည့် အခွင့်အရေး များသော အခြေအနေဖြစ်သည်။'],
+          ['Hypothetical', 'စိတ်ကူးယဉ်ထားသော - အမှန်တကယ် မဖြစ်နိုင်သေးသော်လည်း စိတ်ကူးထဲတွင် ဖြစ်နေသော အရာဖြစ်သည်။'],
+          ['Impossible', 'မဖြစ်နိုင်သော - လုံးဝဖြစ်ပေါ်လာနိုင်ခြေ မရှိသော အခြေအနေဖြစ်သည်။'],
+          ['Regret', 'နောင်တရသည် - အတိတ်က လုပ်ခဲ့မိသည့် အမှားတစ်ခုအတွက် ဝမ်းနည်းခြင်းဖြစ်သည်။'],
+          ['Provide', 'ထောက်ပံ့ပေးသည် - တစ်စုံတစ်ဦးအတွက် လိုအပ်သော အရာတစ်ခုကို ပေးအပ်ခြင်းဖြစ်သည်။'],
+          ['Depend on', 'မှီခိုသည် - အခြားအရာတစ်ခုအပေါ် အခြေခံပြီး ဖြစ်ပျက်ခြင်းဖြစ်သည်။'],
+          ['Imagine', 'စိတ်ကူးကြည့်သည် - ဖြစ်လာနိုင်သည့် အခြေအနေတစ်ခုကို ဦးနှောက်ထဲတွင် ပုံဖော်ခြင်းဖြစ်သည်။'],
+          ['Choice', 'ရွေးချယ်မှု - ရရှိနိုင်သည့် ရွေးချယ်စရာများထဲမှ ဆုံးဖြတ်ချက်ချခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['If + Present Simple, Subject + will + Verb 1 (Type 1)', 'ဖြစ်နိုင်ခြေရှိသော အနာဂတ် (ဥပမာ - If it rains, I will stay home.)'],
+          ['If + Past Simple, Subject + would + Verb 1 (Type 2)', 'စိတ်ကူးယဉ်သော ပစ္စုပ္ပန် (ဥပမာ - If I had money, I would buy a car.)'],
+          ['If + Past Perfect, Subject + would have + Verb 3 (Type 3)', 'ပြောင်းလဲလို့မရတော့တဲ့ အတိတ်က အခြေအနေ (ဥပမာ - If I had studied, I would have passed.)'],
+          ['I wish I + Past Simple', 'ငါ ... ဖြစ်ခဲ့ရင်လို့ ဆုတောင်းမိသည် (ဥပမာ - I wish I were rich.)'],
+          ['Unless = If not', 'မဟုတ်ရင် (ဥပမာ - I will go unless it rains.)']
+        ],
+        paragraphEN: 'Conditional sentences are used to talk about possibilities and imaginary situations. First Conditional is used for real and possible situations in the future. For example, "If I study hard, I will pass the exam." This means it is very likely to happen if you do the action. Second Conditional is used for imaginary or unlikely situations in the present or future. "If I won the lottery, I would travel around the world." I do not actually have a lottery ticket, so it is just a dream. Third Conditional is used to imagine a different past. "If I had woken up early, I would not have missed the bus." This expresses regret about something that already happened and cannot be changed. Understanding these three types will greatly improve your fluency in English.',
+        paragraphMM: 'Conditional ဝါကျတွေကို ဖြစ်နိုင်ခြေတွေနဲ့ စိတ်ကူးယဉ်တဲ့ အခြေအနေတွေအကြောင်း ပြောဆိုရာမှာ သုံးပါတယ်။ First Conditional ကို အနာဂတ်မှာ တကယ်ဖြစ်နိုင်တဲ့ အခြေအနေတွေအတွက် သုံးပါတယ်။ ဥပမာ - "If I study hard, I will pass the exam." (ငါ ကြိုးစားကျက်မယ်ဆိုရင် စာမေးပွဲ အောင်မယ်)။ ဒါက သင်လုပ်ဆောင်ရင် ဖြစ်လာနိုင်ခြေ အရမ်းများတယ်ဆိုတာကို ဆိုလိုပါတယ်။ Second Conditional ကို ပစ္စုပ္ပန် ဒါမှမဟုတ် အနာဂတ်မှာ ဖြစ်နိုင်ခြေနည်းတဲ့ ဒါမှမဟုတ် စိတ်ကူးယဉ်တဲ့ အခြေအနေတွေအတွက် သုံးပါတယ်။ "If I won the lottery, I would travel around the world." (ငါ ထီပေါက်ရင် ကမ္ဘာပတ်မယ်)။ တကယ်တော့ ကျွန်တော့်မှာ ထီလက်မှတ် မရှိပါဘူး၊ ဒါကြောင့် ဒါက အိပ်မက်တစ်ခုပါပဲ။ Third Conditional ကို ကွဲပြားတဲ့ အတိတ်ကို စိတ်ကူးကြည့်ဖို့ သုံးပါတယ်။ "If I had woken up early, I would not have missed the bus." (ငါ စောစောနိုးခဲ့ရင် ဘတ်စ်ကား မလွတ်ခဲ့ဘူး)။ ဒါက ဖြစ်ပြီးသွားပြီး ပြောင်းလဲလို့မရတော့တဲ့ အရာတစ်ခုအတွက် နောင်တကို ဖော်ပြနေတာပါ။ ဒီအမျိုးအစား ၃ မျိုးကို နားလည်ထားခြင်းက သင့်ရဲ့ English စကားပြောကျွမ်းကျင်မှုကို အများကြီး တိုးတက်စေပါလိမ့်မယ်။',
+        conversation: [
+          ['A','What will you do if it rains tomorrow?','မနက်ဖြန် မိုးရွာရင် ဘာလုပ်မလဲ?'],
+          ['B','If it rains, I will stay at home and watch a movie.','မိုးရွာရင် အိမ်မှာနေပြီး ရုပ်ရှင်ကြည့်မယ်။'],
+          ['A','If you had a million dollars, what would you buy?','မင်းမှာ ဒေါ်လာတစ်သန်း ရှိရင် ဘာဝယ်မလဲ?'],
+          ['B','If I had a million dollars, I would buy a big house.','ဒေါ်လာတစ်သန်း ရှိရင် အိမ်ကြီးတစ်လုံး ဝယ်မယ်။'],
+          ['A','Did you pass the test?','စာမေးပွဲ အောင်လား?'],
+          ['B','No. If I had studied harder, I would have passed.','မအောင်ဘူး။ ပိုပြီးကြိုးစားကျက်ခဲ့ရင် အောင်မှာပါ။']
+        ],
+        practical: [
+          ['ငါ အချိန်ရှိရင် မင်းဆီ သွားလည်မယ်။', 'If I have time, I will visit you.'],
+          ['ငါ ငွေရှိရင် ကားအသစ်တစ်စီး ဝယ်မှာပါ။', 'If I had money, I would buy a new car.'],
+          ['သူမ စောစောထခဲ့ရင် ရထားကို မလွတ်ခဲ့ဘူး။', 'If she had woken up early, she would not have missed the train.'],
+          ['မိုးမရွာရင် ငါတို့ ပန်းခြံသွားကြမယ်။', 'If it does not rain, we will go to the park.'],
+          ['ငါသာ မင်းဖြစ်ရင် အဲဒီအလုပ်ကို လုပ်ကြည့်မှာ။', 'If I were you, I would try that job.'],
+          ['သူက ပိုပြီး ကြိုးစားခဲ့ရင် ပိုကောင်းတဲ့ အဆင့်ကို ရောက်မှာပါ။', 'If he had tried harder, he would have reached a better level.']
+        ],
+        mockTest: [
+          ["'If it ___ tomorrow, I will stay home.'",['rain','rains','rained','raining'],1],
+          ["'If I ___ rich, I would travel the world.'",['am','is','were','be'],2],
+          ["'If I had studied, I ___ passed.'",['will have','would have','would','had'],1],
+          ["'I will go ___ it rains.' (မရွာရင်)",['if','unless','because','so'],1],
+          ["'If you heat ice, it ___ .' (အမှန်တရား)",['melt','melts','melted','melting'],1]
+        ]
+      },
+      // Lesson 4
+      {
+        id: 'int-4', unit: 'Unit 4', title: 'Passive Voice', titleMM: 'ကံပြုကြိယာ',
+        explanation: 'လုပ်ဆောင်ချက်ကို လုပ်ဆောင်သူ (Subject) ကို အသားပေးပြောဆိုလိုခြင်း မရှိသည့်အခါ သို့မဟုတ် လုပ်ဆောင်ခံရသူကို အဓိကထား ပြောဆိုလိုသည့်အခါ Passive Voice ကို သုံးပါသည်။',
+        vocab: [
+          ['Active', 'ပြုသူပြ ဝါကျ - လုပ်ဆောင်သူကို အဓိကထားပြောသော ဝါကျဖြစ်သည်။ (ဥပမာ - He wrote the book.)'],
+          ['Passive', 'ကံပြ ဝါကျ - လုပ်ဆောင်ခံရသူကို အဓိကထားပြောသော ဝါကျဖြစ်သည်။ (ဥပမာ - The book was written by him.)'],
+          ['Agent', 'ပြုလုပ်သူ - လုပ်ဆောင်ချက်ကို တကယ်လုပ်ဆောင်ခဲ့သူဖြစ်သည်။ (by နောက်တွင် ပါဝင်သည်)'],
+          ['Construct', 'တည်ဆောက်သည် - အဆောက်အအုံ သို့မဟုတ် စနစ်တစ်ခုကို ဖန်တီးတည်ဆောက်ခြင်းဖြစ်သည်။'],
+          ['Produce', 'ထုတ်လုပ်သည် - ကုန်ပစ္စည်း သို့မဟုတ် သီးနှံများကို ထုတ်လုပ်ခြင်းဖြစ်သည်။'],
+          ['Discover', 'ရှာဖွေတွေ့ရှိသည် - ယခင်က မသိရှိသေးသော အရာတစ်ခုကို ပထမဆုံး တွေ့ရှိခြင်းဖြစ်သည်။'],
+          ['Injure', 'ထိခိုက်ဒဏ်ရာရသည် - မတော်တဆမှုကြောင့် ခန္ဓာကိုယ်တွင် နာကျင်မှု ဖြစ်ပေါ်ခြင်းဖြစ်သည်။'],
+          ['Repair', 'ပြုပြင်သည် - ပျက်စီးနေသော အရာတစ်ခုကို ပြန်လည်ကောင်းမွန်အောင် လုပ်ဆောင်ခြင်းဖြစ်သည်။'],
+          ['Deliver', 'ပို့ဆောင်သည် - ပစ္စည်း သို့မဟုတ် စာများကို သတ်မှတ်နေရာသို့ ပို့ပေးခြင်းဖြစ်သည်။'],
+          ['Cancel', 'ဖျက်သိမ်းသည် - စီစဉ်ထားသော အစီအစဉ်ကို မလုပ်တော့ဘဲ ပယ်ဖျက်ခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + be + Verb 3 (Past Participle)', 'အခြေခံပုံစံ (ဥပမာ - The house is cleaned.)'],
+          ['Subject + be + Verb 3 + by + Agent', 'လုပ်သူကို ထည့်သွင်းပြောဆိုခြင်း (ဥပမာ - The cake was made by my mother.)'],
+          ['Modal + be + Verb 3', 'Modal နှင့်တွဲသုံးခြင်း (ဥပမာ - The work must be done.)'],
+          ['Present Continuous Passive: am/is/are being + V3', 'ဖြစ်ပျက်နေဆဲ (ဥပမာ - The road is being repaired.)'],
+          ['Present Perfect Passive: have/has been + V3', 'ပြီးမြောက်ခြင်း (ဥပမာ - The letter has been sent.)']
+        ],
+        paragraphEN: 'The passive voice is often used in formal writing and news reports when the action is more important than the person who did it. For example, instead of saying "Someone built this bridge in 1990," we say "This bridge was built in 1990." The active voice focuses on the doer, while the passive voice focuses on the receiver of the action. In news, you might hear, "Three people were injured in the accident." We do not always know who caused the accident, or it is not the main focus. The new hospital is being constructed by a foreign company. Many smartphones are produced in China. If you want to emphasize the object or if the doer is unknown, the passive voice is the perfect choice. It makes your English sound more professional and objective.',
+        paragraphMM: 'Passive Voice ကို တရားဝင် စာပေတွေနဲ့ သတင်းတွေမှာ လုပ်ဆောင်ချက်က လုပ်ဆောင်သူထက် ပိုပြီးအရေးကြီးတဲ့အခါ မကြာခဏ သုံးပါတယ်။ ဥပမာ - "Someone built this bridge in 1990" (တစ်ယောက်ယောက်က ဒီတံတားကို ၁၉၉၀ မှာ ဆောက်ခဲ့တယ်) လို့ ပြောမယ့်အစား "This bridge was built in 1990" (ဒီတံတားကို ၁၉၉၀ မှာ ဆောက်ခဲ့တယ်) လို့ ပြောပါတယ်။ Active Voice က လုပ်သူကို အာရုံစိုက်ပြီး Passive Voice က လုပ်ဆောင်ခံရသူကို အာရုံစိုက်ပါတယ်။ သတင်းတွေမှာ "Three people were injured in the accident" (မတော်တဆမှုမှာ လူ ၃ ယောက် ဒဏ်ရာရခဲ့တယ်) လို့ ကြားရနိုင်ပါတယ်။ မတော်တဆမှုကို ဘယ်သူဖြစ်စေခဲ့လဲဆိုတာ ကျွန်တော်တို့ အမြဲမသိရသလို အဲဒါက အဓိက အာရုံစိုက်စရာလည်း မဟုတ်ပါဘူး။ ဆေးရုံအသစ်ကို နိုင်ငံခြားကုမ္ပဏီတစ်ခုက ဆောက်လုပ်နေတာပါ။ စမတ်ဖုန်းအများစုကို တရုတ်နိုင်ငံမှာ ထုတ်လုပ်ပါတယ်။ အကယ်၍ သင်က အရာဝတ္ထုကို အလေးပေးချင်တယ်ဆိုရင် ဒါမှမဟုတ် လုပ်သူကို မသိဘူးဆိုရင် Passive Voice က အကောင်းဆုံး ရွေးချယ်မှုပါပဲ။ ဒါက သင့် English ကို ပိုပြီး ပရော်ဖက်ရှင်နယ်ဖြစ်လာစေပါတယ်။',
+        conversation: [
+          ['A','Who wrote this book?','ဒီစာအုပ်ကို ဘယ်သူရေးခဲ့တာလဲ?'],
+          ['B','It was written by a famous author.','ကျော်ကြားတဲ့ စာရေးဆရာတစ်ယောက် ရေးခဲ့တာပါ။'],
+          ['A','When was this school built?','ဒီကျောင်းကို ဘယ်တုန်းက ဆောက်ခဲ့တာလဲ?'],
+          ['B','It was built in 2010.','၂၀၁၀ ခုနှစ်မှာ ဆောက်ခဲ့တာပါ။'],
+          ['A','Has the report been sent yet?','အစီရင်ခံစာ ပို့ပြီးပြီလား?'],
+          ['B','Yes, it has already been sent.','ဟုတ်တယ်၊ ပို့ပြီးသွားပါပြီ။']
+        ],
+        practical: [
+          ['ဒီအိမ်ကို ကျွန်တော့်အဖိုးက ဆောက်ခဲ့တာပါ။', 'This house was built by my grandfather.'],
+          ['အစီရင်ခံစာကို မနက်ဖြန် ပို့ဆောင်ပါလိမ့်မယ်။', 'The report will be delivered tomorrow.'],
+          ['ကျွန်တော့်ကားကို ဂိုဒေါင်မှာ ပြုပြင်နေတယ်။', 'My car is being repaired at the garage.'],
+          ['ဒီစာအုပ်တွေကို အင်္ဂလိပ်လို ရေးသားထားတာပါ။', 'These books are written in English.'],
+          ['အစည်းအဝေးကို ဖျက်သိမ်းလိုက်ပြီလို့ ကြားတယ်။', 'I heard that the meeting has been canceled.'],
+          ['ဒီကိတ်မုန့်ကို ကျွန်မအမေက လုပ်ထားတာပါ။', 'This cake was made by my mother.']
+        ],
+        mockTest: [
+          ["'The letter ___ yesterday.'",['sent','was sent','is sent','has sent'],1],
+          ["'English ___ in many countries.'",['speaks','is spoken','is speaking','spoke'],1],
+          ["'The house ___ next year.'",['will build','will be built','is built','builds'],1],
+          ["'The book ___ by a famous author.'",['wrote','was written','writes','is writing'],1],
+          ["'The cake ___ by my mother.'",['made','has made','has been made','is made'],2]
+        ]
+      },
+      // Lesson 5
+      {
+        id: 'int-5', unit: 'Unit 5', title: 'Reported Speech', titleMM: 'သွယ်ဝိုက်ပြောဆိုခြင်း',
+        explanation: 'အခြားသူတစ်ဦး ပြောခဲ့သည့် စကားများကို တိုက်ရိုက်ပြန်မပြောဘဲ မိမိစကားနှင့် ပေါင်းစပ်ပြောဆိုပုံကို လေ့လာပါ။ (ဥပမာ - He said, "I am tired." → He said that he was tired.)',
+        vocab: [
+          ['Direct Speech', 'တိုက်ရိုက်ပြောဆိုခြင်း - ပြောသူ၏ စကားကို တစ်လုံးမကျန် ပြန်လည်ပြောခြင်းဖြစ်သည်။'],
+          ['Reported/Indirect', 'သွယ်ဝိုက်ပြောဆိုခြင်း - ပြောသူ၏ စကားကို မိမိစကားနှင့် ရောပြီး အဓိပ္ပာယ်ပြန်ပြောခြင်းဖြစ်သည်။'],
+          ['Say', 'ပြောသည် - ဘယ်သူ့ကို ပြောသည်ဆိုတာ မပါဘဲ စကားပြောခြင်းဖြစ်သည်။'],
+          ['Tell', 'ပြောသည် - ဘယ်သူ့ကို ပြောသည်ဆိုတာ ပါဝင်ပြီး (tell someone) သုံးရသည်။'],
+          ['State', 'ထုတ်ဖော်ပြောဆိုသည် - တရားဝင် သို့မဟုတ် ရှင်းလင်းစွာ ပြောဆိုခြင်းဖြစ်သည်။'],
+          ['Explain', 'ရှင်းပြသည် - နားလည်လွယ်အောင် အသေးစိတ် ပြောပြခြင်းဖြစ်သည်။'],
+          ['Admit', 'ဝန်ခံသည် - မိမိအမှားကို လက်ခံပြောဆိုခြင်းဖြစ်သည်။'],
+          ['Deny', 'ငြင်းဆိုသည် - မိမိလုပ်ခဲ့သည်ကို မဟုတ်ဘူးလို့ ပြောခြင်းဖြစ်သည်။'],
+          ['Suggest', 'အကြံပြုသည် - ဘာလုပ်သင့်သည်ကို စိတ်ကူးပေးခြင်းဖြစ်သည်။'],
+          ['Warn', 'သတိပေးသည် - အန္တရာယ် သို့မဟုတ် မကောင်းတဲ့ အကျိုးဆက်အကြောင်း ကြိုတင်ပြောခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Direct: "I am happy," he said. → Reported: He said (that) he was happy.', 'Tense ကို အတိတ်သို့ ပြောင်းရမည်။'],
+          ['Direct: "I will call you," she said. → Reported: She said she would call me.', 'Will ကို Would ပြောင်းရမည်။'],
+          ['Direct: "Where do you live?" he asked. → Reported: He asked where I lived.', 'မေးခွန်းများတွင် စကားလုံးအစီအစဉ် ပြောင်းရမည်။'],
+          ['Direct: "Don\'t touch it," he said. → Reported: He told me not to touch it.', 'အမိန့်ပေးစကားများကို to / not to ဖြင့် ပြောင်းရမည်။'],
+          ['Direct: "Please help me," she said. → Reported: She asked me to help her.', 'တောင်းဆိုချက်များကို asked + to ဖြင့် ပြောင်းရမည်။']
+        ],
+        paragraphEN: 'Reported speech is used when we want to tell someone what another person said. When we change direct speech to reported speech, we usually need to change the tense of the verb. For example, if Sarah says, "I am going to the market," and you want to tell your friend later, you would say, "Sarah said that she was going to the market." The present continuous "am going" changes to past continuous "was going." Similarly, "will" changes to "would," and "can" changes to "could." If the reporting verb is in the past tense, like "said" or "told," the tense inside the quotation marks must shift one step back into the past. However, if it is a universal truth, like "The sun rises in the east," the tense does not change. Mastering reported speech is essential for storytelling and sharing information accurately.',
+        paragraphMM: 'Reported Speech ကို တခြားလူတစ်ယောက် ပြောခဲ့တဲ့ စကားကို တစ်ခြားသူကို ပြန်ပြောပြချင်တဲ့အခါ သုံးပါတယ်။ Direct Speech ကနေ Reported Speech ကို ပြောင်းတဲ့အခါ အများအားဖြင့် ကြိယာ (Verb) ရဲ့ Tense ကို ပြောင်းဖို့ လိုအပ်ပါတယ်။ ဥပမာ - Sarah က "I am going to the market" (ငါ ဈေးသွားမလို့) လို့ ပြောတယ်ဆိုပါစို့၊ သင်က နောက်မှ သင့်သူငယ်ချင်းကို ပြန်ပြောတဲ့အခါ "Sarah said that she was going to the market" လို့ ပြောရပါမယ်။ Present Continuous ဖြစ်တဲ့ "am going" က Past Continuous ဖြစ်တဲ့ "was going" ကို ပြောင်းသွားပါတယ်။ အလားတူပဲ "will" က "would" ဖြစ်သွားပြီး "can" က "could" ဖြစ်သွားပါတယ်။ အကယ်၍ ပြောတဲ့ကြိယာက အတိတ်ကာလ (said/told) ဖြစ်နေရင် ကိုးကားထားတဲ့ စကားထဲက Tense ကို အတိတ်တစ်ဆင့် ရွှေ့ပေးရပါတယ်။ ဒါပေမယ့် "The sun rises in the east" (နေက အရှေ့ကနေ ထွက်တယ်) လိုမျိုး မှန်ကန်နေတဲ့ အမှန်တရားတွေဆိုရင်တော့ Tense ကို မပြောင်းပါဘူး။ ပုံပြင်တွေ ပြောတဲ့အခါနဲ့ သတင်းအချက်အလက်တွေ တိကျမှန်ကန်စွာ မျှဝေတဲ့အခါ Reported Speech ကို ကျွမ်းကျင်ထားဖို့ အရေးကြီးပါတယ်။',
+        conversation: [
+          ['A','What did John say to you?','ဂျွန်က မင်းကို ဘာပြောခဲ့လဲ?'],
+          ['B','He said that he was very busy.','သူ အရမ်းအလုပ်များနေတယ်လို့ ပြောခဲ့တယ်။'],
+          ['A','Did he say when he would finish?','ဘယ်အချိန် ပြီးမလဲဆိုတာ ပြောခဲ့လား?'],
+          ['B','He told me he would finish by 5 PM.','ညနေ ၅ နာရီမှာ ပြီးမယ်လို့ ပြောခဲ့တယ်။'],
+          ['A','Did he ask for anything?','တစ်ခုခု တောင်းဆိုခဲ့လား?'],
+          ['B','Yes, he asked me to send the report.','ဟုတ်တယ်၊ အစီရင်ခံစာ ပို့ပေးဖို့ တောင်းဆိုခဲ့တယ်။']
+        ],
+        practical: [
+          ['သူက သူ အရမ်းပင်ပန်းနေတယ်လို့ ပြောခဲ့တယ်။', 'He said that he was very tired.'],
+          ['သူမက မနက်ဖြန် လာမယ်လို့ ကတိပေးခဲ့တယ်။', 'She promised that she would come tomorrow.'],
+          ['ဆရာက အိမ်စာလုပ်ဖို့ ပြောခဲ့တယ်။', 'The teacher told us to do our homework.'],
+          ['သူက ဘယ်မှာနေလဲလို့ မေးခဲ့တယ်။', 'He asked me where I lived.'],
+          ['သူမက အဲဒါကို မထိဖို့ သတိပေးခဲ့တယ်။', 'She warned me not to touch it.'],
+          ['သူက ဒီအကြောင်းအရာကို ရှင်းပြခဲ့တယ်။', 'He explained the situation to me.']
+        ],
+        mockTest: [
+          ["'I am tired,' he said. → He said he ___ tired.",['is','was','were','be'],1],
+          ["'I will call you,' she said. → She said she ___ call me.",['will','would','can','could'],1],
+          ["'Where do you live?' he asked. → He asked where I ___ .",['live','lived','living','lives'],1],
+          ["'Don\'t touch it,' he said. → He told me ___ to touch it.",['don\'t','not','no','didn\'t'],1],
+          ["'Can you help me?' she asked. → She asked if I ___ help her.",['can','could','will','would'],1]
+        ]
+      },
+      // Lesson 6
+      {
+        id: 'int-6', unit: 'Unit 6', title: 'Relative Clauses', titleMM: 'ဆက်စပ်ဝါကျအပိုင်းအစများ',
+        explanation: 'နာမ်တစ်ခုအကြောင်း ထပ်မံရှင်းပြရန် သို့မဟုတ် အချက်အလက်ထပ်တိုးရန် who, which, that, whose စသည့် Relative Pronouns များကို သုံးပြီး ဝါကျများကို ချိတ်ဆက်ပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Relative', 'ဆက်စပ်သော - အခြားအရာတစ်ခုနှင့် ဆက်နွှယ်နေခြင်းဖြစ်သည်။'],
+          ['Clause', 'ဝါကျအပိုင်းအစ - Subject နှင့် Verb ပါဝင်သော စကားစုဖြစ်သည်။'],
+          ['Pronoun', 'နာမ်စား - နာမ်အစား သုံးသော စကားလုံးဖြစ်သည်။ (he, she, it, who, which)'],
+          ['Who', 'ဘယ်သူ - လူများအတွက် သုံးသော Relative Pronoun ဖြစ်သည်။'],
+          ['Which', 'ဘယ်အရာ - အရာဝတ္ထုနှင့် တိရစ္ဆာန်များအတွက် သုံးသည်။'],
+          ['That', 'ဟာ - လူ သို့မဟုတ် အရာဝတ္ထု နှစ်မျိုးစလုံးအတွက် သုံးနိုင်သည်။ (အလွတ်သဘော)'],
+          ['Whose', 'ဘယ်သူ့ရဲ့ - ပိုင်ဆိုင်မှုကို ဖော်ပြရာတွင် သုံးသည်။'],
+          ['Where', 'ဘယ်နေရာ - နေရာဒေသများအတွက် သုံးသည်။'],
+          ['Describe', 'ဖော်ပြသည် - အရာဝတ္ထုတစ်ခု၏ အသွင်အပြင်ကို ပြောပြခြင်းဖြစ်သည်။'],
+          ['Identify', 'ဖော်ထုတ်သည် - မည်သူ သို့မဟုတ် မည်သည့်အရာဖြစ်သည်ကို သိရှိခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['The person who ...', '... သောသူ (ဥပမာ - The man who lives next door is a doctor.)'],
+          ['The thing which/that ...', '... သောအရာ (ဥပမာ - The book which I bought is very interesting.)'],
+          ['The place where ...', '... သောနေရာ (ဥပမာ - This is the house where I grew up.)'],
+          ['The person whose ...', '... ရဲ့ပိုင်ဆိုင်သော သူ (ဥပမာ - The girl whose father is a teacher is my friend.)'],
+          ['Defining vs Non-defining', 'မဖြစ်မနေလိုအပ်သော အချက်အလက် (without comma) နှင့် ထပ်တိုးအချက်အလက် (with comma)']
+        ],
+        paragraphEN: 'Relative clauses are used to give more information about a noun without starting a new sentence. They make your writing and speaking more fluent and natural. We use "who" for people, "which" for things and animals, and "where" for places. For example, instead of saying "I met a man. He was very kind," you can say, "I met a man who was very kind." The relative pronoun "who" connects the two ideas. If you want to talk about a place, you can say, "This is the café where we first met." For possessions, we use "whose." For instance, "I have a friend whose brother works in Japan." There are two types of relative clauses: defining (essential information) and non-defining (extra information). Using them correctly will make your English sound much more advanced and professional.',
+        paragraphMM: 'Relative Clauses တွေကို ဝါကျအသစ် ထပ်မစဘဲ နာမ်တစ်ခုအကြောင်း ထပ်ဆောင်း အချက်အလက်တွေ ပေးဖို့ သုံးပါတယ်။ ဒါတွေက သင့်ရဲ့ အရေးအသားနဲ့ စကားပြောကို ပိုပြီး ချောမွေ့သဘာဝကျစေပါတယ်။ လူတွေအတွက် "who"၊ အရာဝတ္ထုနဲ့ တိရစ္ဆာန်တွေအတွက် "which"၊ နေရာတွေအတွက် "where" ကို သုံးပါတယ်။ ဥပမာ - "I met a man. He was very kind." (ငါ လူတစ်ယောက်နဲ့ တွေ့တယ်။ သူက အရမ်းကြင်နာတယ်) လို့ ပြောမယ့်အစား "I met a man who was very kind." (ငါ အရမ်းကြင်နာတဲ့ လူတစ်ယောက်နဲ့ တွေ့တယ်) လို့ ပြောနိုင်ပါတယ်။ "who" ဆိုတဲ့ နာမ်စားက စိတ်ကူးနှစ်ခုကို ချိတ်ဆက်ပေးလိုက်တာပါ။ နေရာတစ်ခုအကြောင်း ပြောချင်ရင် "This is the café where we first met." (ဒါက ငါတို့ ပထမဆုံးတွေ့ခဲ့တဲ့ ကော်ဖီဆိုင်ပါ) လို့ ပြောနိုင်ပါတယ်။ ပိုင်ဆိုင်မှုအတွက်ဆိုရင် "whose" ကို သုံးပါတယ်။ ဥပမာ - "I have a friend whose brother works in Japan." (ငါ့မှာ ညီအကိုက ဂျပန်မှာ အလုပ်လုပ်နေတဲ့ သူငယ်ချင်းတစ်ယောက် ရှိတယ်)။ Relative Clause မှာ ၂ မျိုးရှိပါတယ်။ မဖြစ်မနေလိုအပ်တဲ့ အချက်အလက် (Defining) နဲ့ ထပ်ဆောင်းအချက်အလက် (Non-defining) ပါ။ ဒါတွေကို မှန်ကန်စွာ သုံးတတ်ရင် သင့် English က ပိုပြီး အဆင့်မြင့်ပြီး ပရော်ဖက်ရှင်နယ်ဖြစ်လာပါလိမ့်မယ်။',
+        conversation: [
+          ['A','Do you know the man who is talking to the teacher?','ဆရာမနဲ့ စကားပြောနေတဲ့ လူကို မင်းသိလား?'],
+          ['B','Yes, he is the new English teacher.','သိတယ်၊ သူက English ဆရာအသစ်ပါ။'],
+          ['A','Is that the book which you bought yesterday?','အဲဒါ မနေ့က မင်းဝယ်ခဲ့တဲ့ စာအုပ်လား?'],
+          ['B','Yes, it is very interesting.','ဟုတ်တယ်၊ အရမ်းစိတ်ဝင်စားဖို့ကောင်းတယ်။'],
+          ['A','This is the park where we play football.','ဒါက ငါတို့ ဘောလုံးကစားတဲ့ ပန်းခြံပါ။'],
+          ['B','I know that place. It is beautiful.','အဲဒီနေရာကို ငါသိတယ်။ လှတယ်။']
+        ],
+        practical: [
+          ['အနီရောင်အင်္ကျီ ဝတ်ထားတဲ့ မိန်းကလေးက ကျွန်တော့်ညီမပါ။', 'The girl who is wearing a red shirt is my sister.'],
+          ['ငါမနေ့က ဝယ်ခဲ့တဲ့ ဖုန်းက အရမ်းကောင်းတယ်။', 'The phone which I bought yesterday is very good.'],
+          ['ဒါက ငါတို့ အတူတူနေခဲ့တဲ့ အိမ်ပါ။', 'This is the house where we lived together.'],
+          ['သူ့အဖေက ဆရာဝန်ဖြစ်တဲ့ ကောင်လေးက ငါ့သူငယ်ချင်းပါ။', 'The boy whose father is a doctor is my friend.'],
+          ['ငါ့ကို ကူညီပေးခဲ့တဲ့ လူက အရမ်းကြင်နာတယ်။', 'The person who helped me was very kind.'],
+          ['ငါတို့ စနေနေ့တွေမှာ သွားလေ့ရှိတဲ့ စားသောက်ဆိုင်က ဒါပါပဲ။', 'This is the restaurant where we usually go on Saturdays.']
+        ],
+        mockTest: [
+          ["'The man ___ is standing there is my father.'",['who','which','where','whose'],0],
+          ["'The book ___ I read was good.'",['who','which','where','whose'],1],
+          ["'This is the house ___ I was born.'",['who','which','where','whose'],2],
+          ["'The girl ___ hair is long is my sister.'",['who','which','where','whose'],3],
+          ["'The car ___ is parked outside is mine.'",['who','which','where','whose'],1]
+        ]
+      },
+      // Lesson 7
+      {
+        id: 'int-7', unit: 'Unit 7', title: 'Present Perfect Continuous', titleMM: 'ပစ္စုပ္ပန် ပြီးမြောက်ဆက်လက်ကာလ',
+        explanation: 'အတိတ်က စတင်ခဲ့ပြီး လက်ရှိအချိန်အထိ ဆက်လက်ဖြစ်ပျက်နေဆဲ သို့မဟုတ် မကြာသေးမီက ပြီးဆုံးသွားသော လုပ်ဆောင်ချက်များကို ဖော်ပြရန် သုံးပါသည်။',
+        vocab: [
+          ['Duration', 'ကြာချိန် - တစ်စုံတစ်ခု ဖြစ်ပျက်နေသည့် အချိန်ကာလဖြစ်သည်။'],
+          ['Continuous', 'ဆက်လက်ဖြစ်ပေါ်နေသော - ရပ်တန့်ခြင်းမရှိဘဲ ဆက်လက်လုပ်ဆောင်နေခြင်းဖြစ်သည်။'],
+          ['Lately', 'မကြာသေးမီက - မကြာသေးခင်ကာလများအတွင်း ဖြစ်ပျက်ခဲ့သော အရာဖြစ်သည်။'],
+          ['Recently', 'ယခုတလော - သိပ်မကြာသေးသော အချိန်အတွင်း ဖြစ်ပျက်ခဲ့ခြင်းဖြစ်သည်။'],
+          ['All day', 'တစ်နေကုန် - မနက်မှ ညအထိ အချိန်တစ်ခုလုံးကို ရည်ညွှန်းသည်။'],
+          ['Since', 'ကတည်းက - အချိန်တစ်ခုမှ စတင်ခဲ့သည့် အချိန်ကာလကို ဖော်ပြသည်။'],
+          ['For', 'ကြာ - အချိန်ကာလ တစ်ခုကို အလျားအတိုင်း အတိုင်းအတာပြရန် သုံးသည်။'],
+          ['Effort', 'ကြိုးစားအားထုတ်မှု - တစ်စုံတစ်ခုကို အောင်မြင်ရန် အားစိုက်ထုတ်ခြင်းဖြစ်သည်။'],
+          ['Progress', 'တိုးတက်မှု - ရှေ့သို့ ရွေ့လျားတိုးတက်လာခြင်းဖြစ်သည်။'],
+          ['Result', 'ရလဒ် - ကြိုးစားအားထုတ်မှုကြောင့် ရရှိလာသော အကျိုးဆက်ဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + have/has been + Verb-ing', 'အခြေခံပုံစံ (ဥပမာ - I have been studying for two hours.)'],
+          ['How long have you been ...?', 'ဘယ်လောက်ကြာကြာ ... လုပ်နေတာလဲ?'],
+          ['Subject + have/has been + Verb-ing + for/since', 'အချိန်ကာလနှင့် တွဲသုံးခြင်း'],
+          ['It has been raining all day.', 'တစ်နေကုန် မိုးရွာနေတယ်။ (ရလဒ်ကို ပြသခြင်း)'],
+          ['I have been waiting for you.', 'မင်းအတွက် ငါစောင့်နေတာ (အခုထိ)။']
+        ],
+        paragraphEN: 'The present perfect continuous tense is used to describe an action that started in the past and is still happening now, or an action that has just finished but has a visible result in the present. We often use it with "for" (for two hours) or "since" (since morning). For example, "I have been learning English for three years." This means I started three years ago and I am still learning it. Look at the floor; it is wet because it has been raining. Here, the action (raining) might have just stopped, but the result (wet floor) is still there. Another example is, "She is tired because she has been working all day." This tense emphasizes the duration or the continuous nature of the action. It is very common in everyday English when explaining why you are tired, busy, or late.',
+        paragraphMM: 'Present Perfect Continuous Tense ကို အတိတ်က စတင်ခဲ့ပြီး အခုအချိန်ထိ ဆက်လက်ဖြစ်ပျက်နေတဲ့ လုပ်ဆောင်ချက်၊ ဒါမှမဟုတ် ခုဏလေးတင် ပြီးဆုံးသွားပေမယ့် လက်ရှိအချိန်မှာ ရလဒ်တစ်ခု မြင်နေရတဲ့ လုပ်ဆောင်ချက်တွေကို ဖော်ပြရာမှာ သုံးပါတယ်။ "for" (နှစ်နာရီကြာ) ဒါမှမဟုတ် "since" (မနက်ကတည်းက) တို့နဲ့ တွဲသုံးလေ့ရှိပါတယ်။ ဥပမာ - "I have been learning English for three years." (ငါ English ကို သုံးနှစ်ကြာ လေ့လာနေတယ်)။ ဒါက သုံးနှစ်ကတည်းက စခဲ့ပြီး အခုထိ လေ့လာနေဆဲဆိုတာကို ဆိုလိုပါတယ်။ ကြမ်းပြင်ကို ကြည့်ပါ၊ မိုးရွာနေတာမို့ စိုနေတယ်။ ဒီနေရာမှာ မိုးရွာတဲ့ လုပ်ဆောင်ချက်က ခုဏလေးတင် ရပ်သွားပြီလည်း ဖြစ်နိုင်တယ်၊ ဒါပေမယ့် ရလဒ်ဖြစ်တဲ့ ကြမ်းပြင်စိုနေတာက အခုထိ ရှိနေတယ်။ နောက်ဥပမာတစ်ခုက "She is tired because she has been working all day." (သူမ တစ်နေကုန် အလုပ်လုပ်နေတာမို့ ပင်ပန်းနေတယ်)။ ဒီ Tense က လုပ်ဆောင်ချက်ရဲ့ ကြာချိန် (duration) ဒါမှမဟုတ် ဆက်လက်ဖြစ်ပေါ်နေမှုကို အလေးပေးပါတယ်။ သင်ဘာကြောင့် ပင်ပန်းနေတာလဲ၊ အလုပ်များနေတာလဲ၊ ဒါမှမဟုတ် နောက်ကျနေတာလဲဆိုတာကို ရှင်းပြတဲ့အခါ နေ့စဉ်သုံး English မှာ အရမ်းအသုံးများပါတယ်။',
+        conversation: [
+          ['A','How long have you been waiting here?','ဒီမှာ ဘယ်လောက်ကြာကြာ စောင့်နေတာလဲ?'],
+          ['B','I have been waiting for about 30 minutes.','မိနစ် ၃၀ လောက် စောင့်နေတာပါ။'],
+          ['A','I am sorry I am late. The traffic was terrible.','နောက်ကျတာ တောင်းပန်ပါတယ်။ ယာဉ်ကြောက အရမ်းဆိုးနေတာ။'],
+          ['B','It is okay. I have been reading a book.','ရပါတယ်။ စာအုပ်ဖတ်နေလို့ပါ။'],
+          ['A','What have you been doing recently?','ယခုတလော ဘာတွေ လုပ်နေလဲ?'],
+          ['B','I have been studying for my final exams.','နောက်ဆုံးစာမေးပွဲအတွက် စာကျက်နေတယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော် မနက်ကတည်းက ဒီပရောဂျက်ကို လုပ်နေတယ်။', 'I have been working on this project since morning.'],
+          ['သူမ နှစ်နာရီကြာအောင် ဖုန်းပြောနေတယ်။', 'She has been talking on the phone for two hours.'],
+          ['အပြင်မှာ မိုးတစ်နေကုန် ရွာနေတယ်။', 'It has been raining all day outside.'],
+          ['သင်က ဒီစာအုပ်ကို ဘယ်လောက်ကြာကြာ ဖတ်နေတာလဲ?', 'How long have you been reading this book?'],
+          ['သူတို့က ဒီအိမ်မှာ ၅ နှစ်ကြာ နေထိုင်နေကြတယ်။', 'They have been living in this house for five years.'],
+          ['ကျွန်မက မနက်စာမစားရသေးလို့ ဗိုက်ဆာနေတယ်။', 'I have been feeling hungry because I have not eaten breakfast yet.']
+        ],
+        mockTest: [
+          ["'I ___ studying for 3 hours.'",['have been','has been','am','was'],0],
+          ["'She ___ working here since 2018.'",['have been','has been','is','was'],1],
+          ["'How long ___ you been waiting?'",['have','has','is','are'],0],
+          ["'It ___ raining all day.'",['have been','has been','is','was'],1],
+          ["'They ___ playing football for an hour.'",['have been','has been','is','was'],0]
+        ]
+      },
+      // Lesson 8
+      {
+        id: 'int-8', unit: 'Unit 8', title: 'Past Perfect Tense', titleMM: 'အတိတ် ပြီးမြောက်ကာလ',
+        explanation: 'အတိတ်တွင် ဖြစ်ပျက်ခဲ့သော အဖြစ်အပျက် နှစ်ခုအနက် ပထမဆုံး ဖြစ်ပျက်ခဲ့သည့် အဖြစ်အပျက်ကို ဖော်ပြရာတွင် Past Perfect Tense ကို သုံးပါသည်။',
+        vocab: [
+          ['Prior to', 'မတိုင်မီ - တစ်စုံတစ်ခု မဖြစ်ပေါ်မီ အချိန်ကာလကို ရည်ညွှန်းသည်။'],
+          ['Already', 'ပြီးသွားပြီ - မျှော်လင့်ထားသည်ထက် စောပြီး ပြီးမြောက်သွားကြောင်း ပြသသည်။'],
+          ['By the time', 'အချိန်ရောက်တဲ့အခါ - အချိန်တစ်ခု မရောက်မီ ဖြစ်ပျက်ခဲ့သည့် အရာကို ပြသသည်။'],
+          ['Before', 'မတိုင်မီ - အစောပိုင်း အချိန်ကာလကို ရည်ညွှန်းသည်။'],
+          ['After', 'ပြီးနောက် - တစ်စုံတစ်ခု ဖြစ်ပျက်ပြီးနောက် အချိန်ကာလကို ရည်ညွှန်းသည်။'],
+          ['Realize', 'သဘောပေါက်သည် - အကြောင်းအရာတစ်ခုကို ရုတ်တရက် နားလည်သွားခြင်းဖြစ်သည်။'],
+          ['Notice', 'သတိထားမိသည် - ပတ်ဝန်းကျင်ရှိ အရာတစ်ခုကို အာရုံစိုက်မိခြင်းဖြစ်သည်။'],
+          ['Consequence', 'အကျိုးဆက် - တစ်စုံတစ်ခု လုပ်ဆောင်မှုကြောင့် ဖြစ်ပေါ်လာသည့် ရလဒ်ဖြစ်သည်။'],
+          ['Regret', 'နောင်တရသည် - အတိတ်က လုပ်ခဲ့မိသည့် အမှားတစ်ခုအတွက် ဝမ်းနည်းခြင်းဖြစ်သည်။'],
+          ['Sequence', 'အစီအစဉ် - အဖြစ်အပျက်များ ဖြစ်ပေါ်သည့် အစီအစဉ်ဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + had + Verb 3', 'အခြေခံပုံစံ (ဥပမာ - I had finished my work.)'],
+          ['When + Past Simple, Past Perfect', 'အတိတ်တွင် နှစ်ခုဖြစ်ပြီး ပထမတစ်ခုကို ပြသခြင်း (ဥပမာ - When I arrived, she had left.)'],
+          ['By the time + Past Simple, Past Perfect', 'အချိန်တစ်ခု မရောက်မီ ပြီးသွားခြင်း (ဥပမာ - By the time I woke up, he had gone.)'],
+          ['Subject + had + not + Verb 3', 'ငြင်းပယ်ပုံစံ (ဥပမာ - I had not seen him before.)'],
+          ['Had + Subject + Verb 3?', 'မေးခွန်းပုံစံ (ဥပမာ - Had you finished before the deadline?)']
+        ],
+        paragraphEN: 'The Past Perfect tense is used to show that one action happened before another action in the past. It is like the "past of the past." When we tell a story, we often need to explain what happened before the main event. For example, "When I arrived at the station, the train had already left." The train left first (Past Perfect), and then I arrived (Past Simple). If I say, "When I arrived, the train left," it means I saw the train leaving, which is a different sequence of events. We also use it with "by the time." "By the time the police arrived, the thief had escaped." It is very useful for explaining the reasons behind a past situation. "I was very hungry because I had not eaten anything all day."',
+        paragraphMM: 'Past Perfect Tense ကို အတိတ်မှာ ဖြစ်ပျက်ခဲ့တဲ့ လုပ်ဆောင်ချက်တစ်ခုက တခြားတစ်ခုထက် အရင်ကျခဲ့တယ်ဆိုတာကို ပြသဖို့ သုံးပါတယ်။ ဒါက "အတိတ်ရဲ့ အတိတ်" လိုမျိုးပါပဲ။ ပုံပြင်တွေ ပြောတဲ့အခါ အဓိကဖြစ်ရပ်မတိုင်ခင် ဘာတွေဖြစ်ခဲ့လဲဆိုတာကို ရှင်းပြဖို့ မကြာခဏ လိုအပ်ပါတယ်။ ဥပမာ - "When I arrived at the station, the train had already left." (ငါ ဘူတာရုံရောက်တဲ့အခါ ရထားက ထွက်သွားပြီးသားဖြစ်နေတယ်)။ ရထားက အရင်ထွက်သွားတယ် (Past Perfect)၊ ပြီးမှ ငါရောက်တယ် (Past Simple)။ အကယ်၍ "When I arrived, the train left" လို့ ပြောရင်တော့ ရထားထွက်သွားတာကို ငါရောက်မှ မြင်လိုက်တယ်လို့ ဆိုလိုတာမို့ ဖြစ်ရပ်အစီအစဉ် ကွဲပြားသွားပါတယ်။ "by the time" နဲ့လည်း တွဲသုံးပါတယ်။ "By the time the police arrived, the thief had escaped." (ရဲတွေရောက်တဲ့အခါ သူခိုးက လွတ်သွားပြီးသားပါ)။ အတိတ်က အခြေအနေတစ်ခုရဲ့ အကြောင်းရင်းကို ရှင်းပြရာမှာ အရမ်းအသုံးဝင်ပါတယ်။ "I was very hungry because I had not eaten anything all day." (ငါ တစ်နေကုန် ဘာမှမစားရသေးလို့ အရမ်းဗိုက်ဆာနေခဲ့တယ်)။',
+        conversation: [
+          ['A','Why were you late for the meeting?','အစည်းအဝေးကို ဘာကြောင့် နောက်ကျတာလဲ?'],
+          ['B','By the time I got to the office, the meeting had already started.','ငါ ရုံးရောက်တဲ့အခါ အစည်းအဝေးက စပြီးသားဖြစ်နေတယ်။'],
+          ['A','Did you miss the bus?','ဘတ်စ်ကား လွတ်သွားလား?'],
+          ['B','No, I had forgotten my laptop at home, so I went back.','မဟုတ်ဘူး၊ ငါ့လက်ပ်တော့ပ်ကို အိမ်မှာ မေ့ထားခဲ့တာနဲ့ ပြန်သွားခဲ့တယ်။'],
+          ['A','Oh, I see. Did you finish the report?','အိုး၊ ဟုတ်လား။ အစီရင်ခံစာ ပြီးလား?'],
+          ['B','Yes, I had finished it before the meeting started.','ဟုတ်တယ်၊ အစည်းအဝေးမစခင်ကတည်းက ပြီးအောင်လုပ်ထားခဲ့တယ်။']
+        ],
+        practical: [
+          ['ငါ ရုပ်ရှင်ရုံရောက်တဲ့အခါ ရုပ်ရှင်က စပြီးသားဖြစ်နေတယ်။', 'When I arrived at the cinema, the movie had already started.'],
+          ['သူမက အိမ်ပြန်ရောက်တဲ့အခါ သူ့အမေက ထမင်းချက်ပြီးသားဖြစ်နေတယ်။', 'When she got home, her mother had cooked dinner.'],
+          ['ငါ မနေ့က သူ့ကို မတွေ့ခင်အထိ သူ့ကို မသိခဲ့ဘူး။', 'I had not known him until I met him yesterday.'],
+          ['ငါ ဖုန်းပြောနေတာမို့ အဲဒီအကြောင်းကို မကြားလိုက်ဘူး။', 'I had not heard the news because I was on the phone.'],
+          ['သူက စာမေးပွဲမဖြေခင် တစ်နှစ်လုံး စာကျက်ထားခဲ့တယ်။', 'He had studied for a year before he took the exam.'],
+          ['ငါ အိပ်ရာဝင်ချိန်မှာ မိုးရွာပြီးသွားပြီ။', 'By the time I went to bed, the rain had stopped.']
+        ],
+        mockTest: [
+          ["'When I arrived, she ___ left.'",['has','had','was','is'],1],
+          ["'I ___ finished my homework before dinner.'",['have','had','was','is'],1],
+          ["'By the time we got there, the concert ___ started.'",['has','had','was','is'],1],
+          ["'He realized he ___ forgotten his keys.'",['has','had','was','is'],1],
+          ["'She had ___ before I called her.'",['leave','left','leaving','leaves'],1]
+        ]
+      },
+      // Lesson 9
+      {
+        id: 'int-9', unit: 'Unit 9', title: 'Gerunds & Infinitives', titleMM: 'Gerund နှင့် Infinitive',
+        explanation: 'ကြိယာတစ်ခုကို နာမ်အဖြစ် ပြောင်းလဲအသုံးပြုသည့်အခါ Verb-ing (Gerund) သို့မဟုတ် to + Verb 1 (Infinitive) ကို မည်သည့်နေရာတွင် သုံးရမည်ကို လေ့လာပါ။',
+        vocab: [
+          ['Gerund', 'နာမ်ပြောင်းကြိယာ - Verb + ing ဖြစ်ပြီး နာမ်တစ်ခုကဲ့သို့ ဆောင်ရွက်သည်။ (Swimming is fun.)'],
+          ['Infinitive', 'ကြိယာရင်း - to + Verb 1 ဖြစ်ပြီး ရည်ရွယ်ချက်ကို ပြသသည်။ (I want to swim.)'],
+          ['Enjoy', 'နှစ်သက်သည် - ပျော်ရွှင်စွာ လုပ်ဆောင်ခြင်းဖြစ်သည်။ (နောက်တွင် Gerund သုံးသည်)'],
+          ['Want', 'လိုချင်သည် - တစ်စုံတစ်ခုကို ဆန္ဒရှိခြင်းဖြစ်သည်။ (နောက်တွင် Infinitive သုံးသည်)'],
+          ['Avoid', 'ရှောင်ကြဉ်သည် - မလုပ်ဖြစ်အောင် ရှောင်ခြင်းဖြစ်သည်။ (နောက်တွင် Gerund သုံးသည်)'],
+          ['Decide', 'ဆုံးဖြတ်သည် - ရွေးချယ်မှုတစ်ခုကို ချမှတ်ခြင်းဖြစ်သည်။ (နောက်တွင် Infinitive သုံးသည်)'],
+          ['Suggest', 'အကြံပြုသည် - ဘာလုပ်သင့်သည်ကို စိတ်ကူးပေးခြင်းဖြစ်သည်။ (နောက်တွင် Gerund သုံးသည်)'],
+          ['Promise', 'ကတိပေးသည် - သေချာပေါက် လုပ်ဆောင်ပေးမည်ဟု ဖြေကြားခြင်းဖြစ်သည်။ (နောက်တွင် Infinitive သုံးသည်)'],
+          ['Mind', 'စိတ်ထဲထားသည် - တစ်စုံတစ်ခုကို ဂရုတစိုက် သတိထားခြင်းဖြစ်သည်။ (နောက်တွင် Gerund သုံးသည်)'],
+          ['Hope', 'မျှော်လင့်သည် - ကောင်းမွန်တဲ့ အရာတစ်ခု ဖြစ်လာမည်ဟု ယုံကြည်ခြင်းဖြစ်သည်။ (နောက်တွင် Infinitive သုံးသည်)']
+        ],
+        patterns: [
+          ['Verb + Gerund (enjoy, avoid, suggest, mind)', 'ဥပမာ - I enjoy reading books. / She avoids eating sugar.'],
+          ['Verb + Infinitive (want, decide, promise, hope)', 'ဥပမာ - I want to go home. / He decided to study abroad.'],
+          ['Preposition + Gerund', 'ဥပမာ - I am good at swimming. / Thank you for helping me.'],
+          ['Gerund as Subject', 'ဥပမာ - Learning English is fun. / Smoking is bad for health.'],
+          ['Infinitive of Purpose', 'ဥပမာ - I went to the market to buy some food.']
+        ],
+        paragraphEN: 'Gerunds and infinitives are very common in English, but they can be tricky. A gerund is a verb ending in "-ing" that acts like a noun. For example, "Swimming is my favorite hobby." Here, "swimming" is the subject. We use gerunds after certain verbs like "enjoy," "avoid," "suggest," and "mind." For instance, "I enjoy watching movies," or "Would you mind opening the window?" On the other hand, an infinitive is "to + verb." We use it after verbs like "want," "decide," "hope," and "promise." For example, "I want to travel to Japan," or "She decided to quit her job." Infinitives are also used to express purpose. "I went to the store to buy milk." Learning which verbs take gerunds and which take infinitives takes practice. The more you read and listen, the more natural it will become.',
+        paragraphMM: 'Gerund နဲ့ Infinitive တွေက English မှာ အရမ်းအသုံးများပေမယ့် နည်းနည်းတော့ ခက်ခဲနိုင်ပါတယ်။ Gerund ဆိုတာ ကြိယာတစ်ခုရဲ့ အဆုံးမှာ "-ing" တပ်ထားပြီး နာမ်တစ်ခုလို အလုပ်လုပ်တာပါ။ ဥပမာ - "Swimming is my favorite hobby." (ရေကူးတာက ငါ့ရဲ့ အကြိုက်ဆုံး ဝါသနာပါ)။ ဒီနေရာမှာ "swimming" က Subject ဖြစ်ပါတယ်။ "enjoy", "avoid", "suggest" နဲ့ "mind" စတဲ့ ကြိယာတွေရဲ့ နောက်မှာ Gerund ကို သုံးပါတယ်။ ဥပမာ - "I enjoy watching movies" (ရုပ်ရှင်ကြည့်ရတာ နှစ်သက်တယ်) ဒါမှမဟုတ် "Would you mind opening the window?" (ပြတင်းပေါက်လေး ဖွင့်ပေးလို့ ရမလား)။ တစ်ဖက်မှာ Infinitive ဆိုတာ "to + verb" ဖြစ်ပါတယ်။ "want", "decide", "hope" နဲ့ "promise" စတဲ့ ကြိယာတွေရဲ့ နောက်မှာ သုံးပါတယ်။ ဥပမာ - "I want to travel to Japan" (ဂျပန်ကို ခရီးသွားချင်တယ်) ဒါမှမဟုတ် "She decided to quit her job" (သူမ အလုပ်ထွက်ဖို့ ဆုံးဖြတ်လိုက်တယ်)။ Infinitive တွေကို ရည်ရွယ်ချက် (purpose) ဖော်ပြဖို့လည်း သုံးပါတယ်။ "I went to the store to buy milk." (နို့ဝယ်ဖို့ ဆိုင်သွားတယ်)။ ဘယ်ကြိယာက Gerund ယူလဲ၊ ဘယ်ကြိယာက Infinitive ယူလဲဆိုတာ လေ့ကျင့်မှုတော့ လိုပါတယ်။ စာဖတ်လေ၊ နားထောင်လေ ဒါတွေက ပိုပြီး သဘာဝကျလာလေပဲပါ။',
+        conversation: [
+          ['A','What do you enjoy doing in your free time?','အားလပ်ချိန်မှာ ဘာလုပ်ရတာ နှစ်သက်လဲ?'],
+          ['B','I enjoy reading books and playing guitar.','စာအုပ်ဖတ်တာနဲ့ ဂစ်တာတီးတာကို နှစ်သက်တယ်။'],
+          ['A','Do you want to go to the cinema tonight?','ဒီည ရုပ်ရှင်ရုံ သွားချင်လား?'],
+          ['B','I would love to, but I need to finish my homework.','သွားချင်ပါတယ်၊ ဒါပေမယ့် အိမ်စာ ပြီးအောင်လုပ်ဖို့ လိုပါတယ်။'],
+          ['A','I suggest going tomorrow instead.','အဲဒါဆိုရင် မနက်ဖြန် သွားဖို့ အကြံပြုချင်ပါတယ်။'],
+          ['B','That sounds like a great plan. I promise to be ready.','အရမ်းကောင်းတဲ့ အစီအစဉ်ပဲ။ အဆင်သင့်ဖြစ်နေမယ်လို့ ကတိပေးပါတယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော် ရေကူးတာကို နှစ်သက်ပါတယ်၊ ဒါပေမယ့် မနက်စောစော မကူးချင်ပါဘူး။', 'I enjoy swimming, but I do not want to swim early in the morning.'],
+          ['ကျွန်မတို့ မနက်ဖြန် ပန်းခြံသွားဖို့ ဆုံးဖြတ်ထားပါတယ်။', 'We decided to go to the park tomorrow.'],
+          ['ပြတင်းပေါက်လေး ဖွင့်ပေးလို့ ရမလား? ပူလို့ပါ။', 'Would you mind opening the window? It is hot.'],
+          ['ကျွန်တော် အလုပ်တစ်ခုရဖို့ မျှော်လင့်ပါတယ်။', 'I hope to get a job.'],
+          ['သူက ကျွန်တော့်ကို ချက်ပြုတ်နည်း သင်ပေးမယ်လို့ ကတိပေးခဲ့တယ်။', 'He promised to teach me how to cook.'],
+          ['သင့်ရဲ့ အကူအညီအတွက် ကျေးဇူးတင်ပါတယ်။', 'Thank you for helping me.']
+        ],
+        mockTest: [
+          ["'I enjoy ___ books.'",['read','reading','to read','reads'],1],
+          ["'She wants ___ a doctor.'",['be','being','to be','been'],2],
+          ["'He suggested ___ to the beach.'",['go','going','to go','went'],1],
+          ["'I promise ___ you tomorrow.'",['call','calling','to call','called'],2],
+          ["'Would you mind ___ the door?'",['close','closing','to close','closed'],1]
+        ]
+      },
+      // Lesson 10
+      {
+        id: 'int-10', unit: 'Unit 10', title: 'Modals of Deduction', titleMM: 'ခန့်မှန်းချက် ကြိယာထောက်ပံ့များ',
+        explanation: 'လက်ရှိ သို့မဟုတ် အတိတ်က အခြေအနေတစ်ခုကို ခန့်မှန်းရာတွင် must, might, could, can\'t စသည့် Modal များကို သုံးပါသည်။ (ဥပမာ - He must be tired.)',
+        vocab: [
+          ['Must', 'သေချာပေါက် ... ဖြစ်ရမည် - အထောက်အထားအရ သေချာပေါက် ဖြစ်နိုင်ခြေ ၁၀၀% ရှိသည့် အခြေအနေဖြစ်သည်။'],
+          ['Might/May', 'ဖြစ်နိုင်သည် - ဖြစ်နိုင်ခြေ ၅၀% လောက်ရှိသော ခန့်မှန်းချက်ဖြစ်သည်။'],
+          ['Could', 'ဖြစ်နိုင်ခြေရှိသည် - ဖြစ်နိုင်ခြေ အနည်းငယ်ရှိသော အခြေအနေဖြစ်သည်။'],
+          ['Can\'t', 'ဖြစ်နိုင်စရာ မရှိဘူး - လုံးဝမဖြစ်နိုင်ကြောင်း ငြင်းပယ်ခြင်းဖြစ်သည်။'],
+          ['Deduction', 'ခန့်မှန်းချက် - အထောက်အထားများအပေါ် အခြေခံပြီး ကောက်ချက်ချခြင်းဖြစ်သည်။'],
+          ['Evidence', 'အထောက်အထား - အခြေအနေတစ်ခုကို သက်သေပြရန် ကူညီပေးသော အချက်အလက်ဖြစ်သည်။'],
+          ['Certain', 'သေချာသော - သံသယကင်းပြီး ယုံကြည်စိတ်ချရသော အခြေအနေဖြစ်သည်။'],
+          ['Possible', 'ဖြစ်နိုင်သော - ဖြစ်ပေါ်လာနိုင်သည့် အခွင့်အရေးရှိခြင်းဖြစ်သည်။'],
+          ['Impossible', 'မဖြစ်နိုင်သော - လုံးဝဖြစ်ပေါ်လာနိုင်ခြေ မရှိခြင်းဖြစ်သည်။'],
+          ['Assume', 'ယူဆသည် - သက်သေမပြည့်စုံဘဲ ထင်မြင်ယူဆခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + must + Verb 1', 'သေချာပေါက် ... ဖြစ်ရမည် (ဥပမာ - He must be at home.)'],
+          ['Subject + might/may/could + Verb 1', '... ဖြစ်နိုင်သည် (ဥပမာ - She might be late.)'],
+          ['Subject + can\'t + Verb 1', '... ဖြစ်နိုင်စရာ မရှိဘူး (ဥပမာ - It can\'t be true.)'],
+          ['Subject + must have + Verb 3', 'အတိတ်မှာ သေချာပေါက် ... ဖြစ်ခဲ့မည် (ဥပမာ - He must have forgotten.)'],
+          ['Subject + might have + Verb 3', 'အတိတ်မှာ ... ဖြစ်ခဲ့နိုင်သည် (ဥပမာ - She might have missed the bus.)']
+        ],
+        paragraphEN: 'Modals of deduction are used when we want to make a guess about a situation based on the evidence we have. If we are almost 100% sure about something, we use "must." For example, if you see a man carrying an umbrella and wearing a raincoat, you can say, "It must be raining outside." If you are only 50% sure, you use "might" or "may." "He might be at the library, but I am not sure." If you are sure something is impossible, you use "can\'t." "She can\'t be at home because her car is not in the driveway." We can also use these modals for the past. "He must have missed the train" means we are sure he missed it. "She might have gone to the market" means it is a possibility. These words are very helpful when you want to sound like a detective solving a mystery.',
+        paragraphMM: 'Modals of Deduction တွေကို ကျွန်တော်တို့ဆီမှာ ရှိတဲ့ အထောက်အထားတွေအပေါ် အခြေခံပြီး အခြေအနေတစ်ခုကို ခန့်မှန်းချင်တဲ့အခါ သုံးပါတယ်။ တစ်ခုခုကို ၁၀၀% နီးပါး သေချာတဲ့အခါ "must" ကို သုံးပါတယ်။ ဥပမာ - ထီးကိုင်ပြီး မိုးကာအင်္ကျီ ဝတ်ထားတဲ့ လူတစ်ယောက်ကို တွေ့ရင် "It must be raining outside." (အပြင်မှာ မိုးရွာနေရမယ်) လို့ ပြောနိုင်ပါတယ်။ ၅၀% ပဲ သေချာတယ်ဆိုရင် "might" ဒါမှမဟုတ် "may" ကို သုံးပါတယ်။ "He might be at the library, but I am not sure." (သူ စာကြည့်တိုက်မှာ ရှိနိုင်တယ်၊ ဒါပေမယ့် သေချာမသိဘူး)။ တစ်ခုခုက မဖြစ်နိုင်ဘူးဆိုတာ သေချာရင် "can\'t" ကို သုံးပါတယ်။ "She can\'t be at home because her car is not in the driveway." (သူမရဲ့ကားက ကားဂိုဒေါင်မှာ မရှိတာမို့ သူမ အိမ်မှာ ရှိနိုင်စရာ မရှိဘူး)။ အတိတ်ကာလအတွက်လည်း ဒီ Modal တွေကို သုံးနိုင်ပါတယ်။ "He must have missed the train." (သူ ရထားလွတ်ခဲ့ရမယ်) ဆိုတာက သူလွတ်ခဲ့တာ သေချာတယ်လို့ ဆိုလိုတာပါ။ "She might have gone to the market." (သူမ ဈေးသွားခဲ့နိုင်တယ်) ဆိုတာက ဖြစ်နိုင်ခြေရှိတယ်လို့ ဆိုလိုတာပါ။ ဒီစကားလုံးတွေက စုံထောက်တစ်ယောက်လို ပဟေဋ္ဌိတွေကို ဖြေရှင်းနေသလို ဟန်ဆောင်ချင်တဲ့အခါ အရမ်းအသုံးဝင်ပါတယ်။',
+        conversation: [
+          ['A','Where is my phone?','ငါ့ဖုန်း ဘယ်မှာလဲ?'],
+          ['B','It might be on the sofa.','ဆိုဖာပေါ်မှာ ရှိနိုင်တယ်။'],
+          ['A','I looked there. It can\'t be there.','အဲဒီမှာ ကြည့်ပြီးပြီ။ အဲဒီမှာ ရှိနိုင်စရာ မရှိဘူး။'],
+          ['B','You must have left it in the car.','မင်း ကားထဲမှာ ထားခဲ့မိမှာပဲ။'],
+          ['A','Yes, maybe. I will go check.','ဟုတ်တယ်၊ ဖြစ်နိုင်တယ်။ သွားကြည့်လိုက်မယ်။'],
+          ['B','Okay. Don\'t worry, it must be there.','အိုကေ။ စိတ်မပူပါနဲ့၊ အဲဒီမှာ ရှိရမှာပါ။']
+        ],
+        practical: [
+          ['သူက ဒီနေ့ အလုပ်မလုပ်ဘူး၊ သူ ဖျားနေရမယ်။', 'He is not working today; he must be sick.'],
+          ['သူမ နောက်ကျနိုင်တယ်၊ ဒါပေမယ့် သေချာမသိဘူး။', 'She might be late, but I am not sure.'],
+          ['ဒါက မဖြစ်နိုင်ဘူး၊ သူက ဘယ်တော့မှ မလိမ်ဘူး။', 'It can\'t be true; he never lies.'],
+          ['သူတို့ အစည်းအဝေး လွတ်သွားခဲ့ရမယ်၊ အခန်းက ပိတ်နေတယ်။', 'They must have missed the meeting; the room is closed.'],
+          ['သူမ ဖုန်းမကိုင်တာက အိပ်နေလို့ ဖြစ်နိုင်တယ်။', 'She might have been sleeping because she did not answer the phone.'],
+          ['သင် အိမ်မှာ မရှိနိုင်ဘူး၊ မီးတွေ အားလုံး ပိတ်ထားတယ်။', 'You can\'t be at home; all the lights are off.']
+        ],
+        mockTest: [
+          ["'He ___ be tired; he worked all day.' (သေချာတယ်)",['must','might','can\'t','could'],0],
+          ["'She ___ be at home; her car is gone.' (မဖြစ်နိုင်ဘူး)",['must','might','can\'t','may'],2],
+          ["'I am not sure. It ___ rain later.' (ဖြစ်နိုင်တယ်)",['must','might','can\'t','should'],1],
+          ["'He ___ have missed the bus; he is late.' (အတိတ် - သေချာတယ်)",['must','might','can\'t','should'],0],
+          ["'It ___ be true. I don\'t believe it.'",['must','might','can\'t','may'],2]
+        ]
+      },
+      // Lesson 11
+      {
+        id: 'int-11', unit: 'Unit 11', title: 'Phrasal Verbs', titleMM: 'အဆင့်မြင့် Phrasal Verbs',
+        explanation: 'ကြိယာတစ်ခုနှင့် ဝိဘတ် (သို့မဟုတ်) ကြိယာဝိသေသနတို့ ပေါင်းစပ်ဖြစ်ပေါ်လာပြီး မူရင်းအဓိပ္ပာယ်နှင့် မတူညီသော အဓိပ္ပာယ်အသစ် ဖြစ်ပေါ်လာခြင်းဖြစ်သည်။ (ဥပမာ - Give up = လက်လျှော့သည်)။',
+        vocab: [
+          ['Give up', 'လက်လျှော့သည် - ခက်ခဲမှုကြောင့် ဆက်လက်မလုပ်တော့ဘဲ ရပ်ဆိုင်းလိုက်ခြင်းဖြစ်သည်။'],
+          ['Look after', 'စောင့်ရှောက်သည် - ကလေး၊ တိရစ္ဆာန် သို့မဟုတ် သက်ကြီးရွယ်အိုများကို ပြုစုစောင့်ရှောက်ခြင်းဖြစ်သည်။'],
+          ['Turn down', 'ငြင်းပယ်သည် - တောင်းဆိုမှု သို့မဟုတ် အလုပ်ကမ်းလှမ်းမှုကို သဘောမတူဘဲ ပယ်ချခြင်းဖြစ်သည်။'],
+          ['Put off', 'ရွှေ့ဆိုင်းသည် - အစီအစဉ်တစ်ခုကို နောက်အချိန်သို့ ရွှေ့ဆိုင်းလိုက်ခြင်းဖြစ်သည်။'],
+          ['Look forward to', 'စောင့်မျှော်သည် - ပျော်ရွှင်စွာဖြင့် ဖြစ်ပျက်လာမည့်အရာကို စောင့်မျှော်နေခြင်းဖြစ်သည်။'],
+          ['Get along with', 'ရင်းနှီးသည် - တစ်စုံတစ်ယောက်နှင့် သဘောထားချင်း တိုက်ဆိုင်ပြီး ခင်မင်ရင်းနှီးခြင်းဖြစ်သည်။'],
+          ['Run out of', 'ကုန်ဆုံးသွားသည် - လိုအပ်သော ပစ္စည်း သို့မဟုတ် အရာတစ်ခု ကုန်သွားခြင်းဖြစ်သည်။'],
+          ['Catch up', 'လိုက်မီသည် - ရှေ့ရောက်နေသူနှင့် အလားတူအဆင့်သို့ ရောက်အောင် လုပ်ဆောင်ခြင်းဖြစ်သည်။'],
+          ['Bring up', 'ပြုစုပျိုးထောင်သည် / ခေါင်းစဉ်တစ်ခု ထုတ်ပြောသည် - ကလေးကို ပြုစုပျိုးထောင်ခြင်း သို့မဟုတ် စကားဝိုင်းတွင် အကြောင်းအရာတစ်ခုကို စတင်ပြောဆိုခြင်းဖြစ်သည်။'],
+          ['Break down', 'ပျက်စီးသွားသည် - စက် သို့မဟုတ် ယာဉ်တစ်ခု ရပ်တန့်သွားပြီး အလုပ်မလုပ်တော့ခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Inseparable Phrasal Verbs', 'ခွဲလို့မရသော Phrasal Verbs (ဥပမာ - look after, get along with)'],
+          ['Separable Phrasal Verbs', 'ခွဲလို့ရသော Phrasal Verbs (ဥပမာ - turn down the offer / turn the offer down)'],
+          ['Three-word Phrasal Verbs', 'စကားလုံး ၃ လုံးပါသော Phrasal Verbs (ဥပမာ - look forward to, put up with)'],
+          ['Transitive vs Intransitive', 'အရာဝတ္ထုလိုအပ်/မလိုအပ် (ဥပမာ - give up smoking vs wake up)'],
+          ['Figurative Meaning', 'မူရင်းအဓိပ္ပာယ်မဟုတ်ဘဲ ခိုင်းနှိုင်းအဓိပ္ပာယ်ဖြင့် သုံးခြင်း (ဥပမာ - break down)']
+        ],
+        paragraphEN: 'Phrasal verbs are a vital part of everyday English conversation. They consist of a verb combined with a preposition or adverb, creating a new meaning. For example, "give up" means to stop trying, while "look after" means to take care of someone. Native speakers use them all the time, so learning them will make you sound much more natural. If you are driving and your car stops working, it "breaks down." If you have no more sugar, you "run out of" sugar. When you are excited about a future event, you "look forward to" it. However, some phrasal verbs can be tricky. You need to know if they are separable. For instance, you can "turn off the light" or "turn the light off," but you cannot separate "look after." Practice using a few every day to build your fluency.',
+        paragraphMM: 'Phrasal Verbs တွေဟာ နေ့စဉ်သုံး English စကားပြောမှာ အလွန်အရေးကြီးတဲ့ အစိတ်အပိုင်းတစ်ခု ဖြစ်ပါတယ်။ သူတို့က ကြိယာတစ်ခုနဲ့ ဝိဘတ် သို့မဟုတ် ကြိယာဝိသေသနတို့ ပေါင်းစပ်ထားပြီး အဓိပ္ပာယ်အသစ်တစ်ခု ဖန်တီးပေးပါတယ်။ ဥပမာ - "give up" ဆိုတာ ကြိုးစားတာကို ရပ်လိုက်တာ (လက်လျှော့တာ) ဖြစ်ပြီး "look after" ဆိုတာ တစ်ယောက်ယောက်ကို စောင့်ရှောက်တာဖြစ်ပါတယ်။ ဒေသခံ စကားပြောသူတွေ ဒါတွေကို အမြဲသုံးကြတာမို့ ဒါတွေကို သင်ယူထားရင် သင့်စကားပြောက ပိုပြီး သဘာဝကျလာပါလိမ့်မယ်။ သင်ကားမောင်းနေရင်း ကားရပ်သွားရင် "breaks down" ဖြစ်တယ်လို့ ပြောပါတယ်။ သင့်ဆီမှာ သကြားကုန်သွားရင် "run out of" sugar ဖြစ်တယ်လို့ ဆိုပါတယ်။ အနာဂတ်မှာ ဖြစ်လာမယ့် ပွဲတစ်ခုအတွက် စိတ်လှုပ်ရှားနေရင် အဲဒါကို "look forward to" လုပ်နေတယ်လို့ ပြောပါတယ်။ ဒါပေမယ့် တချို့ Phrasal Verbs တွေက နည်းနည်းခက်နိုင်ပါတယ်။ သူတို့က ခွဲလို့ရ/မရ (separable) ကို သိဖို့ လိုပါတယ်။ ဥပမာ - "turn off the light" ဒါမှမဟုတ် "turn the light off" လို့ ခွဲပြောလို့ရပေမယ့် "look after" ကို ခွဲလို့မရပါဘူး။ သင့်ရဲ့ ကျွမ်းကျင်မှုကို တည်ဆောက်ဖို့ နေ့တိုင်း အနည်းငယ်လောက် လေ့ကျင့်သုံးစွဲကြည့်ပါ။',
+        conversation: [
+          ['A','Don\'t give up! You are almost finished.','လက်မလျှော့ပါနဲ့! မင်း နီးပါးပြီးသွားပြီ။'],
+          ['B','I know, but I am running out of energy.','သိပါတယ်၊ ဒါပေမယ့် ငါ အားအင်တွေ ကုန်နေပြီ။'],
+          ['A','I will help you. I can look after the rest.','ငါ ကူညီမယ်။ ကျန်တာတွေကို ငါ ဆက်လုပ်ပေးလို့ရတယ်။'],
+          ['B','Thank you. I really look forward to finishing this.','ကျေးဇူးတင်တယ်။ ဒါကို ပြီးအောင်လုပ်ဖို့ ငါ တကယ်ကို စောင့်မျှော်နေတာ။'],
+          ['A','Did you turn down the job offer?','အဲဒီ အလုပ်ကမ်းလှမ်းချက်ကို ငြင်းပယ်လိုက်လား?'],
+          ['B','Yes, I put it off for now.','ဟုတ်တယ်၊ အခုတော့ ရွှေ့ဆိုင်းထားလိုက်တယ်။']
+        ],
+        practical: [
+          ['ငါ ဆေးလိပ်ဖြတ်ဖို့ ဆုံးဖြတ်ထားတယ်။', 'I decided to give up smoking.'],
+          ['ငါ့ညီမလေးကို ငါ စောင့်ရှောက်ရတယ်။', 'I have to look after my little sister.'],
+          ['ငါတို့ရဲ့ ခရီးစဉ်ကို နောက်အပတ်ထိ ရွှေ့ဆိုင်းလိုက်တယ်။', 'We put off our trip until next week.'],
+          ['မင်းနဲ့ တွေ့ဆုံဖို့ ငါ အရမ်းစောင့်မျှော်နေတယ်။', 'I am really looking forward to meeting you.'],
+          ['ငါတို့ ဆန်ကုန်သွားပြီ၊ ဝယ်ဖို့လိုမယ်။', 'We have run out of rice; we need to buy some.'],
+          ['ငါ့ကားက လမ်းမှာ ပျက်သွားတယ်။', 'My car broke down on the road.']
+        ],
+        mockTest: [
+          ["'I need to ___ after my dog.'",['look','take','get','put'],0],
+          ["'Don\'t ___ up. Keep trying!'",['give','put','turn','get'],0],
+          ["'I am looking forward ___ seeing you.'",['to','for','at','in'],0],
+          ["'We ran ___ of milk.'",['out','off','up','in'],0],
+          ["'He ___ down the job offer.'",['turned','put','gave','got'],0]
+        ]
+      },
+      // Lesson 12
+      {
+        id: 'int-12', unit: 'Unit 12', title: 'Idioms & Expressions', titleMM: 'သွယ်ဝိုက်စကားများ',
+        explanation: 'Idioms ဆိုသည်မှာ စကားလုံးများ၏ တိုက်ရိုက်အဓိပ္ပာယ်နှင့် မတူညီဘဲ ခိုင်းနှိုင်းထားသော အဓိပ္ပာယ်ရှိသည့် စကားစုများဖြစ်သည်။ (ဥပမာ - Break the ice)။',
+        vocab: [
+          ['Break the ice', 'စကားစပြောရဲအောင် ဖြစ်စေသည် - ပထမဆုံးတွေ့ဆုံချိန်တွင် တိတ်ဆိတ်မှုကို ဖျက်ပြီး စကားစတင်ရန် ကူညီပေးသည့် လုပ်ဆောင်ချက်ဖြစ်သည်။'],
+          ['Hit the books', 'စာကျက်သည် - စာမေးပွဲအတွက် အာရုံစိုက်ပြီး စာဖတ်ခြင်းဖြစ်သည်။'],
+          ['Under the weather', 'နေမကောင်းဖြစ်သည် - ကျန်းမာရေး အနည်းငယ် ချို့ယွင်းနေခြင်းဖြစ်သည်။'],
+          ['Piece of cake', 'အလွန်လွယ်ကူသည် - လုပ်ဆောင်ရ အလွန်လွယ်ကူသော အလုပ်တစ်ခုဖြစ်သည်။'],
+          ['Once in a blue moon', 'ရှားရှားပါးပါး - အလွန်နည်းသော အကြိမ်အရေအတွက်တွင်သာ ဖြစ်ပျက်ခြင်းဖြစ်သည်။'],
+          ['See eye to eye', 'သဘောတူသည် - တစ်စုံတစ်ဦးနှင့် တူညီသော အမြင်ရှိနေခြင်းဖြစ်သည်။'],
+          ['Cost an arm and a leg', 'ဈေးအလွန်ကြီးသည် - အလွန်ကို ဈေးကြီးသော အရာဝတ္ထုဖြစ်သည်။'],
+          ['Let the cat out of the bag', 'လျှို့ဝှက်ချက် ပေါက်ကြားသည် - မပြောသင့်သော လျှို့ဝှက်ချက်ကို မတော်တဆ ပြောလိုက်မိခြင်းဖြစ်သည်။'],
+          ['Kill two birds with one stone', 'တစ်ချက်ခုတ် နှစ်ချက်ပြတ် - လုပ်ဆောင်ချက်တစ်ခုတည်းနဲ့ ရည်မှန်းချက် နှစ်ခုကို အောင်မြင်စေခြင်းဖြစ်သည်။'],
+          ['Better late than never', 'နောက်ကျသည်ဖြစ်စေ မလုပ်ဘဲမနေသင့် - နောက်ကျသော်လည်း လုပ်ဆောင်ခြင်းက လုံးဝမလုပ်ခြင်းထက် ပိုကောင်းခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Using Idioms in context', 'ဝါကျအတွင်း သဘာဝကျစွာ ထည့်သွင်းအသုံးပြုခြင်း'],
+          ['Describing situations', 'အခြေအနေတစ်ခုကို Idiom ဖြင့် ဖော်ပြခြင်း'],
+          ['Reacting to news', 'သတင်းတစ်ခုကို Idiom ဖြင့် တုံ့ပြန်ခြင်း'],
+          ['Giving advice', 'Idiom ဖြင့် အကြံပြုချက်ပေးခြင်း'],
+          ['Expressing feelings', 'ခံစားချက်ကို Idiom ဖြင့် ဖော်ပြခြင်း']
+        ],
+        paragraphEN: 'Idioms are phrases where the meaning is not literal. They make your English sound much more native and colorful. For example, if a test is very easy, you can say it was a "piece of cake." If you are feeling slightly sick, you are "under the weather." When you need to study hard for an exam, you "hit the books." If you and your friend have the same opinion, you "see eye to eye." Sometimes, you might "let the cat out of the bag" by accidentally telling a secret. If you want to buy a very expensive phone, it might "cost an arm and a leg." To "break the ice" at a party, you can tell a funny joke. Learning idioms takes time because you cannot translate them word by word. You have to understand the situation. But using them correctly will impress native speakers!',
+        paragraphMM: 'Idioms တွေဆိုတာ အဓိပ္ပာယ်က တိုက်ရိုက် မဟုတ်တဲ့ စကားစုတွေပါ။ ဒါတွေက သင့် English ကို ပိုပြီး ဒေသခံဆန်ပြီး ရောင်စုံဖြစ်လာစေပါတယ်။ ဥပမာ - စာမေးပွဲက အရမ်းလွယ်တယ်ဆိုရင် "piece of cake" (ကိတ်မုန့်တစ်ချပ်စာလောက်ပဲ) လို့ ပြောနိုင်ပါတယ်။ နည်းနည်း နေမကောင်းဖြစ်နေရင် "under the weather" (ရာသီဥတုအောက်မှာ) လို့ ဆိုပါတယ်။ စာမေးပွဲအတွက် ကြိုးစားကျက်ဖို့လိုတဲ့အခါ "hit the books" (စာအုပ်တွေကို ရိုက်တယ်) လို့ ပြောပါတယ်။ သင်နဲ့ သင့်သူငယ်ချင်းက အမြင်တူတယ်ဆိုရင် "see eye to eye" (မျက်လုံးချင်းဆိုင်တယ်) လို့ ပြောပါတယ်။ တစ်ခါတလေ မတော်တဆ လျှို့ဝှက်ချက်တစ်ခုကို ပြောမိသွားရင် "let the cat out of the bag" (အိတ်ထဲက ကြောင်ကို လွှတ်လိုက်တယ်) လို့ ဆိုပါတယ်။ အရမ်းဈေးကြီးတဲ့ ဖုန်းတစ်လုံး ဝယ်ချင်ရင် "cost an arm and a leg" (လက်တစ်ဖက် ခြေတစ်ချောင်းစာ ကျတယ်) ဖြစ်နိုင်ပါတယ်။ ပါတီပွဲမှာ "break the ice" (ရေခဲကို ချိုးတယ် - စကားစပြောဖို့လမ်းစ) ဖို့ ရယ်စရာပြက်လုံးတစ်ခု ပြောနိုင်ပါတယ်။ Idioms တွေကို စကားလုံးတစ်လုံးချင်း တိုက်ရိုက်ဘာသာပြန်လို့ မရတာမို့ သင်ယူဖို့ အချိန်ယူရပါတယ်။ အခြေအနေကို နားလည်ဖို့ လိုပါတယ်။ ဒါပေမယ့် မှန်ကန်စွာ သုံးတတ်ရင် ဒေသခံတွေကို အံ့အားသင့်စေမှာပါ!',
+        conversation: [
+          ['A','How was your English exam?','မင်းရဲ့ English စာမေးပွဲ ဘယ်လိုလဲ?'],
+          ['B','It was a piece of cake. I finished it in 20 minutes.','အရမ်းလွယ်တယ်။ မိနစ် ၂၀ နဲ့ ပြီးသွားတယ်။'],
+          ['A','Wow, really? I was up all night hitting the books.','ဟယ် တကယ်လား? ငါကတော့ တစ်ညလုံး စာကျက်နေခဲ့တာ။'],
+          ['B','You should sleep early next time. You look under the weather.','နောက်တစ်ခါ စောစောအိပ်သင့်တယ်။ မင်း နေမကောင်းသလိုပဲ။'],
+          ['A','I know. I am feeling a bit sick.','သိတယ်။ နည်းနည်း နေမကောင်းဖြစ်နေတယ်။'],
+          ['B','Go home and rest. Your health is more important.','အိမ်ပြန်ပြီး အနားယူပါ။ မင်းရဲ့ ကျန်းမာရေးက ပိုအရေးကြီးတယ်။']
+        ],
+        practical: [
+          ['ဒီစာမေးပွဲက အရမ်းလွယ်တယ်၊ ကိတ်မုန့်တစ်ချပ်စာလောက်ပဲ။', 'This exam is very easy; it is a piece of cake.'],
+          ['ကျွန်မနေမကောင်းလို့ ဒီနေ့ ကျောင်းမတက်နိုင်ဘူး။', 'I am feeling under the weather, so I cannot go to school today.'],
+          ['စာမေးပွဲအတွက် ငါ စာကျက်ဖို့ လိုတယ်။', 'I need to hit the books for my exam.'],
+          ['ဒီဖုန်းက အရမ်းဈေးကြီးတယ်။', 'This phone costs an arm and a leg.'],
+          ['ငါတို့ ဒီကိစ္စမှာ အမြင်တူတယ်လို့ ငါထင်တယ်။', 'I think we see eye to eye on this matter.'],
+          ['ငါ သူ့လျှို့ဝှက်ချက်ကို မတော်တဆ ပြောမိသွားတယ်။', 'I accidentally let the cat out of the bag.']
+        ],
+        mockTest: [
+          ["'The exam was a ___ of cake.'",['piece','slice','part','bit'],0],
+          ["'I am feeling under the ___ .'",['weather','rain','sun','cloud'],0],
+          ["'I need to hit the ___ to study.'",['books','roads','walls','desks'],0],
+          ["'It costs an arm and a ___ .'",['leg','hand','foot','head'],0],
+          ["'We see eye to ___ .'",['eye','ear','nose','mouth'],0]
+        ]
+      },
+      // Lesson 13
+      {
+        id: 'int-13', unit: 'Unit 13', title: 'Business English', titleMM: 'စီးပွားရေး English',
+        explanation: 'အစည်းအဝေးများ၊ Presentation များနှင့် ဖောက်သည်များနှင့် ဆွေးနွေးမှုများတွင် အသုံးပြုသော စီးပွားရေးဆိုင်ရာ ဝေါဟာရများနှင့် စကားပြောပုံစံများကို လေ့လာပါ။',
+        vocab: [
+          ['Deadline', 'သတ်မှတ်ရက်စွဲ - အလုပ်တစ်ခုကို ပြီးစီးရမည့် နောက်ဆုံးအချိန်ဖြစ်သည်။'],
+          ['Client', 'ဖောက်သည် - ကုမ္ပဏီမှ ဝန်ဆောင်မှု သို့မဟုတ် ကုန်ပစ္စည်းဝယ်ယူသူဖြစ်သည်။'],
+          ['Meeting', 'အစည်းအဝေး - အလုပ်ကိစ္စများ ဆွေးနွေးရန် လူများစုဝေးခြင်းဖြစ်သည်။'],
+          ['Profit', 'အမြတ် - ကုန်ကျစရိတ်နုတ်ပြီး ရရှိသော ငွေပမာဏဖြစ်သည်။'],
+          ['Budget', 'ဘတ်ဂျက် - သတ်မှတ်ထားသော အသုံးစရိတ် ပမာဏဖြစ်သည်။'],
+          ['Agenda', 'အစည်းအဝေး အစီအစဉ် - အစည်းအဝေးတွင် ဆွေးနွေးမည့် ခေါင်းစဉ်များဖြစ်သည်။'],
+          ['Negotiate', 'ညှိနှိုင်းသည် - သဘောတူညီမှုရရှိရန် ဆွေးနွေးခြင်းဖြစ်သည်။'],
+          ['Stakeholder', 'အစုရှယ်ယာရှင်/ပါဝင်ပတ်သက်သူ - လုပ်ငန်းတွင် အကျိုးစီးပွားရှိသူဖြစ်သည်။'],
+          ['Revenue', 'စုစုပေါင်း ဝင်ငွေ - ကုန်ကျစရိတ်မနုတ်မီ ရရှိသော စုစုပေါင်းငွေဖြစ်သည်။'],
+          ['Proposal', 'အဆိုပြုလွှာ - ပရောဂျက် သို့မဟုတ် စီးပွားရေးအတွက် တင်ပြသော အစီအစဉ်ဖြစ်သည်။']
+        ],
+        patterns: [
+          ['I would like to propose...', 'ကျွန်တော် ... အဆိုပြုလိုပါတယ်။'],
+          ['Let us move on to the next item.', 'နောက်တစ်ခုကို ဆက်သွားကြရအောင်။'],
+          ['Could we schedule a meeting?', 'အစည်းအဝေး တစ်ခု စီစဉ်လို့ ရမလား?'],
+          ['We need to meet the deadline.', 'သတ်မှတ်ရက်အတွင်း ပြီးအောင်လုပ်ဖို့ လိုတယ်။'],
+          ['What is the budget for this project?', 'ဒီပရောဂျက်အတွက် ဘတ်ဂျက် ဘယ်လောက်လဲ?']
+        ],
+        paragraphEN: 'Business English is essential for professionals working in international environments. Whether you are writing an email to a client or participating in a meeting, using the right vocabulary is crucial. Every project has a strict deadline that must be met. Before a meeting, the organizer usually sends out an agenda so everyone knows what will be discussed. During the meeting, you might need to negotiate terms with a supplier or discuss the budget with stakeholders. If you want to start a new project, you might prepare a proposal. Companies always aim to increase their revenue and maximize their profit. Always be clear and polite in business communication. "I would like to propose a new strategy for the next quarter." This sounds professional and confident.',
+        paragraphMM: 'Business English ဆိုတာ နိုင်ငံတကာ ပတ်ဝန်းကျင်မှာ အလုပ်လုပ်နေတဲ့ ပရော်ဖက်ရှင်နယ်တွေအတွက် မရှိမဖြစ် လိုအပ်ပါတယ်။ ဖောက်သည်ဆီ အီးမေးလ်ရေးတာပဲဖြစ်စေ၊ အစည်းအဝေးတက်တာပဲဖြစ်စေ မှန်ကန်တဲ့ ဝေါဟာရတွေ သုံးဖို့က အရေးကြီးပါတယ်။ ပရောဂျက်တိုင်းမှာ တင်းကြပ်တဲ့ သတ်မှတ်ရက်စွဲ (deadline) ရှိပြီး အဲဒါကို မလွန်အောင် လုပ်ရပါတယ်။ အစည်းအဝေးမတိုင်ခင် စီစဉ်သူက ဘာတွေ ဆွေးနွေးမယ်ဆိုတာကို လူတိုင်းသိအောင် အစည်းအဝေး အစီအစဉ် (agenda) ကို အများအားဖြင့် ပို့ပေးလေ့ရှိပါတယ်။ အစည်းအဝေးအတွင်းမှာ သင်ဟာ ကုန်ပစ္စည်းပေးသွင်းသူနဲ့ စည်းကမ်းချက်တွေ ညှိနှိုင်း (negotiate) ရနိုင်သလို ပါဝင်ပတ်သက်သူတွေနဲ့ ဘတ်ဂျက်အကြောင်း ဆွေးနွေးရနိုင်ပါတယ်။ ပရောဂျက်အသစ်တစ်ခု စတင်ချင်ရင် အဆိုပြုလွှာ (proposal) တစ်ခု ပြင်ဆင်နိုင်ပါတယ်။ ကုမ္ပဏီတွေက သူတို့ရဲ့ စုစုပေါင်းဝင်ငွေ (revenue) တိုးလာဖို့နဲ့ အမြတ် (profit) အများဆုံးရဖို့ အမြဲရည်ရွယ်ပါတယ်။ စီးပွားရေး ဆက်သွယ်ပြောဆိုမှုမှာ အမြဲတမ်း ရှင်းလင်းပြီး ယဉ်ကျေးဖို့ လိုပါတယ်။ "I would like to propose a new strategy for the next quarter." (နောက်သုံးလပတ်အတွက် မဟာဗျူဟာအသစ်တစ်ခုကို အဆိုပြုလိုပါတယ်) လို့ ပြောတာက ပရော်ဖက်ရှင်နယ်ဆန်ပြီး ယုံကြည်မှုရှိတဲ့ ပုံစံဖြစ်ပါတယ်။',
+        conversation: [
+          ['A','When is the deadline for the proposal?','အဆိုပြုလွှာအတွက် သတ်မှတ်ရက် ဘယ်တုန်းလဲ?'],
+          ['B','It is due next Friday.','နောက်စနေနေ့ ပြီးရမှာပါ။'],
+          ['A','Do we have enough budget for this?','ဒီအတွက် ဘတ်ဂျက် လုံလောက်လား?'],
+          ['B','We need to discuss it with the stakeholders.','ပါဝင်ပတ်သက်သူတွေနဲ့ ဆွေးနွေးဖို့ လိုပါတယ်။'],
+          ['A','Okay. Let us put it on the meeting agenda.','အိုကေ။ အစည်းအဝေး အစီအစဉ်ထဲမှာ ထည့်ကြရအောင်။'],
+          ['B','Good idea. I will send the email to the client.','ကောင်းတဲ့ စိတ်ကူးပဲ။ ဖောက်သည်ဆီ အီးမေးလ် ငါပို့လိုက်မယ်။']
+        ],
+        practical: [
+          ['ဒီပရောဂျက်ရဲ့ သတ်မှတ်ရက်က နောက်လပါ။', 'The deadline for this project is next month.'],
+          ['ကျွန်တော်တို့ရဲ့ ဖောက်သည်တွေနဲ့ အစည်းအဝေး လုပ်ဖို့ လိုပါတယ်။', 'We need to have a meeting with our clients.'],
+          ['ဒီနှစ်မှာ ကုမ္ပဏီရဲ့ အမြတ်က ၂၀% တိုးလာတယ်။', 'The company\'s profit increased by 20% this year.'],
+          ['ကျွန်တော်တို့ ဘတ်ဂျက်ကို ပြန်လည်သုံးသပ်ဖို့ လိုအပ်ပါတယ်။', 'We need to review our budget.'],
+          ['အစည်းအဝေး အစီအစဉ်ကို ကျွန်တော့်ဆီ ပို့ပေးလို့ ရမလား?', 'Could you send me the meeting agenda?'],
+          ['ကျွန်တော်တို့ စျေးနှုန်းနဲ့ ပတ်သက်ပြီး ညှိနှိုင်းဖို့ လိုပါတယ်။', 'We need to negotiate the price.']
+        ],
+        mockTest: [
+          ["'We must meet the ___ .'",['deadline','date','time','day'],0],
+          ["'The company wants to increase its ___ .'",['profit','money','cost','price'],0],
+          ["'Let us discuss the ___ for the meeting.'",['agenda','paper','book','list'],0],
+          ["'We need to ___ with the client.'",['negotiate','talk','say','tell'],0],
+          ["'What is the ___ for this project?'",['budget','money','cost','price'],0]
+        ]
+      },
+      // Lesson 14
+      {
+        id: 'int-14', unit: 'Unit 14', title: 'Academic Writing & Review', titleMM: 'ပညာရေး အရေးအသားနှင့် ပြန်လည်သုံးသပ်ခြင်း',
+        explanation: 'တက္ကသိုလ်များတွင် လျှောက်ထားရန် သို့မဟုတ် Essay များ ရေးသားရာတွင် အသုံးပြုသော တရားဝင် စာပေဆိုင်ရာ အရေးအသားပုံစံနှင့် သင်ခန်းစာ ၁ မှ ၁၃ အထိ ပြန်လည်သုံးသပ်ခြင်း။',
+        vocab: [
+          ['Thesis', 'ယူဆချက် - Essay တစ်ခုလုံး၏ အဓိက အချက်ဖြစ်ပြီး စာရေးသူ ဆွေးနွေးမည့် အဓိကအကြောင်းအရာဖြစ်သည်။'],
+          ['Argument', 'အငြင်းပွားမှု - မိမိ၏ ရပ်တည်ချက်ကို ထောက်ခံသည့် ကျိုးကြောင်းဆီလျော်သော အချက်အလက်ဖြစ်သည်။'],
+          ['Evidence', 'အထောက်အထား - မိမိ၏ အငြင်းပွားမှုကို သက်သေပြရန် အချက်အလက် သို့မဟုတ် သုတေသနဖြစ်သည်။'],
+          ['Conclusion', 'နိဂုံး - Essay ၏ အဆုံးသတ်အပိုင်းဖြစ်ပြီး အဓိကအချက်များကို အနှစ်ချုပ်သည်။'],
+          ['Introduction', 'နိဒါန်း - Essay ၏ အစပိုင်းဖြစ်ပြီး ခေါင်းစဉ်နှင့် ရည်ရွယ်ချက်ကို မိတ်ဆက်သည်။'],
+          ['Analyze', 'ခွဲခြမ်းစိတ်ဖြာသည် - အကြောင်းအရာတစ်ခုကို အသေးစိတ် လေ့လာပြီး နားလည်ခြင်းဖြစ်သည်။'],
+          ['Compare', 'နှိုင်းယှဉ်သည် - တူညီမှုနှင့် ကွဲပြားမှုများကို ကြည့်ရှုခြင်းဖြစ်သည်။'],
+          ['Contrast', 'ဆန့်ကျင်ဘက်ပြသည် - ကွဲပြားမှုများကို အသားပေးဖော်ပြခြင်းဖြစ်သည်။'],
+          ['Reference', 'ကိုးကား - အခြားစာရေးဆရာများ၏ စာပေများကို ရည်ညွှန်းခြင်းဖြစ်သည်။'],
+          ['Academic', 'ပညာရေးဆိုင်ရာ - တက္ကသိုလ် သို့မဟုတ် သုတေသနနှင့် သက်ဆိုင်သော အရာဖြစ်သည်။']
+        ],
+        patterns: [
+          ['This essay argues that...', 'ဤစာစီစာကုံးက ... ဟု ဆွေးနွေးထားသည်။'],
+          ['According to [Author], ...', '[စာရေးဆရာ] အဆိုအရ ...'],
+          ['In conclusion, ...', 'နိဂုံးချုပ်အနေဖြင့် ...'],
+          ['The evidence suggests that...', 'အထောက်အထားများအရ ... ဟု ထင်မြင်မိသည်။'],
+          ['Furthermore / Moreover, ...', 'ထို့အပြင် ...']
+        ],
+        paragraphEN: 'Academic writing is very different from everyday conversation. It requires a formal tone, clear structure, and strong evidence. A good academic essay usually starts with an introduction that includes a thesis statement. The thesis tells the reader what the essay will argue. The body paragraphs should each focus on one main idea, supported by facts or references. You must use transition words like "furthermore" or "however" to connect your ideas smoothly. Always analyze the topic carefully before writing. You might need to compare and contrast different viewpoints. Finally, the conclusion should summarize your main points and restate your thesis in a new way. Mastering academic writing is essential for success in university and international scholarships.',
+        paragraphMM: 'Academic Writing ဆိုတာ နေ့စဉ်သုံး စကားပြောနဲ့ အရမ်းကို ကွာခြားပါတယ်။ ဒါက တရားဝင်တဲ့ လေသံ၊ ရှင်းလင်းတဲ့ ဖွဲ့စည်းပုံနဲ့ ခိုင်မာတဲ့ အထောက်အထားတွေ လိုအပ်ပါတယ်။ ကောင်းမွန်တဲ့ ပညာရေးဆိုင်ရာ စာစီစာကုံးတစ်ခုဟာ ယူဆချက် (thesis statement) ပါဝင်တဲ့ နိဒါန်း (introduction) နဲ့ စတင်လေ့ရှိပါတယ်။ ယူဆချက်က စာဖတ်သူကို စာစီစာကုံးက ဘာအကြောင်း ဆွေးနွေးမယ်ဆိုတာကို ပြောပြပါတယ်။ ကိုယ်ထည်စာပိုဒ် (body paragraphs) တစ်ခုစီဟာ အချက်အလက်တွေ ဒါမှမဟုတ် ကိုးကားချက်တွေနဲ့ ပံ့ပိုးထားတဲ့ အဓိကစိတ်ကူးတစ်ခုအပေါ်မှာ အာရုံစိုက်သင့်ပါတယ်။ သင့်ရဲ့ စိတ်ကူးတွေကို ချောမွေ့စွာ ချိတ်ဆက်ဖို့ "furthermore" ဒါမှမဟုတ် "however" လို ဆက်စပ်စကားလုံးတွေကို သုံးရပါမယ်။ မရေးခင်မှာ ခေါင်းစဉ်ကို သေချာလေ့လာပါ။ မတူညီတဲ့ အမြင်တွေကို နှိုင်းယှဉ်ဖို့ (compare and contrast) လိုနိုင်ပါတယ်။ နောက်ဆုံးမှာ နိဂုံး (conclusion) က သင့်ရဲ့ အဓိကအချက်တွေကို အနှစ်ချုပ်ပြီး ယူဆချက်ကို ပုံစံအသစ်နဲ့ ပြန်လည်ဖော်ပြသင့်ပါတယ်။ တက္ကသိုလ်ပညာရေးနဲ့ နိုင်ငံတကာ ပညာသင်ဆုတွေမှာ အောင်မြင်ဖို့အတွက် Academic Writing ကို ကျွမ်းကျင်ထားဖို့က အရေးကြီးပါတယ်။',
+        conversation: [
+          ['A','Did you finish your essay?','မင်း စာစီစာကုံး ပြီးပြီလား?'],
+          ['B','Yes, I just finished writing the conclusion.','ဟုတ်တယ်၊ နိဂုံးကို ရေးပြီးသွားတယ်။'],
+          ['A','Did you include enough evidence?','အထောက်အထား လုံလောက်အောင် ထည့်ထားလား?'],
+          ['B','Yes, I cited two academic references.','ဟုတ်တယ်၊ ပညာရေးဆိုင်ရာ ကိုးကား ၂ ခု ထည့်ထားတယ်။'],
+          ['A','Great. Is your thesis statement clear?','ကောင်းတယ်။ မင်းရဲ့ ယူဆချက် ရှင်းလင်းလား?'],
+          ['B','I think so. I stated it in the introduction.','ထင်တယ်။ နိဒါန်းမှာ ဖော်ပြထားတယ်။']
+        ],
+        practical: [
+          ['ဒီစာစီစာကုံးက နည်းပညာရဲ့ အကျိုးသက်ရောက်မှုကို ဆွေးနွေးထားတယ်။', 'This essay argues about the impact of technology.'],
+          ['ကျွန်တော့်ရဲ့ သုတေသနအရ ကျောင်းသားတွေက အွန်လိုင်းသင်ယူမှုကို ပိုနှစ်သက်တယ်။', 'According to my research, students prefer online learning.'],
+          ['နိဂုံးချုပ်အနေဖြင့် ကျွန်တော်တို့ သဘာဝပတ်ဝန်းကျင်ကို ကာကွယ်ရမယ်။', 'In conclusion, we must protect the environment.'],
+          ['အထောက်အထားတွေအရ သူ့ရဲ့ အဆိုပြုချက်က မှန်ကန်တယ်။', 'The evidence suggests that his proposal is correct.'],
+          ['ထို့အပြင် ကျွန်တော်တို့ နောက်ထပ် သုတေသနလုပ်ဖို့ လိုအပ်တယ်။', 'Furthermore, we need to conduct more research.'],
+          ['သူက အတိတ်နဲ့ ပစ္စုပ္ပန် ပညာရေးစနစ်ကို နှိုင်းယှဉ်ထားတယ်။', 'He compared the past and present education systems.']
+        ],
+        mockTest: [
+          ["'___ conclusion, the project was a success.'",['In','On','At','By'],0],
+          ["'The essay ___ that technology is useful.'",['argues','says','tells','speaks'],0],
+          ["'___ to the author, the results are clear.'",['According','Because','Due','Thanks'],0],
+          ["'We need more ___ to prove this point.'",['evidence','evidences','evident','evidently'],0],
+          ["'___ , we need to consider other options.'",['Furthermore','However','Because','So'],0]
+        ]
+      }
+    ];
+
+    let currentLessonId = null;
+
+    // ==========================================
+    // 3. UI RENDERING FUNCTIONS
+    // ==========================================
+    function renderGrid() {
+      const grid = document.getElementById('lessonGrid');
+      grid.innerHTML = '';
+      
+      const completed = state.completedLessons || [];
+      let doneCount = 0;
+
+      lessonsData.forEach((lesson, index) => {
+        const isDone = completed.includes(lesson.id);
+        if (isDone) doneCount++;
+
+        const cardHTML = `
+          <div onclick="openLesson('${lesson.id}')" 
+               class="bg-white rounded-2xl p-5 border-2 ${isDone ? 'border-indigo-200 bg-indigo-50/30' : 'border-slate-200 hover:border-indigo-400'} shadow-sm hover:shadow-lg transition-all cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[160px]">
+            ${isDone ? '<div class="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">✓ ပြီးစီး</div>' : ''}
+            
+            <div>
+              <span class="text-xs font-bold font-mono bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-md inline-block mb-3">${lesson.unit}</span>
+              <h3 class="font-bold text-slate-900 text-base leading-tight group-hover:text-indigo-700 transition-colors">${lesson.title}</h3>
+              <p class="text-xs text-slate-500 mt-1">${lesson.titleMM}</p>
+            </div>
+            
+            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+              <span class="text-xs text-slate-400 font-medium">Lesson ${index + 1}</span>
+              <div class="w-7 h-7 rounded-full bg-slate-50 group-hover:bg-indigo-100 flex items-center justify-center transition-colors">
+                <span class="text-slate-400 group-hover:text-indigo-700 font-bold text-xs">→</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+
+      document.getElementById('heroProgressText').innerText = `${doneCount} / 14`;
+      document.getElementById('heroProgressBar').style.width = `${(doneCount / 14) * 100}%`;
+    }
+
+    function openLesson(id) {
+      const lesson = lessonsData.find(l => l.id === id);
+      if (!lesson) return;
+      
+      currentLessonId = id;
+      document.getElementById('gridView').classList.add('hidden');
+      document.getElementById('detailView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+
+      document.getElementById('dUnit').innerText = lesson.unit;
+      document.getElementById('dTitle').innerText = lesson.title;
+      document.getElementById('dTitleMM').innerText = lesson.titleMM;
+      document.getElementById('dExplanation').innerText = lesson.explanation;
+
+      // Vocab
+      document.getElementById('dVocabGrid').innerHTML = lesson.vocab.map(v => `
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between group">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <p class="font-extrabold text-indigo-900 text-lg">${v[0]}</p>
+            <button onclick="speakText('${v[0]}')" class="shrink-0 w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm audio-btn hover:bg-indigo-200 transition-colors">🔊</button>
+          </div>
+          <p class="text-sm text-slate-700 leading-relaxed">${v[1]}</p>
+        </div>
+      `).join('');
+
+      // Patterns
+      document.getElementById('dPatternList').innerHTML = lesson.patterns.map(p => `
+        <div class="p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex items-start justify-between gap-3">
+          <div>
+            <p class="font-bold text-slate-900 text-base">${p[0]}</p>
+            <p class="text-sm text-slate-600 mt-1">${p[1]}</p>
+          </div>
+          <button onclick="speakText('${p[0].replace(/'/g, "\\'")}')" class="shrink-0 w-9 h-9 rounded-lg bg-indigo-800 text-white flex items-center justify-center shadow-sm audio-btn hover:bg-indigo-900">🔊</button>
+        </div>
+      `).join('');
+
+      // Paragraph
+      document.getElementById('dParaEN').innerText = lesson.paragraphEN;
+      document.getElementById('dParaMM').innerText = lesson.paragraphMM;
+
+      // Conversation
+      document.getElementById('dConversationList').innerHTML = lesson.conversation.map(c => `
+        <div class="p-4 rounded-xl flex gap-3 ${c[0] === 'A' ? 'bg-purple-50 border border-purple-100' : 'bg-indigo-50 border border-indigo-100'}">
+          <span class="w-8 h-8 rounded-full ${c[0] === 'A' ? 'bg-purple-600' : 'bg-indigo-600'} text-white text-sm font-bold flex items-center justify-center shrink-0">${c[0]}</span>
+          <div class="flex-1">
+            <p class="font-bold text-slate-900 text-base">${c[1]}</p>
+            <p class="text-sm text-slate-600 mt-0.5">${c[2]}</p>
+          </div>
+          <button onclick="speakText('${c[1].replace(/'/g, "\\'")}')" class="shrink-0 w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-indigo-700 shadow-sm audio-btn">🔊</button>
+        </div>
+      `).join('');
+
+      // Practical
+      document.getElementById('dPracticalList').innerHTML = lesson.practical.map((p, i) => `
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <p class="font-bold text-slate-900 text-base mb-3">🇲🇲 ${p[0]}</p>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <button onclick="speakText('${p[0]}', 'my-MM')" class="px-4 py-2 rounded-lg bg-indigo-800 text-white text-xs font-bold shadow-sm hover:bg-indigo-900 flex items-center gap-1">
+              🔊 AI ဖတ်ပြမည် (မြန်မာ)
+            </button>
+            <button onclick="document.getElementById('ans-box-${i}').classList.toggle('hidden')" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-xs font-bold shadow-sm hover:bg-indigo-700">
+              👁️ Show Answer
+            </button>
+            <button onclick="startSpeech(${i})" class="px-4 py-2 rounded-lg bg-amber-500 text-white text-xs font-bold shadow-sm hover:bg-amber-600">
+              🎤 ငါပြောမည်
+            </button>
+          </div>
+          <div id="ans-box-${i}" class="hidden p-4 rounded-lg bg-indigo-100 border border-indigo-200">
+            <p class="font-bold text-indigo-900 text-base">✅ ${p[1]}</p>
+            <button onclick="speakText('${p[1].replace(/'/g, "\\'")}')" class="mt-2 text-xs text-indigo-700 font-bold underline flex items-center gap-1">
+              🔊 အသံနားထောင်
+            </button>
+          </div>
+          <p id="user-speak-${i}" class="text-sm text-amber-700 italic mt-2"></p>
+        </div>
+      `).join('');
+
+      // Mock Test
+      document.getElementById('dMockTestList').innerHTML = lesson.mockTest.map((q, qi) => `
+        <div class="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
+          <p class="font-bold text-slate-900 mb-3 text-base">${qi + 1}. ${q[0]}</p>
+          <div class="space-y-2">
+            ${q[1].map((opt, oi) => `
+              <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-indigo-50 cursor-pointer transition-colors">
+                <input type="radio" name="mock_${currentLessonId}_${qi}" value="${oi}" data-correct="${q[2]}" class="w-4 h-4 text-indigo-600">
+                <span class="text-sm text-slate-700">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('mockResultBox').classList.add('hidden');
+      
+      const isDone = (state.completedLessons || []).includes(id);
+      const btn = document.getElementById('completeBtn');
+      if (isDone) {
+        btn.className = "px-10 py-4 rounded-2xl bg-slate-300 text-slate-600 font-bold text-lg cursor-not-allowed";
+        btn.innerText = "✓ ဒီသင်ခန်းစာ ပြီးစီးပြီးဖြစ်သည်";
+        btn.disabled = true;
+      } else {
+        btn.className = "px-10 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-xl shadow-indigo-600/30 transition-all transform hover:-translate-y-1";
+        btn.innerText = "✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)";
+        btn.disabled = false;
+      }
+    }
+
+    function closeLesson() {
+      document.getElementById('detailView').classList.add('hidden');
+      document.getElementById('gridView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function submitMockTest() {
+      const lesson = lessonsData.find(l => l.id === currentLessonId);
+      let correct = 0;
+      const total = lesson.mockTest.length;
+      
+      lesson.mockTest.forEach((q, qi) => {
+        const selected = document.querySelector(`input[name="mock_${currentLessonId}_${qi}"]:checked`);
+        if (selected && parseInt(selected.value) === q[2]) {
+          correct++;
+        }
+      });
+
+      const pass = correct >= Math.ceil(total * 0.7);
+      const resBox = document.getElementById('mockResultBox');
+      resBox.classList.remove('hidden');
+      
+      if (pass) {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-indigo-50 border border-indigo-200 text-indigo-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">🎉 အောင်မြင်ပါသည်!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+        
+        if (!state.awards.includes(`Mock Pass: ${currentLessonId}`)) {
+          state.xp = (state.xp || 0) + 15;
+          state.awards.push(`Mock Pass: ${currentLessonId}`);
+          localStorage.setItem('englishPlatformState', JSON.stringify(state));
+          document.getElementById('xpBadge').innerText = `⚡ ${state.xp} XP`;
+        }
+      } else {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-rose-50 border border-rose-200 text-rose-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">📚 ထပ်ကြိုးစားပါ!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+      }
+    }
+
+    function completeLesson() {
+      if (!state.completedLessons) state.completedLessons = [];
+      
+      if (!state.completedLessons.includes(currentLessonId)) {
+        state.completedLessons.push(currentLessonId);
+        state.xp = (state.xp || 0) + 50;
+        
+        if (!state.awards) state.awards = [];
+        state.awards.push(`Lesson Done: ${currentLessonId}`);
+        
+        localStorage.setItem('englishPlatformState', JSON.stringify(state));
+        alert('✅ သင်ခန်းစာ ပြီးစီးပါပြီ! +50 XP ရရှိပါသည်။');
+        
+        renderGrid();
+        closeLesson();
+      }
+    }
+
+    function logout() {
+      if (confirm('အကောင့်မှ ထွက်မှာ သေချာလား?')) {
+        localStorage.removeItem('englishPlatformState');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Start App
+    renderGrid();
+  </script>
+</body>
+</html>

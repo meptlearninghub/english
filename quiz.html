@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>စာမေးပွဲ - English လေ့လာရေး</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Noto Sans Myanmar"', '"Inter"', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Noto Sans Myanmar', sans-serif; background-color: #F8FAFC; color: #0F172A; overflow-x: hidden; line-height: 1.8; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .option-label:has(input:checked) {
+      border-color: #8b5cf6; /* Violet-500 */
+      background-color: #f5f3ff; /* Violet-50 */
+      box-shadow: 0 0 0 1px #8b5cf6;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center gap-2 font-bold text-slate-900">
+          <span class="text-2xl">📚</span> English လေ့လာရေး
+        </a>
+      </div>
+      <div class="flex items-center gap-3" id="headerAuth">
+        <!-- Header auth buttons will be injected via JS -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- VIEW 1: Intro Screen -->
+    <div id="introView" class="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-xl text-center fade-in relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-violet-500 to-fuchsia-500"></div>
+      <div class="text-6xl mb-6">📝</div>
+      <h1 class="text-3xl font-extrabold text-slate-900 mb-4">English Level Assessment</h1>
+      <p class="text-slate-600 mb-8 max-w-lg mx-auto">
+        သင့်ရဲ့ လက်ရှိ English အခြေခံကို စမ်းသပ်ဖို့ မေးခွန်း (၅၀) ခု ဖြေဆိုပါမယ်။ မည်သူမဆို အခမဲ့ ဝင်ရောက်ဖြေဆိုနိုင်ပါတယ်။
+      </p>
+      
+      <div class="flex flex-col sm:flex-row justify-center gap-4 text-sm font-bold text-slate-600 mb-10">
+        <div class="flex items-center gap-2 justify-center"><span class="text-violet-500">⏱️</span> အချိန်ကန့်သတ်ချက် မရှိပါ</div>
+        <div class="flex items-center gap-2 justify-center"><span class="text-violet-500">🎯</span> မေးခွန်း ၅၀ ခု</div>
+        <div class="flex items-center gap-2 justify-center"><span class="text-violet-500">🏆</span> ကိုယ့်အဆင့်ကိုယ် သိရှိနိုင်မည်</div>
+      </div>
+
+      <button onclick="startQuiz()" class="px-10 py-4 rounded-2xl bg-violet-600 hover:bg-violet-700 text-white font-bold text-lg shadow-xl shadow-violet-600/30 transition-all transform hover:-translate-y-1">
+        စာမေးပွဲ စတင်မည် →
+      </button>
+    </div>
+
+    <!-- VIEW 2: Quiz Screen -->
+    <div id="quizView" class="hidden bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-xl fade-in">
+      
+      <!-- Progress Bar & Counter -->
+      <div class="mb-8">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm font-bold text-violet-600" id="progressText">မေးခွန်း 1 / 50</span>
+          <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">Assessment</span>
+        </div>
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+          <div class="bg-violet-500 h-3 rounded-full transition-all duration-300" id="progressBar" style="width: 2%"></div>
+        </div>
+      </div>
+
+      <!-- Question Area -->
+      <div class="mb-8 min-h-[150px]">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 leading-relaxed" id="questionText">Loading question...</h2>
+      </div>
+
+      <!-- Options -->
+      <div class="space-y-3 mb-10" id="optionsContainer">
+        <!-- Options will be injected here -->
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between items-center pt-6 border-t border-slate-100">
+        <button onclick="prevQuestion()" id="prevBtn" class="px-6 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          ← နောက်သို့
+        </button>
+        
+        <button onclick="nextQuestion()" id="nextBtn" class="px-6 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          ရှေ့သို့ →
+        </button>
+        
+        <button onclick="submitQuiz()" id="submitBtn" class="hidden px-8 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-colors">
+          📊 ရမှတ်ကြည့်မည်
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW 3: Result Screen -->
+    <div id="resultView" class="hidden bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-xl text-center fade-in relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-violet-500 to-fuchsia-500"></div>
+      
+      <h2 class="text-3xl font-extrabold text-slate-900 mb-2">စာမေးပွဲ ပြီးဆုံးပါပြီ!</h2>
+      <p class="text-slate-500 mb-8">သင့်ရဲ့ ရမှတ်နှင့် အကြံပြုချက်</p>
+      
+      <!-- Score Circle -->
+      <div class="w-40 h-40 mx-auto rounded-full border-8 border-violet-100 flex items-center justify-center flex-col mb-8 relative">
+        <svg class="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-dasharray="289" stroke-dashoffset="289" id="scoreCircle" class="transition-all duration-1000 ease-out"></circle>
+        </svg>
+        <span class="text-4xl font-extrabold text-slate-900" id="finalScoreText">0</span>
+        <span class="text-sm font-bold text-slate-500">/ 50 မှတ်</span>
+      </div>
+
+      <!-- Feedback Message -->
+      <div class="bg-violet-50 rounded-2xl p-6 mb-8 border border-violet-100 max-w-lg mx-auto">
+        <p class="font-bold text-violet-900 mb-2" id="feedbackTitle">ဂုဏ်ယူပါတယ်!</p>
+        <p class="text-sm text-slate-700 leading-relaxed" id="feedbackText">သင့်ရဲ့ ရမှတ်အလိုက် အကြံပြုချက်များ...</p>
+      </div>
+
+      <!-- Save Progress Prompt (For Guests) -->
+      <div id="savePrompt" class="hidden mb-8 p-4 bg-amber-50 border border-amber-200 rounded-xl max-w-lg mx-auto text-sm text-amber-900">
+        <p class="font-bold mb-1">💡 သတိပြုရန်</p>
+        <p>သင်သည် အကောင့်မဝင်ထားပါ။ သင့်ရဲ့ ရမှတ်နှင့် တိုးတက်မှုကို သိမ်းဆည်းထားလိုပါက <a href="login.html" class="font-bold underline text-blue-700">Key ID ဖြင့် ဝင်ရောက်ပါ</a>။</p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button onclick="restartQuiz()" class="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all">
+          🔄 ပြန်လည်ဖြေဆိုမည်
+        </button>
+        <a href="index.html" class="px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm shadow-md transition-all">
+          🏠 ပင်မစာမျက်နှာသို့
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. AUTHENTICATION (OPTIONAL)
+    // ==========================================
+    const stateData = localStorage.getItem('englishPlatformState');
+    let state = stateData ? JSON.parse(stateData) : null;
+    let isLoggedIn = state !== null;
+
+    // Update Header based on Login Status
+    const headerAuth = document.getElementById('headerAuth');
+    if (isLoggedIn) {
+      headerAuth.innerHTML = `
+        <span class="text-sm font-bold text-slate-700 hidden sm:block">👤 ${state.username || 'Student'}</span>
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-violet-100 text-violet-800" id="xpBadge">⚡ ${state.xp || 0} XP</span>
+        <a href="dashboard.html" class="px-4 py-2 rounded-xl bg-blue-800 hover:bg-blue-900 text-white text-sm font-bold shadow-sm transition-all">Dashboard</a>
+      `;
+    } else {
+      headerAuth.innerHTML = `
+        <a href="login.html" class="px-4 py-2 rounded-xl bg-blue-800 hover:bg-blue-900 text-white text-sm font-bold shadow-sm transition-all">🔑 Sign in</a>
+      `;
+    }
+
+    // ==========================================
+    // 2. QUIZ DATA (50 Questions)
+    // ==========================================
+    const quizQuestions = [
+      // Beginner (1-15)
+      { q: "'I ___ a student.'", options: ["am", "is", "are", "be"], answer: 0 },
+      { q: "'She ___ to school every day.'", options: ["go", "goes", "going", "went"], answer: 1 },
+      { q: "'___ you like coffee?'", options: ["Do", "Does", "Is", "Are"], answer: 0 },
+      { q: "'What is the plural of 'child'?'", options: ["childs", "childes", "children", "childrens"], answer: 2 },
+      { q: "'I have ___ apple.'", options: ["a", "an", "the", "-"], answer: 1 },
+      { q: "'The opposite of 'big' is ___'", options: ["tall", "small", "long", "short"], answer: 1 },
+      { q: "'My father's brother is my ___'", options: ["uncle", "aunt", "cousin", "nephew"], answer: 0 },
+      { q: "'I ___ TV yesterday.'", options: ["watch", "watches", "watched", "watching"], answer: 2 },
+      { q: "'There ___ some milk in the fridge.'", options: ["is", "are", "am", "be"], answer: 0 },
+      { q: "'___ is your birthday?'", options: ["What", "When", "Where", "Who"], answer: 1 },
+      { q: "'She is ___ than her sister.'", options: ["tall", "taller", "tallest", "more tall"], answer: 1 },
+      { q: "'I usually go to bed ___ 10 PM.'", options: ["in", "on", "at", "by"], answer: 2 },
+      { q: "'___ are you from?' - 'I am from Myanmar.'", options: ["What", "Where", "Who", "When"], answer: 1 },
+      { q: "'We ___ to the park tomorrow.'", options: ["go", "went", "will go", "going"], answer: 2 },
+      { q: "'He ___ like fish.' (Negative)", options: ["don't", "doesn't", "isn't", "aren't"], answer: 1 },
+      
+      // Elementary (16-35)
+      { q: "'I have lived here ___ 2010.'", options: ["for", "since", "in", "at"], answer: 1 },
+      { q: "'If it rains, I ___ stay at home.'", options: ["will", "would", "am", "did"], answer: 0 },
+      { q: "'She is the ___ girl in the class.'", options: ["tall", "taller", "tallest", "most tall"], answer: 2 },
+      { q: "'I am looking forward to ___ you.'", options: ["see", "seeing", "saw", "seen"], answer: 1 },
+      { q: "'The book ___ on the table.'", options: ["is", "are", "am", "be"], answer: 0 },
+      { q: "'He is very good ___ playing football.'", options: ["in", "on", "at", "for"], answer: 2 },
+      { q: "'I ___ my homework before dinner.'", options: ["did", "done", "do", "doing"], answer: 0 },
+      { q: "'How ___ water do you drink?'", options: ["many", "much", "some", "any"], answer: 1 },
+      { q: "'This is the man ___ helped me.'", options: ["who", "which", "where", "whose"], answer: 0 },
+      { q: "'She ___ TV when I called her.'", options: ["watches", "watched", "was watching", "were watching"], answer: 2 },
+      { q: "'I haven't seen him ___ yesterday.'", options: ["for", "since", "from", "at"], answer: 1 },
+      { q: "'You ___ see a doctor if you feel sick.'", options: ["can", "should", "might", "will"], answer: 1 },
+      { q: "'The letter ___ written by him.'", options: ["is", "has", "was", "were"], answer: 2 },
+      { q: "'Could you please ___ the window?'", options: ["opening", "open", "opened", "to open"], answer: 1 },
+      { q: "'I don't have ___ money.'", options: ["some", "any", "many", "much"], answer: 1 },
+      { q: "'We ___ to the beach last weekend.'", options: ["go", "went", "gone", "going"], answer: 1 },
+      { q: "'He is interested ___ learning English.'", options: ["in", "on", "at", "with"], answer: 0 },
+      { q: "'The opposite of 'expensive' is ___'", options: ["cheap", "rich", "costly", "valuable"], answer: 0 },
+      { q: "'___ you ever been to Japan?'", options: ["Did", "Have", "Has", "Do"], answer: 1 },
+      { q: "'I wish I ___ taller.'", options: ["am", "is", "was", "were"], answer: 3 },
+
+      // Intermediate (36-50)
+      { q: "'If I had known, I ___ helped you.'", options: ["would have", "will have", "would", "had"], answer: 0 },
+      { q: "'She suggested ___ to the cinema.'", options: ["go", "going", "to go", "went"], answer: 1 },
+      { q: "'The report ___ by the manager yesterday.'", options: ["signed", "was signed", "is signed", "has signed"], answer: 1 },
+      { q: "'I look forward to ___ from you.'", options: ["hear", "hearing", "heard", "hears"], answer: 1 },
+      { q: "'He asked me where I ___ from.'", options: ["come", "came", "coming", "comes"], answer: 1 },
+      { q: "'By the time we arrived, the movie ___ started.'", options: ["has", "had", "was", "is"], answer: 1 },
+      { q: "'Despite ___ hard, he failed the exam.'", options: ["study", "studying", "studied", "to study"], answer: 1 },
+      { q: "'You ___ be tired after such a long journey.'", options: ["must", "can", "should", "might"], answer: 0 },
+      { q: "'It's high time we ___ home.'", options: ["go", "went", "going", "gone"], answer: 1 },
+      { q: "'She is used to ___ up early.'", options: ["get", "getting", "got", "gets"], answer: 1 },
+      { q: "'Hardly ___ entered the room when the phone rang.'", options: ["I had", "had I", "I have", "have I"], answer: 1 },
+      { q: "'The company is looking for someone who ___ Japanese.'", options: ["speak", "speaks", "speaking", "spoke"], answer: 1 },
+      { q: "'I'd rather you ___ smoke here.'", options: ["don't", "didn't", "won't", "not"], answer: 1 },
+      { q: "'___ the rain, the match continued.'", options: ["Although", "Despite", "Because", "However"], answer: 1 },
+      { q: "'He is said ___ a very rich man.'", options: ["to be", "being", "be", "was"], answer: 0 }
+    ];
+
+    // ==========================================
+    // 3. QUIZ LOGIC
+    // ==========================================
+    let currentQuestion = 0;
+    let userAnswers = new Array(quizQuestions.length).fill(null);
+    let isQuizActive = false;
+
+    function startQuiz() {
+      document.getElementById('introView').classList.add('hidden');
+      document.getElementById('quizView').classList.remove('hidden');
+      isQuizActive = true;
+      currentQuestion = 0;
+      userAnswers.fill(null);
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = quizQuestions[currentQuestion];
+      
+      // Update Progress
+      document.getElementById('progressText').innerText = `မေးခွန်း ${currentQuestion + 1} / ${quizQuestions.length}`;
+      document.getElementById('progressBar').style.width = `${((currentQuestion + 1) / quizQuestions.length) * 100}%`;
+
+      // Load Question Text
+      document.getElementById('questionText').innerText = `${currentQuestion + 1}. ${q.q}`;
+
+      // Load Options
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = q.options.map((opt, index) => `
+        <label class="option-label flex items-center gap-3 p-4 rounded-xl border-2 border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all">
+          <input type="radio" name="quizOption" value="${index}" 
+                 ${userAnswers[currentQuestion] === index ? 'checked' : ''} 
+                 onchange="selectOption(${index})" class="w-5 h-5 text-violet-600 focus:ring-violet-500 border-slate-300">
+          <span class="text-base text-slate-800 font-medium">${opt}</span>
+        </label>
+      `).join('');
+
+      // Update Buttons
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const submitBtn = document.getElementById('submitBtn');
+
+      prevBtn.disabled = currentQuestion === 0;
+      
+      if (currentQuestion === quizQuestions.length - 1) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+      } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+      }
+
+      // Next button should be disabled if no option is selected
+      if (userAnswers[currentQuestion] === null) {
+        nextBtn.disabled = true;
+      } else {
+        nextBtn.disabled = false;
+      }
+    }
+
+    function selectOption(index) {
+      userAnswers[currentQuestion] = index;
+      // Enable next button
+      if (currentQuestion < quizQuestions.length - 1) {
+        document.getElementById('nextBtn').disabled = false;
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < quizQuestions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    function submitQuiz() {
+      if (!confirm('ရမှတ်တွက်ချက်ပြီး စာမေးပွဲကို ပြီးဆုံးမှာ သေချာလား?')) return;
+
+      isQuizActive = false;
+      let correctCount = 0;
+
+      quizQuestions.forEach((q, index) => {
+        if (userAnswers[index] === q.answer) {
+          correctCount++;
+        }
+      });
+
+      // Hide Quiz View, Show Result View
+      document.getElementById('quizView').classList.add('hidden');
+      document.getElementById('resultView').classList.remove('hidden');
+
+      // Calculate Score
+      const scorePercentage = Math.round((correctCount / quizQuestions.length) * 100);
+      
+      // Animate Score Circle
+      document.getElementById('finalScoreText').innerText = correctCount;
+      setTimeout(() => {
+        const circle = document.getElementById('scoreCircle');
+        circle.style.strokeDashoffset = 289 - (289 * scorePercentage / 100);
+      }, 100);
+
+      // Feedback Logic
+      let title = "";
+      let text = "";
+
+      if (correctCount >= 40) {
+        title = "🌟 အလွန်ကောင်းမွန်ပါသည်! (Intermediate/Advanced)";
+        text = "သင့်ရဲ့ English အခြေခံက အရမ်းခိုင်မာပါတယ်။ Intermediate သင်ခန်းစာတွေကို စတင်လေ့လာလို့ ရပါပြီ။ နိုင်ငံတကာ စာမေးပွဲတွေအတွက်ပါ ပြင်ဆင်နိုင်ပါတယ်။";
+      } else if (correctCount >= 25) {
+        title = "👏 ကောင်းမွန်ပါသည်! (Elementary)";
+        text = "သင့်မှာ အခြေခံကောင်းတစ်ခု ရှိပါတယ်။ Elementary သင်ခန်းစာတွေကို လေ့လာပြီး သဒ္ဒါ (Grammar) ပိုင်းကို ပိုပြီးအားစိုက်လေ့ကျင့်ဖို့ အကြံပြုချင်ပါတယ်။";
+      } else if (correctCount >= 10) {
+        title = "💪 ကြိုးစားပါဦး! (Beginner)";
+        text = "သင့်မှာ အခြေခံအနည်းငယ် ရှိပါတယ်။ Beginner သင်ခန်းစာတွေကို ပြန်လည်လေ့လာပြီး ဝေါဟာရနဲ့ ရိုးရှင်းတဲ့ ဝါကျတည်ဆောက်ပုံတွေကို ပိုမိုလေ့ကျင့်ဖို့ လိုအပ်ပါတယ်။";
+      } else {
+        title = "🌱 စတင်ကြရအောင်! (Zero Foundation)";
+        text = "စိတ်မပူပါနဲ့။ သုညကနေ စတင်လေ့လာဖို့ အကောင်းဆုံး အခွင့်အရေးပါပဲ။ ကျွန်တော်တို့ရဲ့ Beginner Level သင်ခန်းစာတွေကို အခြေခံကနေ စနစ်တကျ လေ့လာကြည့်ပါ။";
+      }
+
+      document.getElementById('feedbackTitle').innerText = title;
+      document.getElementById('feedbackText').innerText = text;
+
+      // Handle XP & Saving (Only if Logged In)
+      if (isLoggedIn) {
+        const earnedXP = correctCount * 2;
+        if (!state.xp) state.xp = 0;
+        state.xp += earnedXP;
+        
+        if (!state.awards) state.awards = [];
+        const awardTitle = `Placement Quiz Completed (${correctCount}/50)`;
+        if (!state.awards.some(a => a.title === awardTitle)) {
+          state.awards.push({ title: awardTitle, date: new Date().toISOString() });
+        }
+
+        localStorage.setItem('englishPlatformState', JSON.stringify(state));
+        document.getElementById('xpBadge').innerText = `⚡ ${state.xp} XP`;
+      } else {
+        // Show prompt for guests
+        document.getElementById('savePrompt').classList.remove('hidden');
+      }
+    }
+
+    function restartQuiz() {
+      document.getElementById('resultView').classList.add('hidden');
+      document.getElementById('introView').classList.remove('hidden');
+      document.getElementById('savePrompt').classList.add('hidden');
+      // Reset circle
+      document.getElementById('scoreCircle').style.strokeDashoffset = 289;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elementary Level - English လေ့လာရေး</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Noto Sans Myanmar"', '"Inter"', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Noto Sans Myanmar', sans-serif; background-color: #F8FAFC; color: #0F172A; overflow-x: hidden; line-height: 1.8; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .audio-btn:active { transform: scale(0.9); }
+    .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="dashboard.html" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors flex items-center gap-2">
+          <span>←</span> Dashboard
+        </a>
+        <span class="font-bold text-slate-900 hidden sm:block">🌿 Elementary Level</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800" id="xpBadge">⚡ 0 XP</span>
+        <button onclick="logout()" class="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors">ထွက်မည်</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIEW 1: LESSON GRID -->
+  <main id="gridView" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 fade-in">
+    
+    <!-- Hero Banner (Blue Theme) -->
+    <div class="rounded-3xl p-8 sm:p-12 mb-10 text-white shadow-xl relative overflow-hidden bg-gradient-to-r from-blue-700 to-cyan-600">
+      <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10"></div>
+      <div class="absolute bottom-0 right-32 -mb-10 w-32 h-32 rounded-full bg-white opacity-10"></div>
+      
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-4xl">🌿</span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 border border-white/30">CEFR A2</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold mb-2">Elementary Level</h1>
+          <p class="text-sm sm:text-base opacity-90 max-w-2xl leading-relaxed">
+            အခြေခံရှိပြီးသူများအတွက် သင်ခန်းစာ ၁၄ ခန်း။ အတိတ်၊ ပစ္စုပ္ပန်၊ အနာဂတ် ကာလများနှင့် နေ့စဉ်သုံး စကားပြောများ။
+          </p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl min-w-[200px] text-center">
+          <p class="text-sm font-bold mb-1">တိုးတက်မှု</p>
+          <p class="text-3xl font-extrabold" id="heroProgressText">0 / 14</p>
+          <div class="w-full bg-black/20 h-2 rounded-full mt-3 overflow-hidden">
+            <div id="heroProgressBar" class="bg-white h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">📖 သင်ခန်းစာများ</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="lessonGrid"></div>
+  </main>
+
+  <!-- VIEW 2: LESSON DETAIL -->
+  <main id="detailView" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <button onclick="closeLesson()" class="mb-6 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+      <span>←</span> သင်ခန်းစာများသို့ ပြန်သွား
+    </button>
+
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
+      <span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-3 inline-block" id="dUnit">Unit 1</span>
+      <h1 class="text-3xl font-extrabold text-slate-900 mb-2" id="dTitle">Simple Present Tense</h1>
+      <p class="text-lg text-slate-500 mb-4" id="dTitleMM">ပစ္စုပ္ပန်ကာလ ရိုးရိုး</p>
+      <p class="text-slate-700 leading-relaxed text-sm" id="dExplanation">Explanation...</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">📝 ၁။ စကားလုံးများ (Detailed Vocabulary)</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dVocabGrid"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">💬 ၂။ စကားပြော Patterns</h2>
+      <div class="space-y-3" id="dPatternList"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🔊 ၃။ စာပိုဒ်နှင့် AI အသံ (Long Paragraph)</h2>
+      <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+        <p class="text-slate-800 text-lg leading-loose mb-4" id="dParaEN">English paragraph...</p>
+        <button onclick="speakText(document.getElementById('dParaEN').innerText)" class="px-5 py-2.5 rounded-xl bg-blue-800 hover:bg-blue-900 text-white text-sm font-bold shadow-sm transition-all flex items-center gap-2 mb-6">
+          🔊 AI အသံဖြင့် နားထောင်မည်
+        </button>
+        <div class="p-5 bg-blue-50 rounded-xl border border-blue-100">
+          <p class="text-sm text-blue-900 leading-loose" id="dParaMM">မြန်မာလို ရှင်းလင်းချက်...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🗣️ ၄။ Conversation လေ့ကျင့်ခန်း</h2>
+      <div class="space-y-3" id="dConversationList"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">🎯 ၅။ Practical Exercise</h2>
+      <p class="text-sm text-slate-500 mb-6">မြန်မာစာကြောင်းအပြည့်အစုံကို AI ဖတ်ပြမည်။ သင်က English လို ပြောကြည့်ပါ။ ပြီးလျှင် Show Answer နှိပ်ပါ။</p>
+      <div class="space-y-4" id="dPracticalList"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">📝 ၆။ Mock Test</h2>
+      <p class="text-sm text-slate-500 mb-6">မေးခွန်း ၅ ခု ဖြေဆိုပြီးလျှင် ရမှတ်ကြည့်ပါ။ ၄ ခုအထက် ရလျှင် Pass ဖြစ်ပါသည်။</p>
+      <div class="space-y-6" id="dMockTestList"></div>
+      <button onclick="submitMockTest()" class="mt-6 px-8 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold shadow-md transition-all">
+        📊 ရမှတ်ကြည့်မည်
+      </button>
+      <div id="mockResultBox" class="mt-4 hidden p-5 rounded-2xl text-center"></div>
+    </div>
+
+    <div class="text-center mb-10">
+      <button onclick="completeLesson()" id="completeBtn" class="px-10 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-xl shadow-blue-600/30 transition-all transform hover:-translate-y-1">
+        ✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)
+      </button>
+    </div>
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. AUTHENTICATION & GLOBAL FUNCTIONS
+    // ==========================================
+    const stateData = localStorage.getItem('englishPlatformState');
+    if (!stateData) {
+      alert('ဤစာမျက်နှာကို ကြည့်ရှုရန် ဦးစွာ Key ID ဖြင့် ဝင်ရောက်ပါ။');
+      window.location.href = 'login.html';
+    }
+    let state = JSON.parse(stateData);
+    document.getElementById('xpBadge').innerText = `⚡ ${state.xp || 0} XP`;
+
+    function speakText(text, lang = 'en-US') {
+      if (!('speechSynthesis' in window)) return alert('Browser တွင် AI အသံ မပံ့ပိုးပါ။');
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      u.rate = 0.9;
+      window.speechSynthesis.speak(u);
+    }
+
+    function startSpeech(index) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return alert('Speech Recognition မပံ့ပိုးပါ။');
+      const rec = new SR();
+      rec.lang = 'en-US';
+      rec.onresult = (e) => {
+        document.getElementById(`user-speak-${index}`).innerText = `🗣️ သင်ပြောသည်: "${e.results[0][0].transcript}"`;
+        document.getElementById(`ans-box-${index}`).classList.remove('hidden');
+      };
+      rec.start();
+      alert('🎤 ပြောပါ...');
+    }
+
+    // ==========================================
+    // 2. MASSIVE DATA FOR 14 LESSONS (Elementary A2)
+    // ==========================================
+    const lessonsData = [
+      // Lesson 1
+      {
+        id: 'ele-1', unit: 'Unit 1', title: 'Simple Present Tense', titleMM: 'ပစ္စုပ္ပန်ကာလ ရိုးရိုး',
+        explanation: 'နေ့စဉ် ပုံမှန်လုပ်ဆောင်သော အလေ့အကျင့်များ၊ အမှန်တရားများနှင့် သဘာဝဖြစ်စဉ်များကို ဖော်ပြရာတွင် Simple Present Tense ကို အသုံးပြုပါသည်။',
+        vocab: [
+          ['Always', 'အမြဲတမ်း - ဘယ်တော့မှ မပြောင်းလဲဘဲ ပုံမှန်ဖြစ်ပျက်နေသော အခြေအနေကို ဖော်ပြရာတွင် သုံးသည်။ (ဥပမာ - The sun always rises in the east.)'],
+          ['Usually', 'များသောအားဖြင့် - နေ့စဉ်လုပ်ငန်းစဉ်တွင် အများစုလုပ်လေ့ရှိသည့် အလေ့အကျင့်ကို ပြသရန် သုံးသည်။ (ဥပမာ - I usually wake up at 6 AM.)'],
+          ['Often', 'မကြာခဏ - တစ်ခါတစ်ရံထက် ပိုပြီး ဖြစ်ပျက်လေ့ရှိသည့် အခြေအနေကို ဖော်ပြသည်။'],
+          ['Sometimes', 'တစ်ခါတစ်ရံ - အမြဲတမ်းမဟုတ်ဘဲ ရံဖန်ရံခါမှသာ ဖြစ်ပျက်လေ့ရှိသည့် အခြေအနေကို ပြသသည်။'],
+          ['Never', 'ဘယ်တော့မှ - လုံးဝမဖြစ်ပျက်ဘူးဆိုသည့် အဓိပ္ပာယ်ဖြင့် ငြင်းပယ်ရာတွင် သုံးသည်။'],
+          ['Routine', 'ပုံမှန်လုပ်ငန်းစဉ် - နေ့စဉ် သို့မဟုတ် အချိန်မှန် လုပ်လေ့ရှိသည့် အလုပ်များဖြစ်သည်။ (ဥပမာ - Morning routine)'],
+          ['Fact', 'အမှန်တရား - သက်သေပြနိုင်သော သို့မဟုတ် လူတိုင်းလက်ခံထားသော အချက်အလက်ဖြစ်သည်။'],
+          ['Habit', 'အလေ့အကျင့် - ထပ်ခါတလဲလဲ ပြုလုပ်ရာမှ ဖြစ်ပေါ်လာသော ပုံမှန်အပြုအမူဖြစ်သည်။'],
+          ['Work', 'အလုပ်လုပ်သည် - အသက်မွေးဝမ်းကြောင်းအတွက် သို့မဟုတ် တာဝန်တစ်ခုကို ဆောင်ရွက်ခြင်းဖြစ်သည်။'],
+          ['Study', 'လေ့လာသည် - ဗဟုသုတ သို့မဟုတ် ကျွမ်းကျင်မှုရရှိရန် စာဖတ်ခြင်း၊ လေ့ကျင့်ခြင်းပြုလုပ်သည်။']
+        ],
+        patterns: [
+          ['I / You / We / They + Verb 1', 'ကျွန်တော်/သင်/ကျွန်တော်တို့/သူတို့ + ကြိယာရင်း (ဥပမာ - I work every day.)'],
+          ['He / She / It + Verb 1 (s/es)', 'သူ/သူမ/အရာဝတ္ထု + ကြိယာရင်း + s/es (ဥပမာ - She works in a hospital.)'],
+          ['Do/Does + Subject + Verb 1?', 'မေးခွန်းပုံစံ (ဥပမာ - Does he study English?)'],
+          ['Subject + do/does + not + Verb 1', 'ငြင်းပယ်ပုံစံ (ဥပမာ - They do not play football.)'],
+          ['How often ...?', 'ဘယ်လောက်ကြိမ် ဖြစ်ပျက်လဲ မေးသည့်ပုံစံ (ဥပမာ - How often do you read books?)']
+        ],
+        paragraphEN: 'Every morning, my daily routine starts at six o\'clock. I always wake up early because I like to enjoy the fresh air. First, I brush my teeth and take a quick shower. Then, I usually eat a healthy breakfast with my family. My father often drinks coffee, but my mother prefers tea. After breakfast, I go to work by bus. I work from nine in the morning until five in the evening. My sister studies at a university. She sometimes comes home late because she has evening classes. In the evening, my family always eats dinner together. We never watch TV during dinner because we like to talk about our day. We usually go to bed at ten o\'clock to get enough rest for the next day.',
+        paragraphMM: 'မနက်တိုင်း ကျွန်တော့်ရဲ့ နေ့စဉ်လုပ်ငန်းစဉ်က ခြောက်နာရီမှာ စတင်ပါတယ်။ လေကောင်းလေသန့်ကို ခံစားရတာကို သဘောကျတဲ့အတွက် ကျွန်တော် အမြဲတမ်း စောစော အိပ်ရာနိုးပါတယ်။ ပထမဆုံး သွားတိုက်ပြီး ရေမြန်မြန်ချိုးပါတယ်။ ပြီးတော့ မိသားစုနဲ့အတူ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ မနက်စာကို များသောအားဖြင့် စားပါတယ်။ ကျွန်တော့်အဖေက ကော်ဖီကို မကြာခဏ သောက်လေ့ရှိပြီး အမေကတော့ လက်ဖက်ရည်ကို ပိုကြိုက်ပါတယ်။ မနက်စာစားပြီးတဲ့အခါ ကျွန်တော် ဘတ်စ်ကားနဲ့ အလုပ်သွားပါတယ်။ မနက်ကိုးနာရီကနေ ညနေငါးနာရီအထိ အလုပ်လုပ်ပါတယ်။ ကျွန်တော့်ညီမက တက္ကသိုလ်မှာ ပညာသင်နေပါတယ်။ သူမမှာ ညနေပိုင်း အတန်းတွေရှိတဲ့အတွက် တစ်ခါတစ်ရံ အိမ်ပြန်နောက်ကျတတ်ပါတယ်။ ညနေမှာ ကျွန်တော်တို့မိသားစု အမြဲတမ်း ညစာကို အတူတူစားပါတယ်။ ညစာစားချိန်မှာ ကျွန်တော်တို့ရဲ့ နေ့တစ်နေ့တာကို ပြောဆိုရတာကို သဘောကျတဲ့အတွက် တီဗီကို ဘယ်တော့မှ မကြည့်ကြပါဘူး။ နောက်နေ့အတွက် အနားယူဖို့လုံလောက်အောင် များသောအားဖြင့် ညဆယ်နာရီမှာ အိပ်ကြပါတယ်။',
+        conversation: [
+          ['A','What do you usually do on weekends?','စနေ၊ တနင်္ဂနွေတွေမှာ ဘာတွေ လုပ်လေ့ရှိလဲ?'],
+          ['B','I usually visit my grandparents. What about you?','ကျွန်တော် အဖိုးအဖွားတွေဆီ သွားလည်လေ့ရှိတယ်။ သင်ကရော?'],
+          ['A','I often play football with my friends.','ကျွန်တော်ကတော့ သူငယ်ချင်းတွေနဲ့ ဘောလုံးကစားလေ့ရှိတယ်။'],
+          ['B','Does your sister play football too?','သင့်ညီမကရော ဘောလုံးကစားလား?'],
+          ['A','No, she never plays football. She likes reading.','မကစားဘူး၊ သူမ ဘယ်တော့မှ ဘောလုံးမကစားဘူး။ စာဖတ်တာကို ကြိုက်တယ်။'],
+          ['B','That is a good habit.','အဲဒါ ကောင်းတဲ့ အလေ့အကျင့်ပဲ။']
+        ],
+        practical: [
+          ['ကျွန်တော် နေ့တိုင်း မနက်ခြောက်နာရီမှာ အိပ်ရာနိုးပြီး မနက်စာစားလေ့ရှိတယ်။', 'I always wake up at six o\'clock and eat breakfast every day.'],
+          ['သူမက ဆေးရုံမှာ အလုပ်လုပ်တယ်၊ ဒါပေမယ့် သူမက ကားမမောင်းဘူး၊ ဘတ်စ်ကားနဲ့ သွားတယ်။', 'She works in a hospital, but she does not drive a car; she goes by bus.'],
+          ['သင်က ဘယ်လောက်ကြိမ် English စာဖတ်လဲ? ကျွန်တော်ကတော့ ညနေတိုင်း ဖတ်တယ်။', 'How often do you read English books? I read every evening.'],
+          ['သူတို့က အမြဲတမ်း အတူတူ အလုပ်လုပ်ကြတယ်၊ ဒါပေမယ့် ဘယ်တော့မှ မငြင်းခုံကြဘူး။', 'They always work together, but they never argue.'],
+          ['ကျွန်တော့်အဖေက မနက်တိုင်း ကော်ဖီသောက်တယ်၊ ဒါပေမယ့် အမေကတော့ လက်ဖက်ရည်သောက်တယ်။', 'My father drinks coffee every morning, but my mother drinks tea.'],
+          ['သူမက တက္ကသိုလ်မှာ ပညာသင်နေတဲ့အတွက် တစ်ခါတစ်ရံ အိမ်ပြန်နောက်ကျတယ်။', 'She sometimes comes home late because she is studying at university.']
+        ],
+        mockTest: [
+          ["'She ___ in a hospital.'",['work','works','working','worked'],1],
+          ["'They ___ English every day.'",['studies','study','studying','studied'],1],
+          ["'___ you like tea?'",['Do','Does','Is','Are'],0],
+          ["'He ___ like coffee.' (ငြင်းပယ်)",['don\'t','doesn\'t','isn\'t','aren\'t'],1],
+          ["'How often ___ you exercise?'",['do','does','is','are'],0]
+        ]
+      },
+      // Lesson 2
+      {
+        id: 'ele-2', unit: 'Unit 2', title: 'Present Continuous Tense', titleMM: 'ပစ္စုပ္ပန် ဆက်လက်ကာလ',
+        explanation: 'လက်ရှိအချိန်တွင် ဖြစ်ပျက်နေသော သို့မဟုတ် လုပ်ဆောင်နေဆဲ ဖြစ်ရပ်များကို ဖော်ပြရာတွင် Present Continuous Tense ကို အသုံးပြုသည်။',
+        vocab: [
+          ['Now', 'ယခု - စကားပြောနေသည့် အချိန်တိတိကို ရည်ညွှန်းသည်။'],
+          ['Right now', 'အခုလက်ငင်း - ချက်ချင်းဖြစ်ပျက်နေသော အခြေအနေကို ပြသရန် သုံးသည်။'],
+          ['At the moment', 'လက်ရှိအချိန်တွင် - ယခုအချိန်တွင် ဖြစ်ပျက်နေသည့် ကိစ္စအတွက် သုံးသည်။'],
+          ['Look!', 'ကြည့်ပါ! - လက်ရှိဖြစ်ပျက်နေသော အရာတစ်ခုကို အခြားသူအား အာရုံစိုက်စေလိုရာတွင် သုံးသည်။'],
+          ['Listen!', 'နားထောင်ပါ! - လက်ရှိကြားနေရသော အသံကို အာရုံစိုက်စေလိုရာတွင် သုံးသည်။'],
+          ['Wearing', 'ဝတ်ဆင်နေသည် - လက်ရှိအချိန်တွင် ခန္ဓာကိုယ်ပေါ်တွင် ရှိနေသော အဝတ်အစားကို ဆိုလိုသည်။'],
+          ['Doing', 'လုပ်ဆောင်နေသည် - တစ်စုံတစ်ခုကို လုပ်နေဆဲဖြစ်ကြောင်း ဖော်ပြသည်။'],
+          ['Going', 'သွားနေသည် - တစ်နေရာသို့ ဦးတည်ရွေ့လျားနေဆဲဖြစ်ကြောင်း ပြသသည်။'],
+          ['Staying', 'နေထိုင်နေသည် - တစ်နေရာတွင် ယာယီတည်းခိုနေခြင်းကို ဆိုလိုသည်။'],
+          ['Watching', 'ကြည့်ရှုနေသည် - တီဗီ၊ ရုပ်ရှင် သို့မဟုတ် ဖြစ်ပျက်နေသည့် အရာတစ်ခုကို စူးစိုက်ကြည့်နေခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + am/is/are + Verb-ing', 'အခြေခံပုံစံ (ဥပမာ - I am reading a book.)'],
+          ['What are you doing?', 'သင်ဘာလုပ်နေတာလဲ? (လက်ရှိလုပ်ဆောင်ချက်ကို မေးရန်)'],
+          ['She is + Verb-ing', 'သူမ ... လုပ်နေသည် (တစ်ဦးတည်းအတွက်)'],
+          ['They are + Verb-ing', 'သူတို့ ... လုပ်နေသည် (အများအတွက်)'],
+          ['Is he + Verb-ing?', 'သူ ... လုပ်နေသလား? (မေးခွန်းပုံစံ)']
+        ],
+        paragraphEN: 'Hello! It is a beautiful day today. Right now, I am sitting in my living room and writing this paragraph. Look at my family! My mother is cooking dinner in the kitchen. She is making fried rice and chicken. My father is reading a newspaper on the sofa. He is wearing his glasses. My younger brother is playing video games in his room. He is laughing loudly because he is winning the game. Listen! The birds are singing outside the window. They are making a very sweet sound. We are staying at home today because it is raining heavily outside. I am feeling very relaxed and happy at the moment.',
+        paragraphMM: 'မင်္ဂလာပါ! ဒီနေ့က လှပတဲ့နေ့လေးပါ။ အခုအချိန်မှာ ကျွန်တော် ဧည့်ခန်းထဲမှာ ထိုင်ပြီး ဒီစာပိုဒ်ကို ရေးနေပါတယ်။ ကျွန်တော့်မိသားစုကို ကြည့်လိုက်ပါဦး! အမေက မီးဖိုချောင်မှာ ညစာအတွက် ထမင်းကြော်နဲ့ ကြက်သားကို ချက်ပြုတ်နေပါတယ်။ အဖေက ဆိုဖာပေါ်မှာ သတင်းစာဖတ်နေပါတယ်။ သူက မျက်မှန်တပ်ထားပါတယ်။ ကျွန်တော့်ညီလေးက သူ့အခန်းထဲမှာ ဗီဒီယိုဂိမ်းဆော့နေပါတယ်။ သူက ဂိမ်းအနိုင်ရနေတာမို့ ကျယ်လောင်စွာ ရယ်မောနေပါတယ်။ နားထောင်ကြည့်ပါ! ပြတင်းပေါက်အပြင်မှာ ငှက်တွေ သီချင်းဆိုနေပါတယ်။ သူတို့က အရမ်းချိုမြိန်တဲ့ အသံကို ထွက်နေစေပါတယ်။ အပြင်မှာ မိုးအရမ်းရွာနေတဲ့အတွက် ကျွန်တော်တို့ ဒီနေ့ အိမ်မှာပဲ နေဖြစ်ပါတယ်။ အခုအချိန်မှာ ကျွန်တော် အရမ်းစိတ်အေးချမ်းပြီး ပျော်ရွှင်နေပါတယ်။',
+        conversation: [
+          ['A','Hello! What are you doing right now?','မင်္ဂလာပါ! အခု ဘာလုပ်နေတာလဲ?'],
+          ['B','I am watching TV. What about you?','ကျွန်တော် တီဗီကြည့်နေတယ်။ သင်ကရော?'],
+          ['A','I am studying for my exam.','ကျွန်မ စာမေးပွဲအတွက် စာကျက်နေတယ်။'],
+          ['B','That is good. Is your brother studying too?','ကောင်းတယ်နော်။ သင့်ညီကောင်လေးလည်း စာကျက်နေလား?'],
+          ['A','No, he is playing football outside.','မဟုတ်ဘူး၊ သူက အပြင်မှာ ဘောလုံးကစားနေတယ်။'],
+          ['B','It is raining now. He should come inside.','အခု မိုးရွာနေတယ်လေ။ သူ အိမ်ထဲ ပြန်ဝင်သင့်တယ်။']
+        ],
+        practical: [
+          ['အခုအချိန်မှာ ကျွန်တော် စာအုပ်တစ်အုပ် ဖတ်နေပါတယ်။', 'I am reading a book right now.'],
+          ['သူမက မီးဖိုချောင်မှာ ညစာ ချက်ပြုတ်နေတယ်၊ သူမက အရမ်းအလုပ်များနေတယ်။', 'She is cooking dinner in the kitchen, and she is very busy.'],
+          ['ကြည့်ပါဦး! အပြင်မှာ မိုးအရမ်းရွာနေတယ်။', 'Look! It is raining heavily outside.'],
+          ['သူတို့က ပန်းခြံမှာ ဘောလုံးကစားနေကြတယ်၊ ဒါပေမယ့် ကျွန်တော်ကတော့ အိမ်မှာ အနားယူနေတယ်။', 'They are playing football in the park, but I am relaxing at home.'],
+          ['သင်က ဘာလုပ်နေတာလဲ? ဖုန်းပြောနေတာလား?', 'What are you doing? Are you talking on the phone?'],
+          ['ကျွန်မတို့ ဟိုတယ်မှာ နေထိုင်နေတယ်၊ မနက်ဖြန် ပြန်သွားမယ်။', 'We are staying at a hotel, and we are going back tomorrow.']
+        ],
+        mockTest: [
+          ["'I ___ reading a book now.'",['am','is','are','be'],0],
+          ["'She ___ cooking dinner.'",['am','is','are','be'],1],
+          ["'They ___ playing football.'",['am','is','are','be'],2],
+          ["'What ___ you doing?'",['am','is','are','be'],2],
+          ["'Look! It ___ raining.'",['am','is','are','be'],1]
+        ]
+      },
+      // Lesson 3
+      {
+        id: 'ele-3', unit: 'Unit 3', title: 'Simple Past Tense', titleMM: 'အတိတ်ကာလ ရိုးရိုး',
+        explanation: 'အတိတ်တွင် ဖြစ်ပျက်ခဲ့ပြီး ပြီးဆုံးသွားသော အဖြစ်အပျက်များကို ပြောပြရာတွင် Simple Past Tense ကို အသုံးပြုသည်။',
+        vocab: [
+          ['Yesterday', 'မနေ့က - ဒီနေ့မတိုင်မီ ကြာခဲ့သော တစ်ရက်တာကာလဖြစ်သည်။'],
+          ['Last week', 'ပြီးခဲ့သောအပတ် - ယခုအပတ်မတိုင်မီ အပတ်ကာလဖြစ်သည်။'],
+          ['Ago', 'က - အတိတ်ကာလ တစ်ခုကို ရည်ညွှန်းပြီး အဆုံးတွင် ထည့်သုံးသည်။ (ဥပမာ - two days ago)'],
+          ['Visited', 'သွားရောက်လည်ပတ်ခဲ့သည် - လူတစ်ဦး သို့မဟုတ် နေရာတစ်ခုသို့ သွားရောက်ခဲ့ခြင်းဖြစ်သည်။'],
+          ['Watched', 'ကြည့်ရှုခဲ့သည် - ရုပ်ရှင်၊ တီဗီ သို့မဟုတ် ပွဲတစ်ခုကို အတိတ်က ကြည့်ခဲ့ခြင်းဖြစ်သည်။'],
+          ['Played', 'ကစားခဲ့သည် - အတိတ်က အချိန်တစ်ခုတွင် ဂိမ်း သို့မဟုတ် အားကစားကို ပါဝင်ကစားခဲ့ခြင်းဖြစ်သည်။'],
+          ['Went', 'သွားခဲ့သည် - "Go" ၏ အတိတ်ပုံစံဖြစ်ပြီး တစ်နေရာသို့ သွားရောက်ခဲ့ခြင်းကို ဆိုလိုသည်။'],
+          ['Ate', 'စားခဲ့သည် - "Eat" ၏ အတိတ်ပုံစံဖြစ်ပြီး အစားအစာကို စားသုံးခဲ့ခြင်းဖြစ်သည်။'],
+          ['Saw', 'မြင်ခဲ့သည် - "See" ၏ အတိတ်ပုံစံဖြစ်ပြီး မျက်စိဖြင့် တွေ့မြင်ခဲ့ခြင်းဖြစ်သည်။'],
+          ['Bought', 'ဝယ်ခဲ့သည် - "Buy" ၏ အတိတ်ပုံစံဖြစ်ပြီး ပစ္စည်းတစ်ခုကို ငွေနှင့်ဝယ်ယူခဲ့ခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + Verb 2 (Past Form)', 'အတိတ်ကာလ ဝါကျပုံစံ (ဥပမာ - I visited my grandmother.)'],
+          ['Did + Subject + Verb 1?', 'အတိတ်ကာလ မေးခွန်းပုံစံ (ဥပမာ - Did you go to school?)'],
+          ['Subject + did not + Verb 1', 'အတိတ်ကာလ ငြင်းပယ်ပုံစံ (ဥပမာ - She did not watch TV.)'],
+          ['I was / You were', 'အတိတ်ကာလ Verb to be (ဥပမာ - I was tired yesterday.)'],
+          ['Time expressions: Yesterday, Last night, 2 days ago', 'အတိတ်ကာလကို ဖော်ပြသော အချိန်စကားလုံးများ']
+        ],
+        paragraphEN: 'Last weekend, my family and I went on a short trip to the beach. We left our house early on Saturday morning. The weather was very nice and sunny. We arrived at the beach at around ten o\'clock. My parents sat under an umbrella and talked, while my brother and I played in the water. We swam for a long time and built a sandcastle. In the afternoon, we ate a delicious seafood lunch at a local restaurant. I bought a small souvenir for my best friend. We saw a beautiful sunset in the evening before we drove back home. It was a wonderful trip, and we enjoyed it very much.',
+        paragraphMM: 'ပြီးခဲ့တဲ့ စနေ၊ တနင်္ဂနွေက ကျွန်တော်နဲ့ ကျွန်တော့်မိသားစု ကမ်းခြေကို ခရီးတိုလေး ထွက်ခဲ့ကြပါတယ်။ စနေနေ့ မနက်စောစောမှာ အိမ်ကနေ ထွက်ခဲ့ကြပါတယ်။ ရာသီဥတုက အရမ်းကောင်းပြီး နေသာနေပါတယ်။ မနက်ဆယ်နာရီလောက်မှာ ကမ်းခြေကို ရောက်ခဲ့ပါတယ်။ မိဘတွေက ထီးအောက်မှာ ထိုင်ပြီး စကားပြောနေကြပြီး ကျွန်တော်နဲ့ ညီက ရေထဲမှာ ဆော့ကစားနေခဲ့ကြပါတယ်။ အချိန်အကြာကြီး ရေကူးပြီး သဲရဲတိုက်လေးလည်း ဆောက်ခဲ့ကြပါတယ်။ နေ့လယ်မှာ ဒေသခံ စားသောက်ဆိုင်တစ်ခုမှာ အရသာရှိတဲ့ ပင်လယ်စာ နေ့လယ်စာကို စားခဲ့ပါတယ်။ အကောင်းဆုံးသူငယ်ချင်းအတွက် အမှတ်တရ ပစ္စည်းလေးတစ်ခု ဝယ်ခဲ့ပါတယ်။ အိမ်ပြန်မလာခင်မှာ ညနေပိုင်း လှပတဲ့ နေဝင်ချိန်ကို မြင်ခဲ့ရပါတယ်။ အရမ်းကောင်းတဲ့ ခရီးလေးတစ်ခုဖြစ်ခဲ့ပြီး ကျွန်တော်တို့ အားလုံး အရမ်းပျော်ခဲ့ကြပါတယ်။',
+        conversation: [
+          ['A','Where did you go last weekend?','ပြီးခဲ့တဲ့ စနေ၊ တနင်္ဂနွေက ဘယ်သွားခဲ့လဲ?'],
+          ['B','I went to the beach with my family.','မိသားစုနဲ့ ကမ်းခြေသွားခဲ့တယ်။'],
+          ['A','What did you do there?','အဲဒီမှာ ဘာတွေလုပ်ခဲ့လဲ?'],
+          ['B','We swam in the sea and ate seafood.','ပင်လယ်ထဲ ရေကူးခဲ့ပြီး ပင်လယ်စာတွေ စားခဲ့တယ်။'],
+          ['A','Did you buy anything?','တစ်ခုခု ဝယ်ခဲ့လား?'],
+          ['B','Yes, I bought a small souvenir.','ဟုတ်တယ်၊ အမှတ်တရ ပစ္စည်းလေး တစ်ခု ဝယ်ခဲ့တယ်။']
+        ],
+        practical: [
+          ['မနေ့က ကျွန်တော် ရုပ်ရှင်သွားကြည့်ခဲ့ပြီး ညနေမှာ ပီဇာစားခဲ့တယ်။', 'Yesterday, I went to watch a movie and ate pizza in the evening.'],
+          ['သူမက ပြီးခဲ့တဲ့အပတ်က သူငယ်ချင်းတွေနဲ့ ပန်းခြံမှာ ဘောလုံးကစားခဲ့တယ်။', 'She played football with her friends in the park last week.'],
+          ['သင် ဘယ်သွားခဲ့လဲ? ကျွန်တော် ဈေးဝယ်ထွက်ခဲ့တယ်။', 'Where did you go? I went shopping.'],
+          ['ကျွန်မတို့ မနေ့ညက မိသားစုနဲ့ ညစာအတူစားခဲ့ကြတယ်။', 'We ate dinner together with our family last night.'],
+          ['သူက မနေ့က ကျောင်းမတက်ခဲ့ဘူး၊ ဖျားနေလို့ပါ။', 'He did not go to school yesterday because he was sick.'],
+          ['ကျွန်တော် ကမ်းခြေမှာ လှပတဲ့ နေဝင်ချိန်ကို မြင်ခဲ့ရတယ်။', 'I saw a beautiful sunset at the beach.']
+        ],
+        mockTest: [
+          ["'I ___ to the market yesterday.'",['go','went','gone','going'],1],
+          ["'She ___ a new dress last week.'",['buy','bought','buying','buys'],1],
+          ["'___ you watch TV last night?'",['Do','Does','Did','Are'],2],
+          ["'We ___ not go to school yesterday.'",['do','does','did','are'],2],
+          ["'They ___ football two days ago.'",['play','played','playing','plays'],1]
+        ]
+      },
+      // Lesson 4
+      {
+        id: 'ele-4', unit: 'Unit 4', title: 'Future Plans (Will / Going to)', titleMM: 'အနာဂတ် အစီအစဉ်များ',
+        explanation: 'အနာဂတ်တွင် လုပ်ဆောင်ရန် စီစဉ်ထားသော အစီအစဉ်များ (Going to) နှင့် ချက်ချင်းဆုံးဖြတ်လိုက်သော အရာများ၊ ကတိများ (Will) ကို ဖော်ပြပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Tomorrow', 'မနက်ဖြန် - ဒီနေ့၏ နောက်တစ်နေ့ကို ရည်ညွှန်းသည်။'],
+          ['Next year', 'လာမည့်နှစ် - ယခုနှစ် ကုန်ဆုံးပြီးနောက် ရောက်လာမည့် နှစ်ဖြစ်သည်။'],
+          ['Plan', 'အစီအစဉ် - တစ်စုံတစ်ခုကို မလုပ်မီ ကြိုတင်စီစဉ်ထားခြင်းဖြစ်သည်။'],
+          ['Promise', 'ကတိ - တစ်စုံတစ်ခုကို သေချာပေါက် လုပ်ဆောင်ပေးမည်ဟု ဖြေကြားခြင်းဖြစ်သည်။'],
+          ['Intend', 'ရည်ရွယ်သည် - လုပ်ဆောင်ရန် ရည်မှန်းချက်ထားရှိခြင်းဖြစ်သည်။'],
+          ['Predict', 'ခန့်မှန်းသည် - အနာဂတ်တွင် ဖြစ်ပျက်လာမည့် အရာများကို ကြိုတင်ခန့်မှန်းခြင်းဖြစ်သည်။'],
+          ['Decide', 'ဆုံးဖြတ်သည် - ရွေးချယ်မှုတစ်ခုကို ချမှတ်ခြင်းဖြစ်သည်။'],
+          ['Visit', 'သွားရောက်လည်ပတ်သည် - တစ်နေရာသို့ သို့မဟုတ် တစ်ဦးဦးထံ သွားရောက်တွေ့ဆုံခြင်းဖြစ်သည်။'],
+          ['Travel', 'ခရီးသွားသည် - တစ်နေရာမှ တစ်နေရာသို့ သွားလာခြင်းဖြစ်သည်။'],
+          ['Start', 'စတင်သည် - အစီအစဉ်တစ်ခုကို စတင်လုပ်ဆောင်ခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + am/is/are + going to + Verb 1', 'ကြိုတင်စီစဉ်ထားသော အနာဂတ်အစီအစဉ် (ဥပမာ - I am going to visit my aunt.)'],
+          ['Subject + will + Verb 1', 'ချက်ချင်းဆုံးဖြတ်ချက် သို့မဟုတ် ကတိ (ဥပမာ - I will help you.)'],
+          ['What are you going to do?', 'သင်ဘာလုပ်ဖို့ စီစဉ်ထားလဲ?'],
+          ['Will you ...?', 'သင်လုပ်ပေးမလား? (တောင်းဆိုခြင်း)'],
+          ['I think it will ...', 'ငါထင်တယ် အဲဒါ ဖြစ်လာမယ် (ခန့်မှန်းခြင်း)']
+        ],
+        paragraphEN: 'My summer vacation is coming soon, and I have made many plans. Next month, I am going to visit my grandparents in the countryside. I am going to stay there for two weeks. My grandfather promised that he will teach me how to ride a horse. I think it will be very exciting. After I come back, I am going to start an English course. My friend and I decided that we will study together every evening. We are going to practice speaking English to improve our skills. I am sure we will have a lot of fun. What are you going to do next month?',
+        paragraphMM: 'ကျွန်တော့်ရဲ့ နွေရာသီ အားလပ်ရပ်က မကြာခင် ရောက်လာတော့မှာမို့ အစီအစဉ်တွေ အများကြီး ချထားပါတယ်။ နောက်လမှာ ကျွန်တော် ကျေးလက်မှာနေတဲ့ အဖိုးအဖွားတွေဆီ သွားလည်ဖို့ စီစဉ်ထားပါတယ်။ အဲဒီမှာ နှစ်ပတ်လောက် နေဖို့ ရည်ရွယ်ထားပါတယ်။ အဖိုးက ကျွန်တော့်ကို မြင်းစီးနည်း သင်ပေးမယ်လို့ ကတိပေးထားပါတယ်။ အဲဒါက အရမ်းစိတ်လှုပ်ရှားဖို့ကောင်းမယ်လို့ ကျွန်တော်ထင်ပါတယ်။ ပြန်ရောက်ပြီးတဲ့အခါ English သင်တန်းတစ်ခုကို စတင်ဖို့ ရည်ရွယ်ထားပါတယ်။ သူငယ်ချင်းနဲ့ ကျွန်တော်က ညနေတိုင်း အတူတူလေ့လာဖို့ ဆုံးဖြတ်ထားပါတယ်။ ကျွန်တော်တို့ရဲ့ စွမ်းရည်တွေ တိုးတက်လာအောင် English စကားပြော လေ့ကျင့်ဖို့ စီစဉ်ထားပါတယ်။ ကျွန်တော်တို့ အရမ်းပျော်ကြမယ်လို့ သေချာပါတယ်။ နောက်လမှာ သင်ဘာလုပ်ဖို့ စီစဉ်ထားလဲ?',
+        conversation: [
+          ['A','What are you going to do this weekend?','ဒီစနေ၊ တနင်္ဂနွေမှာ ဘာလုပ်ဖို့ စီစဉ်ထားလဲ?'],
+          ['B','I am going to visit my cousin. What about you?','ကျွန်တော့်ဝမ်းကွဲဆီ သွားလည်ဖို့ စီစဉ်ထားတယ်။ သင်ကရော?'],
+          ['A','I am going to study for the exam.','ကျွန်မ စာမေးပွဲအတွက် စာကျက်ဖို့ စီစဉ်ထားတယ်။'],
+          ['B','That sounds boring. I will bring you some snacks.','ပျင်းစရာကြီးပဲ။ ငါ မင်းအတွက် မုန့်လေးတွေ ယူလာခဲ့မယ်နော်။'],
+          ['A','Thank you! I will wait for you.','ကျေးဇူးတင်တယ်! ငါ မင်းကို စောင့်နေမယ်နော်။'],
+          ['B','Okay, I promise I will come.','အိုကေ၊ ငါလာမယ်လို့ ကတိပေးတယ်။']
+        ],
+        practical: [
+          ['ငါ မနက်ဖြန် ရုပ်ရှင်သွားကြည့်ဖို့ စီစဉ်ထားတယ်။', 'I am going to watch a movie tomorrow.'],
+          ['ငါ မင်းကို ဒီစာအုပ်လေး ငှားပေးမယ်လို့ ကတိပေးတယ်။', 'I promise I will lend you this book.'],
+          ['သင် ဘာလုပ်ဖို့ စီစဉ်ထားလဲ? ခရီးသွားမလား?', 'What are you going to do? Are you going to travel?'],
+          ['ငါထင်တယ် မနက်ဖြန် မိုးရွာမယ်။', 'I think it will rain tomorrow.'],
+          ['ကျွန်မတို့ လာမည့်နှစ်မှာ အိမ်အသစ်တစ်လုံး ဝယ်ဖို့ စီစဉ်ထားတယ်။', 'We are going to buy a new house next year.'],
+          ['မင်း ငါ့ကို ကူညီပေးမလား? ငါ အရမ်းအလုပ်များနေလို့။', 'Will you help me? I am very busy.']
+        ],
+        mockTest: [
+          ["'I ___ going to visit my aunt tomorrow.'",['am','is','are','be'],0],
+          ["'She ___ help you with your homework.' (ကတိ)",['will','is','are','going'],0],
+          ["'What ___ you going to do?'",['am','is','are','be'],2],
+          ["'We ___ going to travel next month.'",['am','is','are','be'],2],
+          ["'I think it ___ rain tonight.'",['will','is','are','going'],0]
+        ]
+      },
+      // Lesson 5
+      {
+        id: 'ele-5', unit: 'Unit 5', title: 'Present Perfect Tense', titleMM: 'ပစ္စုပ္ပန် ပြီးမြောက်ကာလ',
+        explanation: 'အတိတ်တွင် ဖြစ်ပျက်ခဲ့သော်လည်း လက်ရှိအချိန်အထိ လွှမ်းမိုးမှုရှိနေသော အခြေအနေများ သို့မဟုတ် အတွေ့အကြုံများကို ပြောဆိုရာတွင် သုံးသည်။',
+        vocab: [
+          ['Ever', 'တစ်ခါမှ - မေးခွန်းများတွင် သုံးပြီး အတွေ့အကြုံရှိ/မရှိ မေးရာတွင် သုံးသည်။'],
+          ['Never', 'ဘယ်တော့မှ - အတွေ့အကြုံ လုံးဝမရှိကြောင်း ဖြေရာတွင် သုံးသည်။'],
+          ['Already', 'ပြီးသွားပြီ - မျှော်လင့်ထားသည်ထက် စောပြီး ပြီးမြောက်သွားကြောင်း ပြသသည်။'],
+          ['Yet', 'သေး - မပြီးသေးကြောင်း ဖော်ပြရာတွင် ငြင်းပယ်ဝါကျနှင့် မေးခွန်းများတွင် သုံးသည်။'],
+          ['Just', 'ယခုလေးတင် - သိပ်မကြာသေးမီက ဖြစ်ပျက်ခဲ့သော အရာကို ဖော်ပြသည်။'],
+          ['Since', 'ကတည်းက - အချိန်တစ်ခုမှ စတင်ခဲ့သည့် အချိန်ကာလကို ဖော်ပြသည်။ (ဥပမာ - since 2020)'],
+          ['For', 'ကြာ - အချိန်ကာလ တစ်ခုကို အလျားအတိုင်း အတိုင်းအတာပြရန် သုံးသည်။ (ဥပမာ - for 2 years)'],
+          ['Experience', 'အတွေ့အကြုံ - လုပ်ဆောင်ခဲ့ခြင်းကြောင့် ရရှိလာသော ဗဟုသုတဖြစ်သည်။'],
+          ['Achieve', 'အောင်မြင်စွာ ပြီးမြောက်သည် - ကြိုးစားအားထုတ်မှုဖြင့် ရည်မှန်းချက်တစ်ခုကို ပြီးမြောက်ခြင်းဖြစ်သည်။'],
+          ['Recently', 'မကြာသေးမီက - သိပ်မကြာသေးသော အတိတ်ကာလကို ရည်ညွှန်းသည်။']
+        ],
+        patterns: [
+          ['Subject + have/has + Verb 3 (Past Participle)', 'အခြေခံပုံစံ (ဥပမာ - I have finished my work.)'],
+          ['Have you ever + Verb 3?', 'သင်တစ်ခါမှ ... ဖူးလား? (အတွေ့အကြုံမေးရန်)'],
+          ['I have never + Verb 3', 'ကျွန်တော် ဘယ်တော့မှ ... ဖူးဘူး။'],
+          ['Subject + have/has + already + Verb 3', 'ပြီးသွားပြီ (ဥပမာ - She has already eaten.)'],
+          ['Subject + have/has + not + Verb 3 + yet', 'မပြီးသေးဘူး (ဥပမာ - I have not finished yet.)']
+        ],
+        paragraphEN: 'I have traveled to many places in my life, but I have never been to Japan. I have always wanted to visit Tokyo and see the cherry blossoms. My best friend has just come back from a trip to Japan, and she says it is amazing. She has already shown me many beautiful photos. She has lived in Japan for two years, so she knows a lot about the culture. Recently, I have started saving money because I want to travel there next year. I have already saved fifty percent of the money I need. Have you ever been to Japan? If not, I hope you can achieve your travel dreams one day.',
+        paragraphMM: 'ကျွန်တော့်ဘဝမှာ နေရာတော်တော်များများကို ခရီးသွားခဲ့ဖူးပေမယ့် ဂျပန်ကိုတော့ ဘယ်တော့မှ မရောက်ဖူးသေးပါဘူး။ တိုကျိုကို သွားပြီး ချယ်ရီပန်းတွေ ကြည့်ချင်တဲ့ဆန္ဒ အမြဲရှိခဲ့ပါတယ်။ ကျွန်တော့်ရဲ့ အကောင်းဆုံးသူငယ်ချင်းက ဂျပန်ခရီးကနေ ယခုလေးတင် ပြန်ရောက်လာပြီး အဲဒီမှာ အရမ်းကောင်းတယ်လို့ ပြောပါတယ်။ သူမက လှပတဲ့ ဓာတ်ပုံတွေ အများကြီးကို ကျွန်တော့်ကို ပြပြီးသွားပါပြီ။ သူမက ဂျပန်မှာ နှစ်နှစ်ကြာ နေထိုင်ခဲ့တာမို့ ယဉ်ကျေးမှုအကြောင်း အများကြီး သိပါတယ်။ မကြာသေးမီက နောက်နှစ်မှာ သွားရောက်ချင်တဲ့အတွက် ပိုက်ဆံစတင် စုဆောင်းခဲ့ပါတယ်။ ကျွန်တော် လိုအပ်တဲ့ ပိုက်ဆံရဲ့ ငါးဆယ်ရာခိုင်နှုန်းကို စုဆောင်းပြီးသွားပါပြီ။ သင်က ဂျပန်ကို တစ်ခါမှ ရောက်ဖူးလား? မရောက်ဖူးရင် တစ်နေ့နေ့မှာ သင့်ရဲ့ ခရီးသွားအိပ်မက်တွေ အောင်မြင်ပါစေလို့ ဆုတောင်းပါတယ်။',
+        conversation: [
+          ['A','Have you ever been to Bagan?','သင် ပုဂံကို တစ်ခါမှ ရောက်ဖူးလား?'],
+          ['B','Yes, I have. I went there two years ago.','ဟုတ်တယ် ရောက်ဖူးတယ်။ လွန်ခဲ့တဲ့ နှစ်နှစ်က သွားခဲ့တာ။'],
+          ['A','Have you seen the sunrise there?','အဲဒီမှာ နေထွက်တာကို မြင်ဖူးလား?'],
+          ['B','No, I haven\'t seen it yet. But I want to.','မမြင်ဖူးသေးဘူး။ ဒါပေမယ့် မြင်ချင်တယ်။'],
+          ['A','I have already seen it. It is beautiful.','ငါကတော့ မြင်ပြီးသွားပြီ။ အရမ်းလှတယ်။'],
+          ['B','I will definitely go again to see it.','ကြည့်ဖို့ သေချာပေါက် ထပ်သွားမှာပဲ။']
+        ],
+        practical: [
+          ['ကျွန်တော် အလုပ်တွေ အကုန်လုပ်ပြီးသွားပါပြီ၊ အခု အနားယူလို့ရပြီ။', 'I have already finished all my work, so I can rest now.'],
+          ['သင်က ဒီရုပ်ရှင်ကို ကြည့်ဖူးလား? ကျွန်တော် မကြည့်ဖူးသေးဘူး။', 'Have you ever watched this movie? I have not watched it yet.'],
+          ['သူမက လွန်ခဲ့တဲ့ သုံးနှစ်ကတည်းက ဒီအိမ်မှာ နေထိုင်ခဲ့တာပါ။', 'She has lived in this house for three years.'],
+          ['ကျွန်မတို့ ဒီအကြောင်းအရာကို ယခုလေးတင် ဆွေးနွေးပြီးသွားပါပြီ။', 'We have just discussed this topic.'],
+          ['ကျွန်တော် ဘယ်တော့မှ လေယာဉ်စီးဖူးတာ မရှိသေးဘူး၊ ဒါပေမယ့် စီးချင်တယ်။', 'I have never flown on an airplane, but I want to.'],
+          ['သူက သူ့ရဲ့ ပညာသင်ဆု ရည်မှန်းချက်ကို အောင်မြင်စွာ ပြီးမြောက်ခဲ့ပါပြီ။', 'He has achieved his scholarship goal.']
+        ],
+        mockTest: [
+          ["'I have ___ my homework.'",['do','did','done','doing'],2],
+          ["'She has ___ to Japan.'",['go','went','gone','going'],2],
+          ["'Have you ___ eaten sushi?'",['ever','never','already','yet'],0],
+          ["'I have not finished ___ .'",['already','yet','ever','just'],1],
+          ["'We have lived here ___ 2010.'",['for','since','in','at'],1]
+        ]
+      },
+      // Lesson 6
+      {
+        id: 'ele-6', unit: 'Unit 6', title: 'Comparatives & Superlatives', titleMM: 'နှိုင်းယှဉ်ခြင်း',
+        explanation: 'အရာဝတ္ထု နှစ်ခု သို့မဟုတ် အများအပြားကို နှိုင်းယှဉ်၍ ပိုကောင်းကြောင်း၊ ပိုမြန်ကြောင်း ပြောဆိုရာတွင် -er / more နှင့် -est / most တို့ကို စနစ်တကျ သုံးစွဲပုံ ဖြစ်ပါသည်။',
+        vocab: [
+          ['Bigger', 'ပိုကြီးသော - အရွယ်အစား နှစ်ခုကို နှိုင်းယှဉ်ရာတွင် သုံးသည်။'],
+          ['Smaller', 'ပိုသေးသော - အရွယ်အစား ငယ်သော အရာနှင့် နှိုင်းယှဉ်ရာတွင် သုံးသည်။'],
+          ['Faster', 'ပိုမြန်သော - အမြန်နှုန်းကို နှိုင်းယှဉ်ရာတွင် သုံးသည်။'],
+          ['More expensive', 'ပိုပြီးဈေးကြီးသော - ဈေးနှုန်းကို နှိုင်းယှဉ်ရာတွင် သုံးသည်။'],
+          ['The best', 'အကောင်းဆုံး - အရာဝတ္ထုအားလုံးထဲမှ အမြင့်ဆုံးအဆင့်ကို ဖော်ပြသည်။'],
+          ['The most beautiful', 'အလှဆုံး - အလှတရားကို နှိုင်းယှဉ်ရာတွင် အမြင့်ဆုံးအဆင့်ကို ပြသသည်။'],
+          ['Than', 'ထက် - နှိုင်းယှဉ်ရာတွင် သုံးသော စကားလုံးဖြစ်သည်။ (ဥပမာ - taller than)'],
+          ['Compare', 'နှိုင်းယှဉ်သည် - တူညီမှု သို့မဟုတ် ကွဲပြားမှုကို ကြည့်ရှုခြင်းဖြစ်သည်။'],
+          ['Difference', 'ကွဲပြားမှု - အရာနှစ်ခုကြားတွင် မတူညီသော အချက်ဖြစ်သည်။'],
+          ['Similar', 'ဆင်တူသော - အရာနှစ်ခုက ပုံစံတူညီခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['A is + Adjective-er + than B', 'A က B ထက် ပိုပြီး ... တယ် (ဥပမာ - A car is faster than a bike.)'],
+          ['A is + more + Adjective + than B', 'ရှည်သော စကားလုံးများအတွက် (ဥပမာ - This book is more expensive than that one.)'],
+          ['A is the + Adjective-est', 'အကောင်းဆုံး/အမြင့်ဆုံး (ဥပမာ - He is the tallest boy in the class.)'],
+          ['A is the most + Adjective', 'ရှည်သော စကားလုံးများအတွက် (ဥပမာ - She is the most beautiful girl.)'],
+          ['Which is better, A or B?', 'A နဲ့ B ဘယ်ဟာက ပိုကောင်းလဲ?']
+        ],
+        paragraphEN: 'My city, Yangon, is very busy and exciting. It is much bigger and noisier than my hometown, Mandalay. Mandalay is quieter and more peaceful than Yangon. However, Yangon has the most delicious street food in the country. The Shwedagon Pagoda is the most famous place in Yangon. It is taller and more beautiful than many other buildings. When I go shopping, I think the markets in Yangon are cheaper than the shopping malls, but the malls are more comfortable. Which city do you think is the best place to live in Myanmar? I think both cities have their own special beauty.',
+        paragraphMM: 'ကျွန်တော့်မြို့ ရန်ကုန်က အရမ်းအလုပ်များပြီး စိတ်လှုပ်ရှားဖို့ကောင်းပါတယ်။ ကျွန်တော့်ဇာတိမြို့ မန္တလေးထက် အများကြီး ပိုကြီးပြီး ပိုဆူညံပါတယ်။ မန္တလေးက ရန်ကုန်ထက် ပိုတိတ်ဆိတ်ပြီး ပိုအေးချမ်းပါတယ်။ ဒါပေမယ့် ရန်ကုန်မှာတော့ တိုင်းပြည်မှာ အနံ့အရသာအကောင်းဆုံး လမ်းဘေးအစားအစာတွေ ရှိပါတယ်။ ရွှေတိဂုံဘုရားက ရန်ကုန်မှာ အကျော်ကြားဆုံး နေရာပါ။ အခြားအဆောက်အအုံတွေထက် ပိုမြင့်ပြီး ပိုလှပါတယ်။ ဈေးဝယ်ထွက်တဲ့အခါ ရန်ကုန်က ဈေးတွေက ဈေးဝယ်စင်တာတွေထက် ပိုသက်သာတယ်လို့ ကျွန်တော်ထင်ပါတယ်၊ ဒါပေမယ့် ဈေးဝယ်စင်တာတွေက ပိုသက်တောင့်သက်သာရှိပါတယ်။ မြန်မာမှာ ဘယ်မြို့က နေထိုင်ဖို့ အကောင်းဆုံးလို့ သင်ထင်လဲ? မြို့နှစ်မြို့စလုံးမှာ ကိုယ်ပိုင်လှပမှုတွေ ရှိတယ်လို့ ကျွန်တော်ထင်ပါတယ်။',
+        conversation: [
+          ['A','Which is bigger, Yangon or Mandalay?','ဘယ်မြို့က ပိုကြီးလဲ၊ ရန်ကုန်လား မန္တလေးလား?'],
+          ['B','Yangon is bigger than Mandalay.','ရန်ကုန်က မန္တလေးထက် ပိုကြီးတယ်။'],
+          ['A','Is Yangon more expensive?','ရန်ကုန်က ပိုဈေးကြီးလား?'],
+          ['B','Yes, it is. But Mandalay is more peaceful.','ဟုတ်တယ်။ ဒါပေမယ့် မန္တလေးက ပိုအေးချမ်းတယ်။'],
+          ['A','What is the best food in Myanmar?','မြန်မာမှာ အကောင်းဆုံး အစားအစာက ဘာလဲ?'],
+          ['B','I think Mohinga is the most delicious.','ငါထင်တော့ မုန့်ဟင်းခါးက အရသာအကောင်းဆုံးပဲ။']
+        ],
+        practical: [
+          ['ရန်ကုန်က မန္တလေးထက် ပိုပြီး လူဦးရေများပြီး ပိုစည်ကားတယ်။', 'Yangon is more crowded and busier than Mandalay.'],
+          ['ဒီစာအုပ်က အဲဒီစာအုပ်ထက် ပိုပြီးဈေးကြီးတယ်၊ ဒါပေမယ့် ပိုကောင်းတယ်။', 'This book is more expensive than that one, but it is better.'],
+          ['သူက ကျွန်တော်တို့အတန်းထဲမှာ အရပ်အမြင့်ဆုံး ကျောင်းသားပါ။', 'He is the tallest student in our class.'],
+          ['ဒီနေ့က မနေ့ကထက် ပိုပူတယ်လို့ ခံစားရတယ်။', 'I feel it is hotter today than yesterday.'],
+          ['ဘယ်ဟာက ပိုကောင်းလဲ၊ လက်ဖက်ရည် ဒါမှမဟုတ် ကော်ဖီ?', 'Which is better, tea or coffee?'],
+          ['သူမက ကျွန်တော်တွေ့ဖူးသမျှထဲမှာ အလှဆုံးမိန်းကလေးပါ။', 'She is the most beautiful girl I have ever met.']
+        ],
+        mockTest: [
+          ["'A car is ___ than a bike.'",['fast','faster','fastest','more fast'],1],
+          ["'She is the ___ girl in the class.'",['tall','taller','tallest','most tall'],2],
+          ["'This book is ___ expensive than that one.'",['more','most','much','very'],0],
+          ["'Yangon is ___ than Mandalay.'",['big','bigger','biggest','more big'],1],
+          ["'He is the most ___ person.'",['famous','famouser','famousest','more famous'],0]
+        ]
+      },
+      // Lesson 7
+      {
+        id: 'ele-7', unit: 'Unit 7', title: 'Prepositions of Time & Place', titleMM: 'အချိန်နှင့် နေရာ ဝိဘတ်များ',
+        explanation: 'အချိန်ကို ဖော်ပြသည့် in, on, at နှင့် နေရာကို ဖော်ပြသည့် in, on, at, under, next to စသည်တို့ကို မှန်ကန်စွာ အသုံးပြုပုံကို လေ့လာပါ။',
+        vocab: [
+          ['In', 'ထဲတွင် - လ၊ နှစ်၊ ရာသီ သို့မဟုတ် ပိတ်ထားသော နေရာများအတွက် သုံးသည်။ (in 2026, in the box)'],
+          ['On', 'အပေါ်တွင် - နေ့ရက်၊ ရက်စွဲ သို့မဟုတ် မျက်နှာပြင်ပေါ်တွင် ရှိခြင်းအတွက် သုံးသည်။ (on Monday, on the table)'],
+          ['At', 'တွင် - နာရီအတိအကျ သို့မဟုတ် တိကျသော နေရာတစ်ခုအတွက် သုံးသည်။ (at 7 PM, at the bus stop)'],
+          ['Under', 'အောက်တွင် - တစ်စုံတစ်ခု၏ အောက်ဘက်တွင် ရှိနေခြင်းဖြစ်သည်။'],
+          ['Next to', 'ဘေးတွင် - တစ်စုံတစ်ခု သို့မဟုတ် တစ်ဦးဦး၏ ဘေးတိုက်တွင် ရှိခြင်းဖြစ်သည်။'],
+          ['Between', 'အကြားတွင် - အရာနှစ်ခု သို့မဟုတ် နှစ်ဦး၏ အလယ်တွင် ရှိခြင်းဖြစ်သည်။'],
+          ['Behind', 'နောက်တွင် - တစ်စုံတစ်ခု၏ အနောက်ဘက်တွင် ရှိနေခြင်းဖြစ်သည်။'],
+          ['In front of', 'ရှေ့တွင် - တစ်စုံတစ်ခု၏ အရှေ့ဘက်တွင် ရှိနေခြင်းဖြစ်သည်။'],
+          ['Inside', 'အတွင်းပိုင်းတွင် - တစ်စုံတစ်ခု၏ အတွင်းဘက်တွင် ရှိနေခြင်းဖြစ်သည်။'],
+          ['Outside', 'အပြင်ဘက်တွင် - တစ်စုံတစ်ခု၏ အပြင်ဘက်တွင် ရှိနေခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['I wake up at [time].', 'ကျွန်တော် [အချိန်] မှာ နိုးတယ်။ (at 6 AM)'],
+          ['My birthday is in [month].', 'ကျွန်တော့်မွေးနေ့က [လ] မှာ ရှိတယ်။ (in May)'],
+          ['I will see you on [day].', '[ရက်] မှာ တွေ့ကြမယ်။ (on Monday)'],
+          ['The cat is under the table.', 'ကြောင်က စားပွဲအောက်မှာ ရှိတယ်။'],
+          ['The bank is next to the hospital.', 'ဘဏ်က ဆေးရုံဘေးမှာ ရှိတယ်။']
+        ],
+        paragraphEN: 'Knowing prepositions is very important for speaking English correctly. I usually wake up at six o\'clock in the morning. I start my work at nine. My birthday is in August. On my birthday, I always have a small party with my family. My house is located in Yangon. It is next to a small park. There is a big tree in front of my house, and I often sit under the tree in the afternoon. My dog likes to sleep between the sofa and the wall. Inside my room, there is a desk and a bed. I keep my books on the desk. Learning these small words helps us describe our world perfectly.',
+        paragraphMM: 'English ကို မှန်ကန်စွာ ပြောဆိုဖို့အတွက် ဝိဘတ် (Prepositions) တွေကို သိထားဖို့ အရမ်းအရေးကြီးပါတယ်။ ကျွန်တော် မနက်တိုင်း ခြောက်နာရီမှာ အိပ်ရာနိုးလေ့ရှိပါတယ်။ ကိုးနာရီမှာ အလုပ်စတင်ပါတယ်။ ကျွန်တော့်မွေးနေ့က သြဂုတ်လပါ။ မွေးနေ့မှာ မိသားစုနဲ့အတူ ပါတီပွဲလေးတစ်ခု အမြဲလုပ်ဖြစ်ပါတယ်။ ကျွန်တော့်အိမ်က ရန်ကုန်မှာ တည်ရှိပါတယ်။ ပန်းခြံငယ်လေးတစ်ခုရဲ့ ဘေးမှာပါ။ အိမ်ရှေ့မှာ သစ်ပင်ကြီးတစ်ပင် ရှိပြီး ညနေခင်းတွေမှာ အဲဒီသစ်ပင်အောက်မှာ ထိုင်လေ့ရှိပါတယ်။ ကျွန်တော့်ခွေးက ဆိုဖာနဲ့ နံရံကြားမှာ အိပ်ရတာကို နှစ်သက်ပါတယ်။ ကျွန်တော့်အခန်းထဲမှာ စားပွဲနဲ့ အိပ်ရာ ရှိပါတယ်။ စာအုပ်တွေကို စားပွဲပေါ်မှာ ထားလေ့ရှိပါတယ်။ ဒီစကားလုံးလေးတွေ သင်ယူခြင်းက ကျွန်တော်တို့ရဲ့ ကမ္ဘာကို ကောင်းမွန်စွာ ဖော်ပြနိုင်ဖို့ ကူညီပေးပါတယ်။',
+        conversation: [
+          ['A','Where is my phone?','ငါ့ဖုန်း ဘယ်မှာလဲ?'],
+          ['B','It is on the table, next to the TV.','စားပွဲပေါ်မှာ၊ တီဗီဘေးမှာ ရှိတယ်။'],
+          ['A','When is your birthday?','သင့်မွေးနေ့ ဘယ်တုန်းလဲ?'],
+          ['B','It is in December.','ဒီဇင်ဘာလပါ။'],
+          ['A','Do you have any plans on that day?','အဲဒီနေ့မှာ အစီအစဉ်ရှိလား?'],
+          ['B','Yes, I will have a party at my house.','ဟုတ်တယ်၊ ငါ့အိမ်မှာ ပါတီပွဲလုပ်မယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော် မနက် ခုနစ်နာရီမှာ မနက်စာစားပြီး ရှစ်နာရီမှာ အလုပ်သွားတယ်။', 'I eat breakfast at 7 AM and go to work at 8 AM.'],
+          ['ကျွန်မတို့ရဲ့ စာမေးပွဲက နိုဝင်ဘာလထဲမှာ ရှိတယ်။', 'Our exam is in November.'],
+          ['ကြောင်လေးက ကုတင်အောက်မှာ အိပ်နေတယ်။', 'The cat is sleeping under the bed.'],
+          ['ဆေးရုံက ဘဏ်ရဲ့ ဘေးမှာ ရှိတယ်၊ ရှာရလွယ်ပါတယ်။', 'The hospital is next to the bank, it is easy to find.'],
+          ['ငါ မင်းကို တနင်္လာနေ့မှာ တွေ့မယ်နော်။', 'I will see you on Monday.'],
+          ['သူက ကျွန်တော့်ရှေ့မှာ ထိုင်နေတယ်။', 'He is sitting in front of me.']
+        ],
+        mockTest: [
+          ["'I wake up ___ 6 AM.'",['in','on','at','by'],2],
+          ["'My birthday is ___ May.'",['in','on','at','by'],0],
+          ["'I will see you ___ Monday.'",['in','on','at','by'],1],
+          ["'The book is ___ the table.'",['in','on','at','by'],1],
+          ["'The cat is ___ the table.' (အောက်တွင်)",['on','under','next to','in'],1]
+        ]
+      },
+      // Lesson 8
+      {
+        id: 'ele-8', unit: 'Unit 8', title: 'Countable & Uncountable Nouns', titleMM: 'ရေတွက်နိုင်ခြင်းနှင့် မနိုင်ခြင်း',
+        explanation: 'ရေတွက်နိုင်သော နာမ်များ (How many) နှင့် ရေတွက်မရသော နာမ်များ (How much) ကို ခွဲခြားသုံးစွဲပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Countable', 'ရေတွက်နိုင်သော - တစ်ခု၊ နှစ်ခုစသဖြင့် ရေတွက်လို့ရသော အရာများဖြစ်သည်။ (ဥပမာ - apples, books)'],
+          ['Uncountable', 'ရေတွက်မရသော - တစ်ခု၊ နှစ်ခုစသဖြင့် တိုက်ရိုက်ရေတွက်လို့မရသော အရာများဖြစ်သည်။ (ဥပမာ - water, sugar)'],
+          ['How many', 'ဘယ်နှခု - ရေတွက်နိုင်သော နာမ်များအတွက် မေးခွန်းမေးရာတွင် သုံးသည်။'],
+          ['How much', 'ဘယ်လောက် - ရေတွက်မရသော နာမ်များအတွက် မေးခွန်းမေးရာတွင် သုံးသည်။'],
+          ['Some', 'အချို့ - မေးခွန်းနှင့် အပြုသဘောဝါကျများတွင် အသုံးပြုသည်။'],
+          ['Any', 'ဘယ်သလောက်မှ - ငြင်းပယ်ဝါကျနှင့် မေးခွန်းများတွင် သုံးသည်။'],
+          ['A lot of', 'အများကြီး - ရေတွက်နိုင်ရော မနိုင်ပါ နှစ်မျိုးစလုံးအတွက် သုံးနိုင်သည်။'],
+          ['Bottle', 'ပုလင်း - အရည်များ ထည့်သိမ်းရန် သုံးသော ပစ္စည်းဖြစ်သည်။'],
+          ['Piece', 'အပိုင်းအစ - တစ်စုံတစ်ခု၏ တစ်စိတ်တစ်ပိုင်းကို ရည်ညွှန်းသည်။'],
+          ['Cup', 'ခွက် - ကော်ဖီ သို့မဟုတ် လက်ဖက်ရည် သောက်ရန် သုံးသော ခွက်ဖြစ်သည်။']
+        ],
+        patterns: [
+          ['How many [countable nouns]?', 'ဘယ်နှခုလဲ? (ဥပမာ - How many apples?)'],
+          ['How much [uncountable nouns]?', 'ဘယ်လောက်လဲ? (ဥပမာ - How much water?)'],
+          ['I have some [noun].', 'ကျွန်တော့်မှာ [နာမ်] အချို့ ရှိတယ်။'],
+          ['I do not have any [noun].', 'ကျွန်တော့်မှာ [နာမ်] လုံးဝ မရှိဘူး။'],
+          ['I need a piece of [noun].', 'ကျွန်တော် [နာမ်] တစ်စ လိုတယ်။ (ဥပမာ - a piece of paper)']
+        ],
+        paragraphEN: 'In English, it is very important to know the difference between countable and uncountable nouns. Countable nouns are things we can count, like one apple, two apples, or three books. Uncountable nouns are things we cannot count easily, like water, sugar, or rice. When we go to the supermarket, we need to buy some things. I need to buy some apples and a bottle of water. I also want to buy a lot of rice because my family eats rice every day. How many eggs do we have? We only have two eggs. How much milk do we have? We do not have any milk. We need to buy a lot of food today.',
+        paragraphMM: 'English မှာ ရေတွက်နိုင်တဲ့ နာမ်နဲ့ ရေတွက်မရတဲ့ နာမ်ကြားက ကွာခြားချက်ကို သိထားဖို့ အရမ်းအရေးကြီးပါတယ်။ ရေတွက်နိုင်တဲ့ နာမ်ဆိုတာ ပန်းသီးတစ်လုံး၊ ပန်းသီးနှစ်လုံး ဒါမှမဟုတ် စာအုပ်သုံးအုပ်လို ရေတွက်လို့ရတဲ့ အရာတွေပါ။ ရေတွက်မရတဲ့ နာမ်ဆိုတာ ရေ၊ သကြား ဒါမှမဟုတ် ထမင်းလို အလွယ်တကူ ရေတွက်လို့မရတဲ့ အရာတွေပါ။ ကျွန်တော်တို့ စူပါမားကတ်သွားတဲ့အခါ ပစ္စည်းတချို့ ဝယ်ဖို့ လိုအပ်ပါတယ်။ ပန်းသီးအနည်းငယ်နဲ့ ရေတစ်ပုလင်း ဝယ်ဖို့ လိုပါတယ်။ မိသားစုက နေ့တိုင်း ထမင်းစားတာမို့ ဆန်အများကြီး ဝယ်ချင်ပါတယ်။ ငါတို့မှာ ကြက်ဥ ဘယ်နှလုံး ရှိလဲ? ကြက်ဥ နှစ်လုံးပဲ ရှိတယ်။ နို့ ဘယ်လောက် ရှိလဲ? နို့ လုံးဝမရှိဘူး။ ဒီနေ့ အစားအစာ အများကြီး ဝယ်ဖို့ လိုအပ်ပါတယ်။',
+        conversation: [
+          ['A','How many apples do we have?','ငါတို့မှာ ပန်းသီး ဘယ်နှလုံး ရှိလဲ?'],
+          ['B','We have three apples.','ပန်းသီး သုံးလုံး ရှိတယ်။'],
+          ['A','How much water is in the bottle?','ပုလင်းထဲမှာ ရေ ဘယ်လောက် ရှိလဲ?'],
+          ['B','There is a lot of water.','ရေ အများကြီး ရှိတယ်။'],
+          ['A','Do we have any sugar?','ငါတို့မှာ သကြား ရှိလား?'],
+          ['B','No, we do not have any sugar.','မရှိဘူး၊ ငါတို့မှာ သကြား လုံးဝမရှိဘူး။']
+        ],
+        practical: [
+          ['ငါတို့မှာ ကြက်ဥ ဘယ်နှလုံး ရှိလဲ? သုံးလုံးပဲ ရှိတယ်။', 'How many eggs do we have? We only have three.'],
+          ['ငါ ကော်ဖီတစ်ခွက် သောက်ချင်တယ်၊ ဒါပေမယ့် နို့မရှိဘူး။', 'I want to drink a cup of coffee, but we do not have any milk.'],
+          ['သင့်မှာ ပိုက်ဆံ ဘယ်လောက် ရှိလဲ? ကျွန်တော့်မှာ အများကြီး မရှိဘူး။', 'How much money do you have? I do not have a lot.'],
+          ['ကျွန်မတို့ စက္ကူတစ်ရွက် လိုအပ်ပါတယ်၊ ဘောပင် ရှိလား?', 'I need a piece of paper, do you have a pen?'],
+          ['ဈေးမှာ ပန်းသီးတချို့နဲ့ လိမ္မော်သီးတချို့ ဝယ်ခဲ့တယ်။', 'I bought some apples and some oranges at the market.'],
+          ['သင့်မှာ ညီအကို ဘယ်နှယောက် ရှိလဲ? ကျွန်တော့်မှာ တစ်ယောက် ရှိတယ်။', 'How many brothers do you have? I have one.']
+        ],
+        mockTest: [
+          ["'How ___ apples do you have?'",['much','many','some','any'],1],
+          ["'How ___ water do you need?'",['much','many','some','any'],0],
+          ["'I have ___ books.'",['some','any','much','a'],0],
+          ["'We do not have ___ milk.'",['some','any','much','many'],1],
+          ["'Apple' is a ___ noun.",['countable','uncountable','abstract','proper'],0]
+        ]
+      },
+      // Lesson 9
+      {
+        id: 'ele-9', unit: 'Unit 9', title: 'Modals: Can, Could, Should', titleMM: 'ကြိယာထောက်ပံ့များ',
+        explanation: 'စွမ်းရည် (Can/Could)၊ ယဉ်ကျေးစွာ တောင်းဆိုခြင်း (Could) နှင့် အကြံပြုခြင်း (Should) တို့အတွက် Modal Verbs များကို မည်သို့သုံးမည်ကို လေ့လာပါ။',
+        vocab: [
+          ['Can', 'နိုင်သည် - လုပ်ဆောင်နိုင်စွမ်း ရှိကြောင်း ပြသရာတွင် သုံးသည်။'],
+          ['Could', 'နိုင်ခဲ့သည် / နိုင်မလား - အတိတ်က စွမ်းရည် သို့မဟုတ် ယဉ်ကျေးစွာ တောင်းဆိုရာတွင် သုံးသည်။'],
+          ['Should', 'သင့်သည် - အကြံပြုချက် ပေးရာတွင် သုံးသည်။'],
+          ['Ability', 'စွမ်းရည် - တစ်စုံတစ်ခုကို လုပ်ဆောင်နိုင်စွမ်းရှိခြင်းဖြစ်သည်။'],
+          ['Advice', 'အကြံပြုချက် - တစ်စုံတစ်ဦးကို ဘာလုပ်သင့်သည်ကို ပြောပြခြင်းဖြစ်သည်။'],
+          ['Permission', 'ခွင့်ပြုချက် - တစ်စုံတစ်ခုကို လုပ်ဆောင်ရန် သဘောတူညီချက်ပေးခြင်းဖြစ်သည်။'],
+          ['Request', 'တောင်းဆိုခြင်း - တစ်စုံတစ်ခုကို ပြုလုပ်ပေးရန် မေးမြန်းခြင်းဖြစ်သည်။'],
+          ['Polite', 'ယဉ်ကျေးသော - လေးစားမှုရှိသော အပြုအမူ သို့မဟုတ် စကားလုံးဖြစ်သည်။'],
+          ['Possible', 'ဖြစ်နိုင်သော - လုပ်ဆောင်နိုင်ခြေရှိသော အခြေအနေဖြစ်သည်။'],
+          ['Helpful', 'အကူအညီဖြစ်သော - တစ်စုံတစ်ဦးအတွက် အထောက်အကူဖြစ်စေသော အရာဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + can + Verb 1', '... နိုင်တယ် (ဥပမာ - I can swim.)'],
+          ['Subject + could + Verb 1', '... နိုင်ခဲ့တယ် / ယဉ်ကျေးစွာတောင်းဆိုခြင်း (ဥပမာ - Could you help me?)'],
+          ['Subject + should + Verb 1', '... သင့်တယ် (ဥပမာ - You should see a doctor.)'],
+          ['Can you ...?', 'သင်လုပ်နိုင်လား? (တောင်းဆိုခြင်း)'],
+          ['You should not ...', 'သင်မလုပ်သင့်ဘူး (သတိပေးခြင်း)']
+        ],
+        paragraphEN: 'Modal verbs are very useful in English. They help us express ability, ask for permission, and give advice. I can speak two languages: Burmese and English. When I was young, I could run very fast, but now I am slower. If you want to improve your English, you should practice every day. You should not be afraid of making mistakes. When you need help, you can ask your teacher. You could also use online apps to learn new words. Could you please explain this lesson to me? Yes, I can. Remember, learning a language takes time, so you should be patient.',
+        paragraphMM: 'Modal ကြိယာတွေက English မှာ အရမ်းအသုံးဝင်ပါတယ်။ သူတို့က စွမ်းရည်ကို ဖော်ပြဖို့၊ ခွင့်ပြုချက်တောင်းဖို့နဲ့ အကြံပြုချက်ပေးဖို့ ကူညီပေးပါတယ်။ ကျွန်တော် ဘာသာစကား နှစ်မျိုး ပြောနိုင်ပါတယ်။ မြန်မာစကားနဲ့ English ပါ။ ငယ်ငယ်တုန်းက ကျွန်တော် အရမ်းမြန်မြန် ပြေးနိုင်ခဲ့ပေမယ့် အခုတော့ ပိုနှေးသွားပါပြီ။ သင့်ရဲ့ English ကို တိုးတက်ချင်ရင် နေ့တိုင်း လေ့ကျင့်သင့်ပါတယ်။ အမှားလုပ်မိမှာ မကြောက်သင့်ပါဘူး။ အကူအညီလိုအပ်တဲ့အခါ ဆရာကို မေးနိုင်ပါတယ်။ စကားလုံးအသစ်တွေ သင်ယူဖို့ အွန်လိုင်း App တွေကိုလည်း သုံးနိုင်ပါတယ်။ ဒီသင်ခန်းစာကို ကျွန်တော့်ကို ရှင်းပြပေးလို့ ရမလား? ဟုတ်ကဲ့ ရှင်းပြပေးနိုင်ပါတယ်။ ဘာသာစကားတစ်ခု သင်ယူဖို့ အချိန်ယူရတယ်ဆိုတာ မှတ်ထားပါ၊ ဒါကြောင့် စိတ်ရှည်ရှည်ထားသင့်ပါတယ်။',
+        conversation: [
+          ['A','Can you speak English?','သင် English ပြောနိုင်လား?'],
+          ['B','Yes, I can speak a little.','ဟုတ်တယ်၊ နည်းနည်းတော့ ပြောနိုင်တယ်။'],
+          ['A','Could you help me with my homework?','ငါ့အိမ်စာလေး ကူညီပေးလို့ ရမလား?'],
+          ['B','Sure, I can help you.','ဟုတ်ကဲ့၊ ကူညီပေးနိုင်ပါတယ်။'],
+          ['A','I have a headache. What should I do?','ငါ ခေါင်းကိုက်နေတယ်။ ဘာလုပ်သင့်လဲ?'],
+          ['B','You should take some medicine and rest.','ဆေးလေးသောက်ပြီး အနားယူသင့်တယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော် ကူညီပေးနိုင်ပါတယ်၊ ဘာလိုအပ်လဲ ပြောပါ။', 'I can help you, just tell me what you need.'],
+          ['ငါ့ဖုန်းလေး သုံးလို့ရမလား? ငါ အရေးကြီးတဲ့ ဖုန်းတစ်ခု ဆက်ရမလို့။', 'Could I use your phone? I need to make an important call.'],
+          ['သင် ဆရာဝန်နဲ့ သွားပြသင့်တယ်၊ သင့်ရောဂါက မပျောက်သေးဘူး။', 'You should see a doctor, your sickness has not gone away.'],
+          ['ကျွန်မ ငယ်ငယ်တုန်းက စက်ဘီးစီးနိုင်ခဲ့ပေမယ့် အခု မစီးတတ်တော့ဘူး။', 'I could ride a bike when I was young, but now I cannot.'],
+          ['သင် ဒီအကြောင်းအရာကို နားလည်အောင် ထပ်ရှင်းပြပေးလို့ ရမလား?', 'Could you please explain this topic again so I can understand?'],
+          ['အမှားလုပ်မိမှာ မကြောက်ပါနဲ့၊ ဒါက သင်ယူဖို့ ပိုကောင်းတဲ့ နည်းလမ်းပါ။', 'You should not be afraid to make mistakes; it is a better way to learn.']
+        ],
+        mockTest: [
+          ["'I ___ swim when I was young.'",['can','could','should','will'],1],
+          ["'You ___ see a doctor.' (အကြံပြုချက်)",['can','could','should','will'],2],
+          ["'___ you help me, please?'",['Can','Should','Must','Are'],0],
+          ["'She can ___ English very well.'",['speak','speaks','speaking','spoke'],0],
+          ["'You ___ not eat too much sugar.'",['can','could','should','will'],2]
+        ]
+      },
+      // Lesson 10
+      {
+        id: 'ele-10', unit: 'Unit 10', title: 'Shopping & Restaurant', titleMM: 'ဈေးဝယ်ခြင်းနှင့် စားသောက်ဆိုင်',
+        explanation: 'နိုင်ငံခြား စားသောက်ဆိုင်များနှင့် ဆိုင်ကြီးများတွင် ဈေးနှုန်းမေးမြန်းခြင်း၊ ပစ္စည်းရွေးချယ်ခြင်းနှင့် ယဉ်ကျေးစွာ မှာယူခြင်းတို့ကို လက်တွေ့ စကားပြောများဖြင့် လေ့လာရပါမည်။',
+        vocab: [
+          ['Menu', 'ဟင်းလျာစာရင်း - စားသောက်ဆိုင်တွင် ရောင်းချသည့် အစားအစာနှင့် ဈေးနှုန်းများ ပါဝင်သော စာရွက်ဖြစ်သည်။'],
+          ['Order', 'မှာယူသည် - စားသောက်ဆိုင်တွင် အစားအသောက် သို့မဟုတ် ပစ္စည်းတစ်ခုကို တောင်းခံခြင်းဖြစ်သည်။'],
+          ['Bill', 'ငွေတောင်းခံလွှာ - စားသောက်ပြီးနောက် ပေးချေရမည့် ကျသင့်ငွေစာရင်းဖြစ်သည်။'],
+          ['Tip', 'အပိုဆုငွေ - ဝန်ဆောင်မှုကောင်းမွန်မှုအတွက် ပေးချေသော ထပ်ဆောင်းငွေဖြစ်သည်။'],
+          ['Size', 'အရွယ်အစား - အဝတ်အစား သို့မဟုတ် ပစ္စည်းတစ်ခု၏ ကြီး/ငယ် အတိုင်းအတာဖြစ်သည်။'],
+          ['Discount', 'လျှော့စျေး - ပစ္စည်းတစ်ခု၏ မူလဈေးနှုန်းမှ လျှော့ချပေးသော ငွေပမာဏဖြစ်သည်။'],
+          ['Receipt', 'ငွေရှင်းလက်မှတ် - ပစ္စည်းဝယ်ယူပြီးကြောင်း အတည်ပြုပေးသော စာရွက်ဖြစ်သည်။'],
+          ['Cash', 'ငွေသား - ငွေစက္ကူ သို့မဟုတ် အကြွေစေ့ဖြင့် ပေးချေသော ငွေကြေးဖြစ်သည်။'],
+          ['Card', 'ကတ်ပြား - ငွေပေးချေရာတွင် အသုံးပြုသော ဘဏ်ကတ် သို့မဟုတ် အကြွေးကတ်ဖြစ်သည်။'],
+          ['Special', 'အထူးဟင်းလျာ - စားသောက်ဆိုင်တွင် ထူးထူးခြားခြား ရောင်းချသော အစားအစာဖြစ်သည်။']
+        ],
+        patterns: [
+          ['I would like to order [food].', 'ကျွန်တော် [အစားအစာ] မှာချင်ပါတယ်။'],
+          ['Could I have the menu, please?', 'ကျေးဇူးပြုပြီး ဟင်းလျာစာရင်း ကြည့်လို့ရမလား?'],
+          ['How much is this?', 'ဒါ ဘယ်လောက်လဲ?'],
+          ['Can I pay by card?', 'ကတ်နဲ့ ရှင်းလို့ရမလား?'],
+          ['Can I have the bill, please?', 'ကျေးဇူးပြုပြီး ငွေတောင်းခံလွှာ ယူလာပေးလို့ရမလား?']
+        ],
+        paragraphEN: 'Last night, my friends and I went to a new Italian restaurant in town. It was very busy, but we got a table near the window. The waiter brought us the menu. I did not know what to order, so I asked the waiter for a recommendation. He said the seafood pasta was their special dish. I ordered the pasta and a glass of orange juice. My friend ordered a pizza and a coke. The food was delicious, and we enjoyed it very much. After dinner, we asked for the bill. It was 50 dollars in total. I paid by card, and my friend left a small tip for the waiter. We had a great time.',
+        paragraphMM: 'မနေ့ညက ကျွန်တော်နဲ့ သူငယ်ချင်းတွေ မြို့ထဲက အီတလီစားသောက်ဆိုင်အသစ်တစ်ခုကို သွားခဲ့ကြပါတယ်။ အရမ်းလူများနေပေမယ့် ပြတင်းပေါက်နားက စားပွဲတစ်လုံး ရခဲ့ပါတယ်။ စားပွဲထိုးက ဟင်းလျာစာရင်းကို ယူလာပေးပါတယ်။ ဘာမှာရမလဲ မသိဘူးဖြစ်နေတာနဲ့ စားပွဲထိုးကို အကြံပြုချက်တောင်းခဲ့ပါတယ်။ သူက ပင်လယ်စာပါစတာက သူတို့ဆိုင်ရဲ့ အထူးဟင်းလျာဖြစ်တယ်လို့ ပြောပါတယ်။ ကျွန်တော် ပါစတာနဲ့ လိမ္မော်ရည်တစ်ခွက် မှာလိုက်ပါတယ်။ သူငယ်ချင်းက ပီဇာနဲ့ ကိုကာကိုလာ မှာပါတယ်။ အစားအစာတွေက အရမ်းအရသာရှိပြီး ကျွန်တော်တို့ အရမ်းသဘောကျခဲ့ကြပါတယ်။ ညစာစားပြီးတဲ့အခါ ငွေတောင်းခံလွှာ တောင်းလိုက်ပါတယ်။ စုစုပေါင်း ဒေါ်လာ ၅၀ ကျပါတယ်။ ကျွန်တော် ကတ်နဲ့ ရှင်းပြီး သူငယ်ချင်းက စားပွဲထိုးအတွက် အပိုဆုငွေ အနည်းငယ် ချန်ခဲ့ပါတယ်။ ကျွန်တော်တို့ အရမ်းပျော်ခဲ့ကြပါတယ်။',
+        conversation: [
+          ['A','Good evening. Are you ready to order?','မင်္ဂလာညနေပါ။ မှာယူဖို့ အဆင်သင့်ဖြစ်ပြီလား?'],
+          ['B','Yes, I would like a chicken salad, please.','ဟုတ်ကဲ့၊ ကြက်သားသုပ်တစ်ပွဲ မှာချင်ပါတယ်။'],
+          ['A','Would you like something to drink?','တစ်ခုခု သောက်ဖို့ လိုပါသလား?'],
+          ['B','Just a glass of water, please.','ရေတစ်ခွက်ပဲ ရပါတယ်။'],
+          ['A','Okay. Anything else?','အိုကေ။ ကျန်တာ ရှိသေးလား?'],
+          ['B','No, that is all. Can I have the bill later?','မရှိတော့ပါဘူး။ နောက်မှ ငွေရှင်းလို့ရမလား?']
+        ],
+        practical: [
+          ['ကျွန်တော် ပီဇာတစ်ချပ်နဲ့ ကိုကာကိုလာတစ်ခွက် မှာချင်ပါတယ်။', 'I would like to order a pizza and a coke.'],
+          ['ဒီအင်္ကျီက ဘယ်လောက်လဲ? လျှော့စျေး ရှိလား?', 'How much is this shirt? Is there a discount?'],
+          ['ကျေးဇူးပြုပြီး ငွေတောင်းခံလွှာ ယူလာပေးလို့ ရမလား?', 'Could I have the bill, please?'],
+          ['ကျွန်မ ငွေသားနဲ့ ရှင်းမလား ဒါမှမဟုတ် ကတ်နဲ့ ရှင်းမလား?', 'Should I pay by cash or by card?'],
+          ['ဒီဟင်းက အရမ်းအရသာရှိတယ်၊ ဒါပေမယ့် ငွေတောင်းခံလွှာက မှားနေတယ်။', 'This dish is very delicious, but the bill is wrong.'],
+          ['ကျွန်တော် ဒီပစ္စည်းကို ဝယ်ချင်ပါတယ်၊ ဒါပေမယ့် အိတ်ထဲမှာ ပိုက်ဆံမလုံလောက်ဘူး။', 'I want to buy this item, but I do not have enough money in my bag.']
+        ],
+        mockTest: [
+          ["'I would like to ___ a pizza.'",['eat','order','buy','sell'],1],
+          ["'Could I have the ___ , please?' (ငွေတောင်းခံလွှာ)",['menu','bill','card','cash'],1],
+          ["'How much ___ this shirt?'",['am','is','are','be'],1],
+          ["'Can I pay ___ card?'",['in','on','at','by'],3],
+          ["'The food is very ___ .' (အရသာရှိတယ်)",['delicious','bad','sour','cold'],0]
+        ]
+      },
+      // Lesson 11
+      {
+        id: 'ele-11', unit: 'Unit 11', title: 'Asking & Giving Directions', titleMM: 'လမ်းညွှန်မေးမြန်းခြင်းနှင့် ပြောပြခြင်း',
+        explanation: 'မြို့သစ်တစ်ခုသို့ ရောက်ရှိသည့်အခါ ဘူတာရုံ၊ လေဆိပ်၊ ဘဏ်နှင့် ဟိုတယ်များသို့ သွားရောက်ရန် လမ်းမေးနည်းနှင့် ညွှန်ပြနည်းများကို တိကျစွာ သင်ယူရပါမည်။',
+        vocab: [
+          ['Turn left', 'ဘယ်ဘက်ကွေ့သည် - သွားနေသည့် လမ်းမှ ဘယ်ဘက်သို့ ဦးတည်ချက်ပြောင်းခြင်းဖြစ်သည်။'],
+          ['Turn right', 'ညာဘက်ကွေ့သည် - သွားနေသည့် လမ်းမှ ညာဘက်သို့ ဦးတည်ချက်ပြောင်းခြင်းဖြစ်သည်။'],
+          ['Go straight', 'တည့်တည့်သွားသည် - ဘေးတိုက်မသွားဘဲ ရှေ့သို့သာ ဆက်လက်သွားလာခြင်းဖြစ်သည်။'],
+          ['Intersection', 'လမ်းဆုံ - လမ်းနှစ်လမ်း သို့မဟုတ် ထို့ထက်ပိုသော လမ်းများ ဆုံတွေ့သည့် နေရာဖြစ်သည်။'],
+          ['Traffic light', 'မီးပွိုင့် - ယာဉ်ကြောကို ထိန်းချုပ်ရန် အသုံးပြုသော မီးအချက်ပြစနစ်ဖြစ်သည်။'],
+          ['Corner', 'လမ်းထောင့် - လမ်းနှစ်ခု ဆုံတွေ့သည့် အနားသတ်နေရာဖြစ်သည်။'],
+          ['Across from', 'မျက်နှာချင်းဆိုင် - လမ်းတစ်ဖက်တစ်ချက်တွင် ရှိနေခြင်းဖြစ်သည်။'],
+          ['Opposite', 'ဆန့်ကျင်ဘက် - တစ်ခုနှင့်တစ်ခု မျက်နှာချင်းဆိုင် ဖြစ်နေခြင်းဖြစ်သည်။'],
+          ['Along', 'တစ်လျှောက် - လမ်းတစ်ခုအတိုင်း ဆက်လက်သွားလာခြင်းဖြစ်သည်။'],
+          ['Past', 'ကျော်သွားသည် - တစ်နေရာကို ဖြတ်ကျော်ပြီး ရှေ့ဆက်သွားခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Excuse me, how do I get to [place]?', 'တစ်ဆိတ်လောက်ဗျာ၊ [နေရာ] ကို ဘယ်လိုသွားရမလဲ?'],
+          ['Go straight for two blocks.', 'လမ်းနှစ်တုံးစာ တည့်တည့်သွားပါ။'],
+          ['Turn left at the traffic light.', 'မီးပွိုင့်မှာ ဘယ်ဘက်ကွေ့ပါ။'],
+          ['It is on your right.', 'အဲဒါက သင့်ညာဘက်မှာ ရှိတယ်။'],
+          ['It is across from the bank.', 'အဲဒါက ဘဏ်ရဲ့ မျက်နှာချင်းဆိုင်မှာ ရှိတယ်။']
+        ],
+        paragraphEN: 'When you travel to a new city, you will often need to ask for directions. Yesterday, I visited a friend in a new town. I did not know the way to his house, so I asked a police officer for help. I said, "Excuse me, how do I get to Rose Street?" He was very kind and gave me clear directions. He told me to go straight along this road for two blocks. Then, I should turn left at the traffic light. The street would be on my right, across from a big bank. I followed his directions carefully, and I found the house easily. Asking for directions is a very useful skill when you travel.',
+        paragraphMM: 'မြို့အသစ်တစ်ခုကို ရောက်တဲ့အခါ လမ်းမေးဖို့ မကြာခဏ လိုအပ်တတ်ပါတယ်။ မနေ့က မြို့သစ်တစ်ခုမှာ သူငယ်ချင်းတစ်ယောက်ဆီ သွားလည်ခဲ့ပါတယ်။ သူ့အိမ်လမ်းကို မသိတဲ့အတွက် ရဲအရာရှိတစ်ယောက်ကို အကူအညီတောင်းခဲ့ပါတယ်။ "တစ်ဆိတ်လောက်ဗျာ၊ နှင်းဆီလမ်းကို ဘယ်လိုသွားရမလဲ" လို့ မေးလိုက်ပါတယ်။ သူက အရမ်းကြင်နာပြီး ရှင်းလင်းတဲ့ လမ်းညွှန်ချက်တွေ ပေးခဲ့ပါတယ်။ ဒီလမ်းအတိုင်း လမ်းနှစ်တုံးစာ တည့်တည့်သွားပါလို့ ပြောပါတယ်။ ပြီးတော့ မီးပွိုင့်မှာ ဘယ်ဘက်ကွေ့ပါလို့ ဆိုပါတယ်။ အဲဒီလမ်းက ဘဏ်ကြီးတစ်ခုရဲ့ မျက်နှာချင်းဆိုင် ညာဘက်မှာ ရှိမယ်တဲ့။ သူပြောတဲ့အတိုင်း ဂရုတစိုက် လိုက်သွားတော့ အိမ်ကို အလွယ်တကူ ရှာတွေ့ပါတယ်။ ခရီးသွားတဲ့အခါ လမ်းမေးတတ်တာက အရမ်းအသုံးဝင်တဲ့ ကျွမ်းကျင်မှုတစ်ခုပါ။',
+        conversation: [
+          ['A','Excuse me, how do I get to the train station?','တစ်ဆိတ်လောက်ဗျာ၊ ရထားဘူတာရုံကို ဘယ်လိုသွားရမလဲ?'],
+          ['B','Go straight along this road and turn right at the corner.','ဒီလမ်းအတိုင်း တည့်တည့်သွားပြီး လမ်းထောင့်မှာ ညာဘက်ကွေ့ပါ။'],
+          ['A','Is it far from here?','ဒီကနေ ဝေးလား?'],
+          ['B','No, it is about five minutes on foot.','မဝေးပါဘူး၊ လမ်းလျှောက်ရင် ငါးမိနစ်လောက်ပါ။'],
+          ['A','Is it next to the bank?','ဘဏ်ဘေးမှာလား?'],
+          ['B','Yes, it is across from the bank.','ဟုတ်တယ်၊ ဘဏ်ရဲ့ မျက်နှာချင်းဆိုင်မှာပါ။']
+        ],
+        practical: [
+          ['ဘဏ်ကို ဘယ်လိုသွားရမလဲခင်ဗျာ? ကျွန်တော် ဒီမြို့ကို အသစ်ရောက်တာပါ။', 'How do I get to the bank? I am new to this city.'],
+          ['ဒီလမ်းအတိုင်း နှစ်တုံးစာသွားပြီး မီးပွိုင့်မှာ ဘယ်ဘက်ကွေ့ပါ။', 'Go straight along this road for two blocks and turn left at the traffic light.'],
+          ['ဆေးရုံက ဒီကနေ ဝေးသလား? လမ်းလျှောက်သွားလို့ ရမလား?', 'Is the hospital far from here? Can I walk there?'],
+          ['ခွင့်လွှတ်ပါဦး၊ အနီးဆုံး ဘတ်စ်ကားမှတ်တိုင် ဘယ်မှာရှိလဲ?', 'Excuse me, where is the nearest bus stop?'],
+          ['ဘူတာရုံက ဘဏ်ရဲ့ မျက်နှာချင်းဆိုင်မှာ ရှိပါတယ်၊ အရမ်းရှာရလွယ်ပါတယ်။', 'The station is across from the bank, it is very easy to find.'],
+          ['ကျေးဇူးတင်ပါတယ်၊ သင့်အကူအညီမပါဘဲ ကျွန်တော် လမ်းမတွေ့နိုင်မှာပါ။', 'Thank you, I would not have found the way without your help.']
+        ],
+        mockTest: [
+          ["'Turn ___ at the traffic light.' (ဘယ်ဘက်)",['left','right','straight','back'],0],
+          ["'Go ___ for two blocks.' (တည့်တည့်)",['left','right','straight','back'],2],
+          ["'It is ___ from the bank.' (မျက်နှာချင်းဆိုင်)",['next','across','behind','under'],1],
+          ["'How do I get ___ the station?'",['to','at','in','by'],0],
+          ["'Is it far ___ here?'",['to','from','at','in'],1]
+        ]
+      },
+      // Lesson 12
+      {
+        id: 'ele-12', unit: 'Unit 12', title: 'Adverbs of Frequency', titleMM: 'ကြိမ်နှုန်းပြ ကြိယာဝိသေသနများ',
+        explanation: 'always, usually, often, sometimes, never စသည့် ကြိမ်နှုန်းပြ စကားလုံးများကို ဝါကျအတွင်း မည်သည့်နေရာတွင် ထားရှိရမည်ကို လေ့လာပါ။',
+        vocab: [
+          ['Always', 'အမြဲတမ်း (၁၀၀%) - ဘယ်တော့မှ မပြောင်းလဲဘဲ ပုံမှန်ဖြစ်ပျက်နေသော အခြေအနေကို ဖော်ပြသည်။'],
+          ['Usually', 'များသောအားဖြင့် (၈၀-၉၀%) - နေ့စဉ်လုပ်ငန်းစဉ်တွင် အများစုလုပ်လေ့ရှိသည့် အလေ့အကျင့်ကို ပြသသည်။'],
+          ['Often', 'မကြာခဏ (၆၀-၇၀%) - တစ်ခါတစ်ရံထက် ပိုပြီး ဖြစ်ပျက်လေ့ရှိသည့် အခြေအနေကို ဖော်ပြသည်။'],
+          ['Sometimes', 'တစ်ခါတစ်ရံ (၃၀-၄၀%) - အမြဲတမ်းမဟုတ်ဘဲ ရံဖန်ရံခါမှသာ ဖြစ်ပျက်လေ့ရှိသည်။'],
+          ['Rarely', 'ရှားရှားပါးပါး (၁၀-၂၀%) - အလွန်နည်းသော အကြိမ်အရေအတွက်တွင်သာ ဖြစ်ပျက်သည်။'],
+          ['Never', 'ဘယ်တော့မှ (၀%) - လုံးဝမဖြစ်ပျက်ဘူးဆိုသည့် အဓိပ္ပာယ်ဖြင့် ငြင်းပယ်ရာတွင် သုံးသည်။'],
+          ['Frequency', 'ကြိမ်နှုန်း - တစ်စုံတစ်ခု ဖြစ်ပျက်သည့် အကြိမ်အရေအတွက်ဖြစ်သည်။'],
+          ['Habit', 'အလေ့အကျင့် - ထပ်ခါတလဲလဲ ပြုလုပ်ရာမှ ဖြစ်ပေါ်လာသော ပုံမှန်အပြုအမူဖြစ်သည်။'],
+          ['Routine', 'ပုံမှန်လုပ်ငန်းစဉ် - နေ့စဉ် သို့မဟုတ် အချိန်မှန် လုပ်လေ့ရှိသည့် အလုပ်များဖြစ်သည်။'],
+          ['Schedule', 'အချိန်ဇယား - လုပ်ဆောင်ရမည့် အစီအစဉ်များကို အချိန်သတ်မှတ်ထားသော ဇယားဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + adverb + Verb', 'ကြိယာရှေ့တွင် ထားရမည် (ဥပမာ - I always eat breakfast.)'],
+          ['Subject + am/is/are + adverb', 'Verb to be ရှိလျှင် ၎င်း၏ နောက်တွင် ထားရမည် (ဥပမာ - She is always happy.)'],
+          ['How often do you ...?', 'ဘယ်လောက်ကြိမ် ... လုပ်လဲ?'],
+          ['I ... every day.', 'ကျွန်တော် နေ့တိုင်း ... လုပ်တယ်။'],
+          ['I never ...', 'ကျွန်တော် ဘယ်တော့မှ ... မလုပ်ဘူး။']
+        ],
+        paragraphEN: 'Adverbs of frequency tell us how often something happens. I always brush my teeth before going to bed. I usually wake up at 6 AM, but sometimes I wake up late on weekends. My brother often plays video games in the evening. He rarely reads books because he prefers playing outside. My parents never drink coffee at night because they cannot sleep well. When we have free time, we sometimes go to the cinema together. How often do you exercise? You should always try to stay healthy. Learning these words helps us talk about our daily routines clearly.',
+        paragraphMM: 'ကြိမ်နှုန်းပြ ကြိယာဝိသေသနတွေက တစ်စုံတစ်ခု ဘယ်လောက်ကြိမ် ဖြစ်ပျက်လဲဆိုတာကို ပြောပြပါတယ်။ ကျွန်တော် အိပ်ရာမဝင်ခင် အမြဲတမ်း သွားတိုက်ပါတယ်။ မနက်ခြောက်နာရီမှာ များသောအားဖြင့် အိပ်ရာနိုးပေမယ့် စနေ၊ တနင်္ဂနွေတွေမှာတော့ တစ်ခါတစ်ရံ နောက်ကျမှ နိုးတတ်ပါတယ်။ ကျွန်တော့်ညီက ညနေတိုင်း ဗီဒီယိုဂိမ်း မကြာခဏ ဆော့လေ့ရှိပါတယ်။ သူက အပြင်မှာ ကစားတာကို ပိုကြိုက်တာမို့ စာဖတ်တာ ရှားရှားပါးပါးပါပဲ။ ကျွန်တော့်မိဘတွေက အိပ်ရေးမဝမှာစိုးတာနဲ့ ညဘက်မှာ ကော်ဖီ ဘယ်တော့မှ မသောက်ကြပါဘူး။ အားလပ်ချိန်ရှိတဲ့အခါ တစ်ခါတစ်ရံ ရုပ်ရှင်ရုံကို အတူတူ သွားကြပါတယ်။ သင် ဘယ်လောက်ကြိမ် လေ့ကျင့်ခန်းလုပ်လဲ? ကျန်းမာနေအောင် အမြဲတမ်း ကြိုးစားသင့်ပါတယ်။ ဒီစကားလုံးတွေ သင်ယူခြင်းက ကျွန်တော်တို့ရဲ့ နေ့စဉ်လုပ်ငန်းစဉ်တွေအကြောင်း ရှင်းရှင်းလင်းလင်း ပြောဆိုနိုင်ဖို့ ကူညီပေးပါတယ်။',
+        conversation: [
+          ['A','How often do you go to the gym?','သင် အားကစားရုံကို ဘယ်လောက်ကြိမ် သွားလဲ?'],
+          ['B','I usually go three times a week. What about you?','တစ်ပတ်ကို သုံးကြိမ်လောက် များသောအားဖြင့် သွားတယ်။ သင်ကရော?'],
+          ['A','I rarely go to the gym. I prefer running outside.','ကျွန်တော်ကတော့ အားကစားရုံ ရှားရှားပါးပါးပဲ သွားဖြစ်တယ်။ အပြင်မှာ ပြေးတာကို ပိုကြိုက်တယ်။'],
+          ['B','That is good too. Do you always run in the morning?','အဲဒါလည်း ကောင်းတယ်နော်။ မနက်တိုင်း ပြေးလား?'],
+          ['A','No, I sometimes run in the evening.','မဟုတ်ဘူး၊ တစ်ခါတစ်ရံ ညနေမှာ ပြေးတယ်။'],
+          ['B','I never run in the evening because I am too tired.','ငါကတော့ ညနေမှာ ဘယ်တော့မှ မပြေးဘူး၊ အရမ်းပင်ပန်းလို့။']
+        ],
+        practical: [
+          ['ကျွန်တော် မနက်တိုင်း အမြဲတမ်း ကော်ဖီတစ်ခွက် သောက်တယ်။', 'I always drink a cup of coffee every morning.'],
+          ['သူမက များသောအားဖြင့် ဘတ်စ်ကားနဲ့ အလုပ်သွားတယ်၊ ဒါပေမယ့် တစ်ခါတစ်ရံ လမ်းလျှောက်တယ်။', 'She usually goes to work by bus, but sometimes she walks.'],
+          ['ကျွန်မတို့ ညနေတွေမှာ မကြာခဏ ရုပ်ရှင်ကြည့်လေ့ရှိတယ်။', 'We often watch movies in the evening.'],
+          ['သူက ဘယ်တော့မှ ညစာမစားဘဲ မအိပ်ဘူး။', 'He never goes to bed without eating dinner.'],
+          ['သင်က ဘယ်လောက်ကြိမ် စာအုပ်ဖတ်လဲ? ကျွန်တော် နေ့တိုင်း ဖတ်တယ်။', 'How often do you read books? I read every day.'],
+          ['ကျွန်တော်တို့ ရှားရှားပါးပါးပဲ ပြင်ပကို ညစာစားထွက်ဖြစ်တယ်။', 'We rarely go out for dinner.']
+        ],
+        mockTest: [
+          ["'I ___ wake up at 6 AM.' (၁၀၀%)",['always','usually','sometimes','never'],0],
+          ["'She ___ goes to the gym.' (၀%)",['always','usually','sometimes','never'],3],
+          ["'How ___ do you play football?'",['much','many','often','long'],2],
+          ["'I ___ watch TV.' (ရံဖန်ရံခါ)",['always','usually','sometimes','never'],2],
+          ["'He ___ eats breakfast.' (၈၀-၉၀%)",['always','usually','sometimes','never'],1]
+        ]
+      },
+      // Lesson 13
+      {
+        id: 'ele-13', unit: 'Unit 13', title: 'Future Plans & Predictions', titleMM: 'အနာဂတ် အစီအစဉ်များနှင့် ခန့်မှန်းချက်များ',
+        explanation: 'အနာဂတ်တွင် လုပ်ဆောင်ရန် စီစဉ်ထားသော အစီအစဉ်များ (Going to) နှင့် ချက်ချင်းဆုံးဖြတ်လိုက်သော အရာများ၊ ကတိများ (Will) ကို ဖော်ပြပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Tomorrow', 'မနက်ဖြန် - ဒီနေ့၏ နောက်တစ်နေ့ကို ရည်ညွှန်းသည်။'],
+          ['Next week', 'လာမည့်အပတ် - ယခုအပတ် ကုန်ဆုံးပြီးနောက် ရောက်လာမည့် အပတ်ဖြစ်သည်။'],
+          ['Plan', 'အစီအစဉ် - တစ်စုံတစ်ခုကို မလုပ်မီ ကြိုတင်စီစဉ်ထားခြင်းဖြစ်သည်။'],
+          ['Promise', 'ကတိ - တစ်စုံတစ်ခုကို သေချာပေါက် လုပ်ဆောင်ပေးမည်ဟု ဖြေကြားခြင်းဖြစ်သည်။'],
+          ['Predict', 'ခန့်မှန်းသည် - အနာဂတ်တွင် ဖြစ်ပျက်လာမည့် အရာများကို ကြိုတင်ခန့်မှန်းခြင်းဖြစ်သည်။'],
+          ['Decide', 'ဆုံးဖြတ်သည် - ရွေးချယ်မှုတစ်ခုကို ချမှတ်ခြင်းဖြစ်သည်။'],
+          ['Visit', 'သွားရောက်လည်ပတ်သည် - တစ်နေရာသို့ သို့မဟုတ် တစ်ဦးဦးထံ သွားရောက်တွေ့ဆုံခြင်းဖြစ်သည်။'],
+          ['Travel', 'ခရီးသွားသည် - တစ်နေရာမှ တစ်နေရာသို့ သွားလာခြင်းဖြစ်သည်။'],
+          ['Start', 'စတင်သည် - အစီအစဉ်တစ်ခုကို စတင်လုပ်ဆောင်ခြင်းဖြစ်သည်။'],
+          ['Finish', 'ပြီးဆုံးသည် - လုပ်ဆောင်နေသည့် အရာတစ်ခု အဆုံးသတ်သွားခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Subject + am/is/are + going to + Verb 1', 'ကြိုတင်စီစဉ်ထားသော အနာဂတ်အစီအစဉ် (ဥပမာ - I am going to visit my aunt.)'],
+          ['Subject + will + Verb 1', 'ချက်ချင်းဆုံးဖြတ်ချက် သို့မဟုတ် ကတိ (ဥပမာ - I will help you.)'],
+          ['What are you going to do?', 'သင်ဘာလုပ်ဖို့ စီစဉ်ထားလဲ?'],
+          ['Will you ...?', 'သင်လုပ်ပေးမလား? (တောင်းဆိုခြင်း)'],
+          ['I think it will ...', 'ငါထင်တယ် အဲဒါ ဖြစ်လာမယ် (ခန့်မှန်းခြင်း)']
+        ],
+        paragraphEN: 'Next month, I am going to travel to Thailand with my friends. We have already booked our flights and hotels. I am going to visit Bangkok and Phuket. I think it will be a wonderful trip. We are going to try delicious Thai food and go to the beach. I am a little worried because I cannot speak Thai, but my friend says she will help me. I promise I will take a lot of photos. After I come back, I am going to start a new English course. I will study hard to improve my speaking skills. What are your plans for next month?',
+        paragraphMM: 'နောက်လမှာ ကျွန်တော်နဲ့ သူငယ်ချင်းတွေ ထိုင်းနိုင်ငံကို ခရီးသွားဖို့ စီစဉ်ထားပါတယ်။ လေယာဉ်လက်မှတ်နဲ့ ဟိုတယ်တွေ ကြိုတင်မှာထားပြီးပါပြီ။ ဘန်ကောက်နဲ့ ဖူကက်ကို သွားလည်ဖို့ ရည်ရွယ်ထားပါတယ်။ အရမ်းကောင်းတဲ့ ခရီးစဉ်လေးဖြစ်လာမယ်လို့ ကျွန်တော်ထင်ပါတယ်။ ထိုင်းအစားအစာ အရသာရှိရှိတွေ စားဖို့နဲ့ ကမ်းခြေကို သွားဖို့ စီစဉ်ထားပါတယ်။ ကျွန်တော် ထိုင်းစကား မပြောတတ်တာမို့ နည်းနည်းတော့ စိုးရိမ်မိပါတယ်၊ ဒါပေမယ့် သူငယ်ချင်းက ကူညီပေးမယ်လို့ ပြောပါတယ်။ ဓာတ်ပုံတွေ အများကြီး ရိုက်ယူမယ်လို့ ကတိပေးထားပါတယ်။ ပြန်ရောက်ပြီးတဲ့အခါ English သင်တန်းအသစ်တစ်ခုကို စတင်ဖို့ စီစဉ်ထားပါတယ်။ စကားပြောစွမ်းရည် တိုးတက်လာအောင် ကြိုးစားလေ့လာသွားမှာပါ။ နောက်လမှာ သင့်ရဲ့ အစီအစဉ်တွေက ဘာလဲ?',
+        conversation: [
+          ['A','What are you going to do this weekend?','ဒီစနေ၊ တနင်္ဂနွေမှာ ဘာလုပ်ဖို့ စီစဉ်ထားလဲ?'],
+          ['B','I am going to visit my cousin. What about you?','ကျွန်တော့်ဝမ်းကွဲဆီ သွားလည်ဖို့ စီစဉ်ထားတယ်။ သင်ကရော?'],
+          ['A','I am going to study for the exam.','ကျွန်မ စာမေးပွဲအတွက် စာကျက်ဖို့ စီစဉ်ထားတယ်။'],
+          ['B','That sounds boring. I will bring you some snacks.','ပျင်းစရာကြီးပဲ။ ငါ မင်းအတွက် မုန့်လေးတွေ ယူလာခဲ့မယ်နော်။'],
+          ['A','Thank you! I will wait for you.','ကျေးဇူးတင်တယ်! ငါ မင်းကို စောင့်နေမယ်နော်။'],
+          ['B','Okay, I promise I will come.','အိုကေ၊ ငါလာမယ်လို့ ကတိပေးတယ်။']
+        ],
+        practical: [
+          ['ငါ မနက်ဖြန် ရုပ်ရှင်သွားကြည့်ဖို့ စီစဉ်ထားတယ်။', 'I am going to watch a movie tomorrow.'],
+          ['ငါ မင်းကို ဒီစာအုပ်လေး ငှားပေးမယ်လို့ ကတိပေးတယ်။', 'I promise I will lend you this book.'],
+          ['သင် ဘာလုပ်ဖို့ စီစဉ်ထားလဲ? ခရီးသွားမလား?', 'What are you going to do? Are you going to travel?'],
+          ['ငါထင်တယ် မနက်ဖြန် မိုးရွာမယ်။', 'I think it will rain tomorrow.'],
+          ['ကျွန်မတို့ လာမည့်နှစ်မှာ အိမ်အသစ်တစ်လုံး ဝယ်ဖို့ စီစဉ်ထားတယ်။', 'We are going to buy a new house next year.'],
+          ['မင်း ငါ့ကို ကူညီပေးမလား? ငါ အရမ်းအလုပ်များနေလို့။', 'Will you help me? I am very busy.']
+        ],
+        mockTest: [
+          ["'I ___ going to visit my aunt tomorrow.'",['am','is','are','be'],0],
+          ["'She ___ help you with your homework.' (ကတိ)",['will','is','are','going'],0],
+          ["'What ___ you going to do?'",['am','is','are','be'],2],
+          ["'We ___ going to travel next month.'",['am','is','are','be'],2],
+          ["'I think it ___ rain tonight.'",['will','is','are','going'],0]
+        ]
+      },
+      // Lesson 14
+      {
+        id: 'ele-14', unit: 'Unit 14', title: 'Review & Everyday Conversation', titleMM: 'ပြန်လည်လေ့ကျင့်ခြင်းနှင့် နေ့စဉ်သုံး စကားပြော',
+        explanation: 'သင်ခန်းစာ ၁ မှ ၁၃ အထိ သင်ယူခဲ့သမျှကို ပြန်လည်လေ့ကျင့်ပြီး နေ့စဉ်သုံး အခြေခံ စကားပြောများကို ပေါင်းစပ်လေ့ကျင့်ပါ။',
+        vocab: [
+          ['Speak', 'ပြောဆိုသည် - စကားလုံးများဖြင့် ဆက်သွယ်ပြောဆိုခြင်းဖြစ်သည်။'],
+          ['Understand', 'နားလည်သည် - အကြောင်းအရာတစ်ခု၏ အဓိပ္ပာယ်ကို သဘောပေါက်ခြင်းဖြစ်သည်။'],
+          ['Learn', 'သင်ယူသည် - ဗဟုသုတ သို့မဟုတ် ကျွမ်းကျင်မှုအသစ်များ ရယူခြင်းဖြစ်သည်။'],
+          ['Practice', 'လေ့ကျင့်သည် - ကျွမ်းကျင်လာစေရန် ထပ်ခါတလဲလဲ ပြုလုပ်ခြင်းဖြစ်သည်။'],
+          ['Remember', 'မှတ်မိသည် - အတိတ်က အကြောင်းအရာများကို ဦးနှောက်ထဲမှ ပြန်လည်စဉ်းစားနိုင်ခြင်းဖြစ်သည်။'],
+          ['Question', 'မေးခွန်း - အချက်အလက်များ သိရှိလိုသည့်အခါ မေးမြန်းသော စကားစုဖြစ်သည်။'],
+          ['Answer', 'အဖြေ - မေးခွန်းတစ်ခုအတွက် ပြန်လည်ဖြေကြားသော စကားစုဖြစ်သည်။'],
+          ['Help', 'ကူညီသည် - တစ်စုံတစ်ယောက်ကို လိုအပ်နေချိန်တွင် ပံ့ပိုးပေးခြင်းဖြစ်သည်။'],
+          ['Easy', 'လွယ်ကူသည် - လုပ်ဆောင်ရ ခက်ခဲမှုမရှိခြင်းဖြစ်သည်။'],
+          ['Difficult', 'ခက်ခဲသည် - လုပ်ဆောင်ရ ကြိုးစားအားထုတ်ရခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Can you help me?', 'ကျွန်တော့်ကို ကူညီနိုင်လား?'],
+          ['I do not understand.', 'ကျွန်တော် နားမလည်ဘူး။'],
+          ['Can you repeat that, please?', 'ကျေးဇူးပြုပြီး ထပ်ပြောပေးလို့ရမလား?'],
+          ['How do you say [word] in English?', '[စကားလုံး] ကို English လို ဘယ်လိုပြောလဲ?'],
+          ['Learning English is fun.', 'English သင်ယူရတာ ပျော်စရာကောင်းတယ်။']
+        ],
+        paragraphEN: 'Hello my friend! Today is our last lesson in the Elementary level. You have learned many new grammar rules and sentence structures. Now you can talk about the past, the present, and the future. You can also compare things and give advice. Learning a new language is not always easy, but you are doing a great job. If you do not understand a word, you can ask a question. Always practice speaking English every day. Do not be afraid to make mistakes because mistakes help you learn. Remember, the more you practice, the better you become. I am very happy to help you learn. Keep going and never give up!',
+        paragraphMM: 'မင်္ဂလာပါ သူငယ်ချင်း! ဒီနေ့က Elementary level ရဲ့ နောက်ဆုံးသင်ခန်းစာပါ။ သင်ဟာ သဒ္ဒါစည်းမျဉ်းအသစ်တွေနဲ့ ဝါကျဖွဲ့စည်းပုံတွေ အများကြီး သင်ယူခဲ့ပြီးပါပြီ။ အခုဆိုရင် အတိတ်၊ ပစ္စုပ္ပန်နဲ့ အနာဂတ်အကြောင်း ပြောဆိုနိုင်ပါပြီ။ အရာဝတ္ထုတွေကို နှိုင်းယှဉ်တာနဲ့ အကြံပြုချက်ပေးတာတွေလည်း လုပ်နိုင်ပါပြီ။ ဘာသာစကားအသစ်တစ်ခု သင်ယူတာက အမြဲတမ်း မလွယ်ကူပေမယ့် သင်က အရမ်းကောင်းကောင်း လုပ်နေပါတယ်။ စကားလုံးတစ်လုံး နားမလည်ရင် မေးခွန်းမေးနိုင်ပါတယ်။ နေ့တိုင်း English စကားပြောဖို့ အမြဲလေ့ကျင့်ပါ။ အမှားလုပ်မိမှာ မကြောက်ပါနဲ့၊ အမှားတွေက သင်ယူဖို့ ကူညီပေးလို့ပါ။ လေ့ကျင့်လေ ပိုတော်လာလေပဲဆိုတာ မှတ်ထားပါ။ သင်ယူဖို့ ကူညီပေးရတာ ကျွန်တော် အရမ်းဝမ်းသာပါတယ်။ ဆက်လက်ကြိုးစားပါ၊ ဘယ်တော့မှ လက်မလျှော့ပါနဲ့!',
+        conversation: [
+          ['A','Excuse me, can you help me?','တစ်ဆိတ်လောက်ဗျာ၊ ကျွန်တော့်ကို ကူညီနိုင်လား?'],
+          ['B','Sure. What do you need?','ဟုတ်ကဲ့။ ဘာလိုအပ်လဲ?'],
+          ['A','I do not understand this word. How do you say "Mingalar" in English?','ဒီစကားလုံး နားမလည်ဘူး။ "မင်္ဂလာ" ကို English လို ဘယ်လိုပြောလဲ?'],
+          ['B','We say "Hello" or "Good morning".','"Hello" ဒါမှမဟုတ် "Good morning" လို့ ပြောပါတယ်။'],
+          ['A','Thank you. Can you repeat that, please?','ကျေးဇူးတင်ပါတယ်။ ထပ်ပြောပေးလို့ ရမလား?'],
+          ['B','Yes, "Hello". Learning English is fun!','ဟုတ်ကဲ့၊ "Hello"။ English သင်ယူရတာ ပျော်စရာကောင်းတယ်!']
+        ],
+        practical: [
+          ['ကျွန်တော် ဒီစကားလုံးကို နားမလည်ပါဘူး။ ကူညီပေးလို့ရမလား?', 'I do not understand this word. Can you help me?'],
+          ['ကျေးဇူးပြုပြီး အဲဒါကို ဖြည်းဖြည်းချင်း ထပ်ပြောပေးလို့ ရမလား?', 'Could you please repeat that slowly?'],
+          ['English သင်ယူရတာ ခက်ခဲပေမယ့် ကျွန်တော် နေ့တိုင်း လေ့ကျင့်ပါတယ်။', 'Learning English is difficult, but I practice every day.'],
+          ['အမှားလုပ်မိမှာ မကြောက်ပါနဲ့၊ အမှားတွေက သင်ယူဖို့ ကူညီပေးပါတယ်။', 'Do not be afraid to make mistakes, mistakes help you learn.'],
+          ['သင့်ရဲ့ Elementary level သင်ခန်းစာတွေ အားလုံးပြီးသွားတဲ့အတွက် ဂုဏ်ယူပါတယ်။', 'Congratulations on completing all your Elementary level lessons.'],
+          ['ကျွန်မတို့ နောက် Level ဖြစ်တဲ့ Intermediate မှာ ပြန်တွေ့ကြရအောင်နော်။', 'Let us meet again in the next level, Intermediate.']
+        ],
+        mockTest: [
+          ["'Understand' ရဲ့ အဓိပ္ပာယ်?",['နားလည်သည်','မေးသည်','ဖြေသည်','ပြောသည်'],0],
+          ["'Can you ___ that?' (ထပ်ပြောပေးလို့ရမလား)",['repeat','say','speak','tell'],0],
+          ["'Help' ရဲ့ အဓိပ္ပာယ်?",['ကူညီသည်','ငြင်းသည်','သွားသည်','လာသည်'],0],
+          ["'Learning English is ___ .' (ပျော်စရာ)",['fun','sad','bad','angry'],0],
+          ["'I do not ___ .' (နားမလည်ဘူး)",['understand','know','see','look'],0]
+        ]
+      }
+    ];
+
+    let currentLessonId = null;
+
+    // ==========================================
+    // 3. UI RENDERING FUNCTIONS
+    // ==========================================
+    function renderGrid() {
+      const grid = document.getElementById('lessonGrid');
+      grid.innerHTML = '';
+      
+      const completed = state.completedLessons || [];
+      let doneCount = 0;
+
+      lessonsData.forEach((lesson, index) => {
+        const isDone = completed.includes(lesson.id);
+        if (isDone) doneCount++;
+
+        const cardHTML = `
+          <div onclick="openLesson('${lesson.id}')" 
+               class="bg-white rounded-2xl p-5 border-2 ${isDone ? 'border-blue-200 bg-blue-50/30' : 'border-slate-200 hover:border-blue-400'} shadow-sm hover:shadow-lg transition-all cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[160px]">
+            ${isDone ? '<div class="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">✓ ပြီးစီး</div>' : ''}
+            
+            <div>
+              <span class="text-xs font-bold font-mono bg-blue-50 text-blue-700 px-2.5 py-1 rounded-md inline-block mb-3">${lesson.unit}</span>
+              <h3 class="font-bold text-slate-900 text-base leading-tight group-hover:text-blue-700 transition-colors">${lesson.title}</h3>
+              <p class="text-xs text-slate-500 mt-1">${lesson.titleMM}</p>
+            </div>
+            
+            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+              <span class="text-xs text-slate-400 font-medium">Lesson ${index + 1}</span>
+              <div class="w-7 h-7 rounded-full bg-slate-50 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
+                <span class="text-slate-400 group-hover:text-blue-700 font-bold text-xs">→</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+
+      document.getElementById('heroProgressText').innerText = `${doneCount} / 14`;
+      document.getElementById('heroProgressBar').style.width = `${(doneCount / 14) * 100}%`;
+    }
+
+    function openLesson(id) {
+      const lesson = lessonsData.find(l => l.id === id);
+      if (!lesson) return;
+      
+      currentLessonId = id;
+      document.getElementById('gridView').classList.add('hidden');
+      document.getElementById('detailView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+
+      document.getElementById('dUnit').innerText = lesson.unit;
+      document.getElementById('dTitle').innerText = lesson.title;
+      document.getElementById('dTitleMM').innerText = lesson.titleMM;
+      document.getElementById('dExplanation').innerText = lesson.explanation;
+
+      // Vocab
+      document.getElementById('dVocabGrid').innerHTML = lesson.vocab.map(v => `
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between group">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <p class="font-extrabold text-blue-900 text-lg">${v[0]}</p>
+            <button onclick="speakText('${v[0]}')" class="shrink-0 w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-sm audio-btn hover:bg-blue-200 transition-colors">🔊</button>
+          </div>
+          <p class="text-sm text-slate-700 leading-relaxed">${v[1]}</p>
+        </div>
+      `).join('');
+
+      // Patterns
+      document.getElementById('dPatternList').innerHTML = lesson.patterns.map(p => `
+        <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 flex items-start justify-between gap-3">
+          <div>
+            <p class="font-bold text-slate-900 text-base">${p[0]}</p>
+            <p class="text-sm text-slate-600 mt-1">${p[1]}</p>
+          </div>
+          <button onclick="speakText('${p[0].replace(/'/g, "\\'")}')" class="shrink-0 w-9 h-9 rounded-lg bg-blue-800 text-white flex items-center justify-center shadow-sm audio-btn hover:bg-blue-900">🔊</button>
+        </div>
+      `).join('');
+
+      // Paragraph
+      document.getElementById('dParaEN').innerText = lesson.paragraphEN;
+      document.getElementById('dParaMM').innerText = lesson.paragraphMM;
+
+      // Conversation
+      document.getElementById('dConversationList').innerHTML = lesson.conversation.map(c => `
+        <div class="p-4 rounded-xl flex gap-3 ${c[0] === 'A' ? 'bg-indigo-50 border border-indigo-100' : 'bg-blue-50 border border-blue-100'}">
+          <span class="w-8 h-8 rounded-full ${c[0] === 'A' ? 'bg-indigo-600' : 'bg-blue-600'} text-white text-sm font-bold flex items-center justify-center shrink-0">${c[0]}</span>
+          <div class="flex-1">
+            <p class="font-bold text-slate-900 text-base">${c[1]}</p>
+            <p class="text-sm text-slate-600 mt-0.5">${c[2]}</p>
+          </div>
+          <button onclick="speakText('${c[1].replace(/'/g, "\\'")}')" class="shrink-0 w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-blue-700 shadow-sm audio-btn">🔊</button>
+        </div>
+      `).join('');
+
+      // Practical
+      document.getElementById('dPracticalList').innerHTML = lesson.practical.map((p, i) => `
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <p class="font-bold text-slate-900 text-base mb-3">🇲🇲 ${p[0]}</p>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <button onclick="speakText('${p[0]}', 'my-MM')" class="px-4 py-2 rounded-lg bg-blue-800 text-white text-xs font-bold shadow-sm hover:bg-blue-900 flex items-center gap-1">
+              🔊 AI ဖတ်ပြမည် (မြန်မာ)
+            </button>
+            <button onclick="document.getElementById('ans-box-${i}').classList.toggle('hidden')" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-xs font-bold shadow-sm hover:bg-blue-700">
+              👁️ Show Answer
+            </button>
+            <button onclick="startSpeech(${i})" class="px-4 py-2 rounded-lg bg-amber-500 text-white text-xs font-bold shadow-sm hover:bg-amber-600">
+              🎤 ငါပြောမည်
+            </button>
+          </div>
+          <div id="ans-box-${i}" class="hidden p-4 rounded-lg bg-blue-100 border border-blue-200">
+            <p class="font-bold text-blue-900 text-base">✅ ${p[1]}</p>
+            <button onclick="speakText('${p[1].replace(/'/g, "\\'")}')" class="mt-2 text-xs text-blue-700 font-bold underline flex items-center gap-1">
+              🔊 အသံနားထောင်
+            </button>
+          </div>
+          <p id="user-speak-${i}" class="text-sm text-amber-700 italic mt-2"></p>
+        </div>
+      `).join('');
+
+      // Mock Test
+      document.getElementById('dMockTestList').innerHTML = lesson.mockTest.map((q, qi) => `
+        <div class="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
+          <p class="font-bold text-slate-900 mb-3 text-base">${qi + 1}. ${q[0]}</p>
+          <div class="space-y-2">
+            ${q[1].map((opt, oi) => `
+              <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-blue-50 cursor-pointer transition-colors">
+                <input type="radio" name="mock_${currentLessonId}_${qi}" value="${oi}" data-correct="${q[2]}" class="w-4 h-4 text-blue-600">
+                <span class="text-sm text-slate-700">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('mockResultBox').classList.add('hidden');
+      
+      const isDone = (state.completedLessons || []).includes(id);
+      const btn = document.getElementById('completeBtn');
+      if (isDone) {
+        btn.className = "px-10 py-4 rounded-2xl bg-slate-300 text-slate-600 font-bold text-lg cursor-not-allowed";
+        btn.innerText = "✓ ဒီသင်ခန်းစာ ပြီးစီးပြီးဖြစ်သည်";
+        btn.disabled = true;
+      } else {
+        btn.className = "px-10 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-xl shadow-blue-600/30 transition-all transform hover:-translate-y-1";
+        btn.innerText = "✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)";
+        btn.disabled = false;
+      }
+    }
+
+    function closeLesson() {
+      document.getElementById('detailView').classList.add('hidden');
+      document.getElementById('gridView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function submitMockTest() {
+      const lesson = lessonsData.find(l => l.id === currentLessonId);
+      let correct = 0;
+      const total = lesson.mockTest.length;
+      
+      lesson.mockTest.forEach((q, qi) => {
+        const selected = document.querySelector(`input[name="mock_${currentLessonId}_${qi}"]:checked`);
+        if (selected && parseInt(selected.value) === q[2]) {
+          correct++;
+        }
+      });
+
+      const pass = correct >= Math.ceil(total * 0.7);
+      const resBox = document.getElementById('mockResultBox');
+      resBox.classList.remove('hidden');
+      
+      if (pass) {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-blue-50 border border-blue-200 text-blue-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">🎉 အောင်မြင်ပါသည်!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+        
+        if (!state.awards.includes(`Mock Pass: ${currentLessonId}`)) {
+          state.xp = (state.xp || 0) + 15;
+          state.awards.push(`Mock Pass: ${currentLessonId}`);
+          localStorage.setItem('englishPlatformState', JSON.stringify(state));
+          document.getElementById('xpBadge').innerText = `⚡ ${state.xp} XP`;
+        }
+      } else {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-rose-50 border border-rose-200 text-rose-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">📚 ထပ်ကြိုးစားပါ!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+      }
+    }
+
+    function completeLesson() {
+      if (!state.completedLessons) state.completedLessons = [];
+      
+      if (!state.completedLessons.includes(currentLessonId)) {
+        state.completedLessons.push(currentLessonId);
+        state.xp = (state.xp || 0) + 50;
+        
+        if (!state.awards) state.awards = [];
+        state.awards.push(`Lesson Done: ${currentLessonId}`);
+        
+        localStorage.setItem('englishPlatformState', JSON.stringify(state));
+        alert('✅ သင်ခန်းစာ ပြီးစီးပါပြီ! +50 XP ရရှိပါသည်။');
+        
+        renderGrid();
+        closeLesson();
+      }
+    }
+
+    function logout() {
+      if (confirm('အကောင့်မှ ထွက်မှာ သေချာလား?')) {
+        localStorage.removeItem('englishPlatformState');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Start App
+    renderGrid();
+  </script>
+</body>
+</html>

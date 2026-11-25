@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Key ID ဖြင့် ဝင်ရောက်ရန် - English လေ့လာရေး</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Noto Sans Myanmar"', '"Inter"', 'sans-serif'] } } }
+    }
+  </script>
+  <style>
+    body { font-family: 'Noto Sans Myanmar', sans-serif; background-color: #F8FAFC; color: #0F172A; }
+    .hero-gradient {
+      background-color: #0F172A;
+      background-image: radial-gradient(at 10% 15%, rgba(30, 64, 175, 0.45) 0px, transparent 55%), radial-gradient(at 90% 85%, rgba(5, 150, 105, 0.32) 0px, transparent 52%);
+    }
+  </style>
+</head>
+<body class="antialiased flex items-center justify-center min-h-screen p-4">
+
+  <div class="max-w-4xl w-full bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+    
+    <!-- ဘယ်ဘက် အပိုင်း -->
+    <div class="lg:col-span-5 hero-gradient text-white p-8 sm:p-10 flex flex-col justify-between">
+      <div class="space-y-4">
+        <a href="index.html" class="inline-block text-emerald-300 text-sm font-bold hover:underline mb-4">← ပင်မစာမျက်နှာသို့</a>
+        <div class="text-5xl">🔑</div>
+        <h1 class="text-2xl sm:text-3xl font-bold leading-snug">English လေ့လာရေး Access Portal</h1>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          သင့်ထံ ပေးအပ်ထားသော Username နှင့် Key ID ကို အသုံးပြု၍ ဝင်ရောက်ပါ။ ဝင်ရောက်ပြီးပါက Level (၃) ခုစလုံးရှိ သင်ခန်းစာအားလုံးကို လွတ်လပ်စွာ လေ့လာနိုင်မည် ဖြစ်ပါသည်။
+        </p>
+      </div>
+      <div class="pt-8 space-y-2 text-xs text-slate-300 border-t border-white/20">
+        <p>✅ သင်ခန်းစာ ၄၂ ခန်း အားလုံး ဝင်ရောက်ခွင့်</p>
+        <p>✅ AI အသံထွက်နှင့် Mock Test အားလုံး</p>
+        <p>✅ တစ်ဦးတည်းသီးသန့် Device လုံခြုံရေးစနစ်</p>
+      </div>
+    </div>
+
+    <!-- ညာဘက် အပိုင်း (Login Form) -->
+    <div class="lg:col-span-7 p-8 sm:p-10">
+      <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">အကောင့်ဖြင့် ဝင်ရောက်ရန်</h2>
+      <p class="text-xs sm:text-sm text-slate-500 mb-6">Admin ထံမှ ရရှိထားသော Username နှင့် Key ID ကို ရိုက်ထည့်ပါ</p>
+
+      <!-- Error / Status Message -->
+      <div id="errorMsg" class="hidden mb-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-bold flex items-center gap-2">
+        <span>❌</span> <span id="errorText">အချက်အလက် မှားယွင်းနေပါသည်။</span>
+      </div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Username *</label>
+          <input type="text" id="username" required placeholder="ဥပမာ - aungaung" autocomplete="username" class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Access Key ID *</label>
+          <input type="text" id="keyId" required placeholder="ဥပမာ - KEY-1234" class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm font-mono tracking-wider">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">သင်ယူရခြင်း အဓိက ရည်မှန်းချက်</label>
+          <select id="goal" class="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-800 text-sm bg-white">
+            <option value="နိုင်ငံတကာ အလုပ်အကိုင်နှင့် Remote Jobs အတွက်">💼 နိုင်ငံတကာ အလုပ်အကိုင်နှင့် Remote Jobs အတွက်</option>
+            <option value="နိုင်ငံခြား ပညာသင်ဆု (Scholarships) လျှောက်ထားရန်">🎓 နိုင်ငံခြား ပညာသင်ဆု (Scholarships) လျှောက်ထားရန်</option>
+            <option value="နေ့စဉ် စကားပြောနှင့် ခရီးသွားလာရေး အတွက်">🌏 နေ့စဉ် စကားပြောနှင့် ခရီးသွားလာရေး အတွက်</option>
+            <option value="နည်းပညာနှင့် ဗဟုသုတများ လေ့လာရန်">💻 နည်းပညာနှင့် ဗဟုသုတများ လေ့လာရန်</option>
+          </select>
+        </div>
+
+        <button type="submit" id="submitBtn" class="w-full py-3.5 px-6 rounded-xl bg-blue-800 hover:bg-blue-900 disabled:bg-slate-400 text-white font-bold text-sm shadow-lg transition-all flex justify-center items-center gap-2 mt-2">
+          <span id="btnText">အတည်ပြုပြီး ဝင်ရောက်မည်</span>
+          <span id="btnIcon">→</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ✅ သင်ပေးထားသော Google Apps Script Web App URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXhDVzvrd1IWMKTu_-GTQ8L7zIXcinuPl63vP5AEnGTECS79znYwtyi5UR1Z3ZuKFj/exec';
+
+    // Device တစ်ခုချင်းစီအတွက် Unique ID ထုတ်ပေးခြင်း (Device Binding အတွက်)
+    function getOrCreateDeviceId() {
+      let devId = localStorage.getItem('eng_platform_device_id');
+      if (!devId) {
+        devId = 'DEV-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+        localStorage.setItem('eng_platform_device_id', devId);
+      }
+      return devId;
+    }
+
+    const form = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+    const errorText = document.getElementById('errorText');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+
+    function showError(message) {
+      errorText.textContent = message;
+      errorMsg.classList.remove('hidden');
+    }
+
+    function setLoading(isLoading) {
+      submitBtn.disabled = isLoading;
+      btnText.textContent = isLoading ? 'စစ်ဆေးနေပါသည်...' : 'အတည်ပြုပြီး ဝင်ရောက်မည်';
+      btnIcon.textContent = isLoading ? '⏳' : '→';
+    }
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+
+      const username = document.getElementById('username').value.trim();
+      const keyId = document.getElementById('keyId').value.trim();
+      const goal = document.getElementById('goal').value;
+      const deviceId = getOrCreateDeviceId();
+
+      if (!username || !keyId) {
+        showError('Username နှင့် Key ID နှစ်ခုလုံး ဖြည့်သွင်းပါ။');
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const url = new URL(SCRIPT_URL);
+        url.searchParams.append('action', 'login');
+        url.searchParams.append('username', username);
+        url.searchParams.append('id', keyId);
+        url.searchParams.append('deviceId', deviceId);
+
+        const response = await fetch(url.toString(), {
+          method: 'GET',
+          redirect: 'follow'
+        });
+
+        const res = await response.json();
+
+        if (res.success) {
+          const oldState = JSON.parse(localStorage.getItem('englishPlatformState') || '{}');
+
+          const state = {
+            keyId: keyId,
+            username: res.username || username,
+            status: res.status || 'ACTIVE',
+            expireDate: res.expireDate || 'Unlimited',
+            daysLeft: res.daysLeft,
+            deviceId: deviceId,
+            hasFullAccess: true,
+            activeLevel: oldState.activeLevel || 'beginner',
+            goal: goal,
+            xp: oldState.xp || 0,
+            completedLessons: oldState.completedLessons || [],
+            masteredVocab: oldState.masteredVocab || [],
+            awards: oldState.awards || []
+          };
+
+          localStorage.setItem('englishPlatformState', JSON.stringify(state));
+          window.location.href = 'dashboard.html';
+        } else {
+          showError(res.error || 'ဝင်ရောက်ခွင့် မရရှိပါ။');
+        }
+      } catch (err) {
+        console.error(err);
+        showError('Server နှင့် ချိတ်ဆက်၍ မရပါ။ အင်တာနက်လိုင်း သို့မဟုတ် Deployment Permission (Anyone) ကို စစ်ဆေးပါ။');
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    ['username', 'keyId'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        errorMsg.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

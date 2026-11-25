@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beginner Level - English လေ့လာရေး</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Noto Sans Myanmar"', '"Inter"', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Noto Sans Myanmar', sans-serif; background-color: #F8FAFC; color: #0F172A; overflow-x: hidden; line-height: 1.8; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .audio-btn:active { transform: scale(0.9); }
+    .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="dashboard.html" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors flex items-center gap-2">
+          <span>←</span> Dashboard
+        </a>
+        <span class="font-bold text-slate-900 hidden sm:block">🌱 Beginner Level</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800" id="xpBadge">⚡ 0 XP</span>
+        <button onclick="logout()" class="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors">ထွက်မည်</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIEW 1: LESSON GRID -->
+  <main id="gridView" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 fade-in">
+    <div class="rounded-3xl p-8 sm:p-12 mb-10 text-white shadow-xl relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-500">
+      <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10"></div>
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-4xl">🌱</span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 border border-white/30">CEFR A1</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold mb-2">Beginner Level</h1>
+          <p class="text-sm sm:text-base opacity-90 max-w-2xl leading-relaxed">
+            အခြေခံလုံးဝမရှိသူများအတွက် သင်ခန်းစာ ၁၄ ခန်း။ စကားလုံးများ၏ လေးနက်သော အဓိပ္ပာယ်များ၊ စကားပြောပုံစံများ၊ AI အသံထွက်နှင့် အသေးစိတ် လေ့ကျင့်ခန်းများ။
+          </p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl min-w-[200px] text-center">
+          <p class="text-sm font-bold mb-1">တိုးတက်မှု</p>
+          <p class="text-3xl font-extrabold" id="heroProgressText">0 / 14</p>
+          <div class="w-full bg-black/20 h-2 rounded-full mt-3 overflow-hidden">
+            <div id="heroProgressBar" class="bg-white h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">📖 သင်ခန်းစာများ</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="lessonGrid"></div>
+  </main>
+
+  <!-- VIEW 2: LESSON DETAIL -->
+  <main id="detailView" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <button onclick="closeLesson()" class="mb-6 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+      <span>←</span> သင်ခန်းစာများသို့ ပြန်သွား
+    </button>
+
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+      <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-3 inline-block" id="dUnit">Unit 1</span>
+      <h1 class="text-3xl font-extrabold text-slate-900 mb-2" id="dTitle">Greetings</h1>
+      <p class="text-lg text-slate-500 mb-4" id="dTitleMM">နှုတ်ဆက်ခြင်း</p>
+      <p class="text-slate-700 leading-relaxed text-sm" id="dExplanation">Explanation...</p>
+    </div>
+
+    <!-- 1. Vocabulary -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">📝 ၁။ စကားလုံးများ (Detailed Vocabulary)</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dVocabGrid"></div>
+    </div>
+
+    <!-- 2. Patterns -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">💬 ၂။ စကားပြော Patterns</h2>
+      <div class="space-y-3" id="dPatternList"></div>
+    </div>
+
+    <!-- 3. Paragraph & AI Voice -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🔊 ၃။ စာပိုဒ်နှင့် AI အသံ (Long Paragraph)</h2>
+      <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+        <p class="text-slate-800 text-lg leading-loose mb-4" id="dParaEN">English paragraph...</p>
+        <button onclick="speakText(document.getElementById('dParaEN').innerText)" class="px-5 py-2.5 rounded-xl bg-blue-800 hover:bg-blue-900 text-white text-sm font-bold shadow-sm transition-all flex items-center gap-2 mb-6">
+          🔊 AI အသံဖြင့် နားထောင်မည်
+        </button>
+        <div class="p-5 bg-emerald-50 rounded-xl border border-emerald-100">
+          <p class="text-sm text-emerald-900 leading-loose" id="dParaMM">မြန်မာလို ရှင်းလင်းချက်...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Conversation -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🗣️ ၄။ Conversation လေ့ကျင့်ခန်း</h2>
+      <div class="space-y-3" id="dConversationList"></div>
+    </div>
+
+    <!-- 5. Practical Exercise -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">🎯 ၅။ Practical Exercise</h2>
+      <p class="text-sm text-slate-500 mb-6">မြန်မာစာကြောင်းအပြည့်အစုံကို AI ဖတ်ပြမည်။ သင်က English လို ပြောကြည့်ပါ။ ပြီးလျှင် Show Answer နှိပ်ပါ။</p>
+      <div class="space-y-4" id="dPracticalList"></div>
+    </div>
+
+    <!-- 6. Mock Test -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">📝 ၆။ Mock Test</h2>
+      <p class="text-sm text-slate-500 mb-6">မေးခွန်း ၅ ခု ဖြေဆိုပြီးလျှင် ရမှတ်ကြည့်ပါ။ ၄ ခုအထက် ရလျှင် Pass ဖြစ်ပါသည်။</p>
+      <div class="space-y-6" id="dMockTestList"></div>
+      <button onclick="submitMockTest()" class="mt-6 px-8 py-3 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white font-bold shadow-md transition-all">
+        📊 ရမှတ်ကြည့်မည်
+      </button>
+      <div id="mockResultBox" class="mt-4 hidden p-5 rounded-2xl text-center"></div>
+    </div>
+
+    <div class="text-center mb-10">
+      <button onclick="completeLesson()" id="completeBtn" class="px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg shadow-xl shadow-emerald-600/30 transition-all transform hover:-translate-y-1">
+        ✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)
+      </button>
+    </div>
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. AUTHENTICATION & GLOBAL FUNCTIONS
+    // ==========================================
+    const stateData = localStorage.getItem('englishPlatformState');
+    if (!stateData) {
+      alert('ဤစာမျက်နှာကို ကြည့်ရှုရန် ဦးစွာ Key ID ဖြင့် ဝင်ရောက်ပါ။');
+      window.location.href = 'login.html';
+    }
+    let state = JSON.parse(stateData);
+    document.getElementById('xpBadge').innerText = `⚡ ${state.xp || 0} XP`;
+
+    function speakText(text, lang = 'en-US') {
+      if (!('speechSynthesis' in window)) return alert('Browser တွင် AI အသံ မပံ့ပိုးပါ။');
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      u.rate = 0.9;
+      window.speechSynthesis.speak(u);
+    }
+
+    function startSpeech(index) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return alert('Speech Recognition မပံ့ပိုးပါ။');
+      const rec = new SR();
+      rec.lang = 'en-US';
+      rec.onresult = (e) => {
+        document.getElementById(`user-speak-${index}`).innerText = `🗣️ သင်ပြောသည်: "${e.results[0][0].transcript}"`;
+        document.getElementById(`ans-box-${index}`).classList.remove('hidden');
+      };
+      rec.start();
+      alert('🎤 ပြောပါ...');
+    }
+
+    // ==========================================
+    // 2. MASSIVE DATA FOR 14 LESSONS
+    // ==========================================
+    const lessonsData = [
+      // Lesson 1
+      {
+        id: 'beg-1', unit: 'Unit 1', title: 'Greetings & Introductions', titleMM: 'နှုတ်ဆက်ခြင်းနှင့် မိတ်ဆက်ခြင်း',
+        explanation: 'နိုင်ငံတကာတွင် စတင်တွေ့ဆုံသည့်အခါ ယဉ်ကျေးစွာ နှုတ်ဆက်ပြီး မိမိနာမည်၊ နေရပ်နှင့် အလုပ်အကိုင်တို့ကို ရိုးရှင်းစွာ မိတ်ဆက်နိုင်ရန် လေ့လာရပါမည်။',
+        vocab: [
+          ['Hello', 'ဟယ်လို - လူတစ်ဦးနှင့် စတင်တွေ့ဆုံချိန်၊ ဖုန်းပြောချိန် သို့မဟုတ် တစ်စုံတစ်ယောက်ကို အာရုံစိုက်စေလိုချိန်တွင် ယဉ်ကျေးစွာ အသုံးပြုသော အခြေခံအကျဆုံး စကားလုံးဖြစ်သည်။'],
+          ['Good morning', 'မင်္ဂလာနံနက်ခင်းပါ - မနက်ပိုင်း (သန်းခေါင်ယံမှ နေ့လယ် ၁၂ နာရီမတိုင်မီ) အချိန်အတွင်း လူကြီးများ၊ လုပ်ဖော်ကိုင်ဖက်များနှင့် ယဉ်ကျေးစွာ နှုတ်ဆက်သည့်အခါ အသုံးပြုသည်။'],
+          ['Good evening', 'မင်္ဂလာညနေပါ - ညနေ ၅ နာရီမှ ညအထိ တွေ့ဆုံသည့်အခါ သုံးသော နှုတ်ဆက်စကားဖြစ်ပြီး၊ တွေ့ဆုံချိန်တွင် သုံးသည်။ (အိပ်ရာဝင်ချိန်တွင် မသုံးပါ)'],
+          ['Good night', 'ကောင်းသောညပါ - ညအချိန် အိပ်ရာဝင်တော့မည့်အခါ သို့မဟုတ် ခွဲခွာတော့မည့်အခါ နှုတ်ဆက်သည့် စကားလုံးဖြစ်သည်။'],
+          ['Name', 'နာမည် - လူတစ်ဦးကို ခွဲခြားသိရှိနိုင်ရန် သတ်မှတ်ပေးထားသော အမည်ဖြစ်သည်။'],
+          ['Nice', 'ကောင်းသော / နှစ်သက်ဖွယ်ကောင်းသော - လူတစ်ဦး သို့မဟုတ် အရာဝတ္ထုတစ်ခုကို ချီးမွမ်းသည့်အခါ သုံးသော နာမဝိသေသနဖြစ်သည်။'],
+          ['Meet', 'တွေ့ဆုံသည် - လူနှစ်ဦး သို့မဟုတ် နှစ်ဦးအထက် စတင်တွေ့ဆုံခြင်းကို ဖော်ပြသည့် ကြိယာဖြစ်သည်။'],
+          ['Fine', 'ကောင်းမွန်သည် - မိမိ၏ ကျန်းမာရေး သို့မဟုတ် အခြေအနေကို ကောင်းမွန်ကြောင်း ဖြေကြားသည့်အခါ သုံးသည်။'],
+          ['Friend', 'သူငယ်ချင်း - ရင်းနှီးကျွမ်းဝင်ပြီး ယုံကြည်မှုရှိသော လူတစ်ဦးကို ခေါ်ဆိုသည့် စကားလုံးဖြစ်သည်။'],
+          ['Country', 'နိုင်ငံ - နယ်နိမိတ်သတ်မှတ်ထားသော လူမျိုးတစ်မျိုး နေထိုင်ရာ ဒေသကြီးဖြစ်သည်။']
+        ],
+        patterns: [
+          ['What is your name?', 'သင့်နာမည်က ဘာလဲ?'],
+          ['My name is [Name].', 'ကျွန်တော့်နာမည် [နာမည်] ပါ။'],
+          ['Nice to meet you.', 'တွေ့ရတာ ဝမ်းသာပါတယ်။'],
+          ['How are you?', 'နေကောင်းလား?'],
+          ['Where are you from?', 'သင်က ဘယ်ကလဲ?']
+        ],
+        paragraphEN: 'Hello everyone! My name is Aung, and I am very happy to meet you today. I live in Yangon, the biggest city in Myanmar. I am twenty years old, and I am a university student. I am currently learning English because I want to travel and work in other countries in the future. English is a very important language for my career. In my free time, I like to read books, listen to music, and practice speaking English with my friends. Nice to meet you all, and I hope we can learn together and become good friends.',
+        paragraphMM: 'အားလုံးပဲ မင်္ဂလာပါ! ကျွန်တော့်နာမည် အောင်ပါ။ ဒီနေ့ သင်တို့နဲ့ တွေ့ဆုံရတာ အရမ်းဝမ်းသာပါတယ်။ ကျွန်တော်က မြန်မာနိုင်ငံရဲ့ အကြီးဆုံးမြို့ဖြစ်တဲ့ ရန်ကုန်မှာ နေထိုင်ပါတယ်။ ကျွန်တော့်အသက် နှစ်ဆယ်ဖြစ်ပြီး တက္ကသိုလ်ကျောင်းသားတစ်ယောက် ဖြစ်ပါတယ်။ အနာဂတ်မှာ တခြားနိုင်ငံတွေကို သွားရောက်လုပ်ကိုင်ချင်တဲ့အတွက် အခုအချိန်မှာ English ဘာသာစကားကို လေ့လာနေတာပါ။ ကျွန်တော့်ရဲ့ အလုပ်အကိုင်အတွက် English က အရမ်းအရေးကြီးပါတယ်။ အားလပ်ချိန်တွေမှာ ကျွန်တော်က စာအုပ်တွေဖတ်တာ၊ သီချင်းနားထောင်တာနဲ့ သူငယ်ချင်းတွေနဲ့အတူ English စကားပြော လေ့ကျင့်တာတွေ လုပ်လေ့ရှိပါတယ်။ အားလုံးနဲ့ တွေ့ဆုံရတာ ဝမ်းသာပါတယ်၊ အတူတူ သင်ယူပြီး သူငယ်ချင်းကောင်းတွေ ဖြစ်လာနိုင်မယ်လို့ မျှော်လင့်ပါတယ်။',
+        conversation: [
+          ['A','Hello! Good morning.','မင်္ဂလာပါ! မင်္ဂလာနံနက်ခင်းပါ။'],
+          ['B','Hi! Good morning. How are you?','ဟိုင်! မင်္ဂလာနံနက်ခင်းပါ။ နေကောင်းလား?'],
+          ['A','I am fine, thank you. And you?','နေကောင်းပါတယ် ကျေးဇူးတင်ပါတယ်။ သင်ကရော?'],
+          ['B','I am doing well, thanks. What is your name?','ကျွန်တော်လည်း အဆင်ပြေပါတယ် ကျေးဇူးတင်ပါတယ်။ သင့်နာမည်က ဘာလဲ?'],
+          ['A','My name is Su Su. Nice to meet you.','ကျွန်မနာမည် စုစုပါ။ တွေ့ရတာ ဝမ်းသာပါတယ်။'],
+          ['B','Nice to meet you too, Su Su. I am Kyaw Kyaw.','ကျွန်တော်လည်း ဝမ်းသာပါတယ် စုစု။ ကျွန်တော်က ကျော်ကျော်ပါ။']
+        ],
+        practical: [
+          ['မင်္ဂလာပါ၊ ကျွန်တော့်နာမည် အောင်ပါ။ တွေ့ရတာ ဝမ်းသာပါတယ်ခင်ဗျာ။', 'Hello, my name is Aung. Nice to meet you.'],
+          ['ဒီနေ့ နေကောင်းလား ခင်ဗျာ? ကျွန်တော်ကတော့ အဆင်ပြေပါတယ်။', 'How are you today? I am doing well.'],
+          ['ကျွန်တော်က ရန်ကုန်မြို့မှာ နေထိုင်ပါတယ်။ သင်ကရော ဘယ်ကလဲခင်ဗျာ?', 'I live in Yangon. Where are you from?'],
+          ['ကျွန်မနာမည် စုစုပါ။ သင့်နာမည်က ဘာလဲဟင်?', 'My name is Su Su. What is your name?'],
+          ['တွေ့ဆုံရတာ အရမ်းဝမ်းသာပါတယ်။ နောက်မှ ပြန်တွေ့ကြရအောင်နော်။', 'It is very nice to meet you. Let us meet again later.'],
+          ['မင်္ဂလာနံနက်ခင်းပါ ဆရာ။ ဒီနေ့ ကျန်းမာရေးကောင်းလား?', 'Good morning teacher. Are you feeling well today?']
+        ],
+        mockTest: [
+          ["'Hello' ဆိုတာ ဘာအဓိပ္ပာယ်လဲ?",['နှုတ်ဆက်စကား','အစားအစာ','နေရာ','အရောင်'],0],
+          ["'How are you?' ကို ဘယ်လိုဖြေရမလဲ?",['I am fine','I am 10 years old','My name is Aung','I am from Yangon'],0],
+          ["'Thank you' ရဲ့ အဓိပ္ပာယ်?",['တောင်းပန်ပါ','ကျေးဇူးတင်ပါ','နှုတ်ဆက်ပါ','ဟုတ်ကဲ့'],1],
+          ["'Good morning' ကို ဘယ်အချိန် သုံးလဲ?",['မနက်','နေ့လယ်','ညနေ','ည'],0],
+          ["'My name is Su Su' ကို မြန်မာလို?",['ကျွန်မ စုစုပါ','နေကောင်းလား','ဘယ်ကလဲ','ကျေးဇူးတင်ပါ'],0]
+        ]
+      },
+      // Lesson 2
+      {
+        id: 'beg-2', unit: 'Unit 2', title: 'Numbers & Counting', titleMM: 'နံပါတ်များနှင့် ရေတွက်ခြင်း',
+        explanation: 'ဂဏန်းများသည် နေ့စဉ်ဘဝတွင် အလွန်အရေးကြီးပါသည်။ အသက်အရွယ်၊ ဖုန်းနံပါတ်၊ ဈေးနှုန်းနှင့် အရေအတွက်များကို ရေတွက်ရာတွင် ကျွမ်းကျင်စွာ ပြောဆိုနိုင်ရန် လေ့လာရပါမည်။',
+        vocab: [
+          ['One', 'တစ် - အရေအတွက် (၁) ကို ကိုယ်စားပြုသော ဂဏန်းဖြစ်သည်။'],
+          ['Five', 'ငါး - အရေအတွက် (၅) ကို ကိုယ်စားပြုသော ဂဏန်းဖြစ်သည်။'],
+          ['Ten', 'တစ်ဆယ် - အရေအတွက် (၁၀) ကို ကိုယ်စားပြုသော ဂဏန်းဖြစ်သည်။'],
+          ['Twenty', 'နှစ်ဆယ် - အရေအတွက် (၂၀) ကို ကိုယ်စားပြုသော ဂဏန်းဖြစ်သည်။'],
+          ['Hundred', 'တစ်ရာ - အရေအတွက် (၁၀၀) ကို ကိုယ်စားပြုသော ဂဏန်းဖြစ်သည်။'],
+          ['Age', 'အသက် - လူတစ်ဦး မွေးဖွားပြီးကတည်းက ကုန်ဆုံးခဲ့သော နှစ်အရေအတွက်ဖြစ်သည်။'],
+          ['Years old', 'အသက် ... နှစ် - အသက်အရွယ်ကို ဖော်ပြရာတွင် အသုံးပြုသော စကားစုဖြစ်သည်။'],
+          ['Count', 'ရေတွက်သည် - အရာဝတ္ထုများကို တစ်ခုချင်းစီ အစဉ်လိုက် ရေတွက်သည့် လုပ်ဆောင်ချက်ဖြစ်သည်။'],
+          ['Number', 'နံပါတ် - အရေအတွက်ကို ဖော်ပြသည့် သင်္ကေတ သို့မဟုတ် စကားလုံးဖြစ်သည်။'],
+          ['Phone', 'ဖုန်း - အသံဖြင့် ဆက်သွယ်ရန် အသုံးပြုသော စက်ပစ္စည်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['How old are you?', 'သင့်အသက် ဘယ်လောက်လဲ?'],
+          ['I am [Number] years old.', 'ကျွန်တော့် အသက် [ဂဏန်း] နှစ်ပါ။'],
+          ['How many [items]?', '[ပစ္စည်း] ဘယ်နှခုလဲ?'],
+          ['What is your phone number?', 'သင့်ဖုန်းနံပါတ် ဘယ်လဲ?'],
+          ['There are [Number] [items].', '[ပစ္စည်း] [ဂဏန်း] ခု ရှိတယ်။']
+        ],
+        paragraphEN: 'Numbers are an essential part of our daily lives. Let me tell you about my family. I am twenty years old, and I have two brothers and one younger sister. My father is fifty years old, and my mother is forty-eight. We live in a house that has three bedrooms and two bathrooms. There are seven days in a week, and there are twelve months in a year. My phone number has eleven digits, and I always try to remember it carefully. When I go to the market, I need to count my money to buy things like five apples or ten eggs. Learning how to count from one to one hundred is the first step to mastering English.',
+        paragraphMM: 'ဂဏန်းတွေက ကျွန်တော်တို့ရဲ့ နေ့စဉ်ဘဝမှာ မရှိမဖြစ် အရေးပါပါတယ်။ ကျွန်တော့်မိသားစုအကြောင်း ပြောပြပါရစေ။ ကျွန်တော့်အသက် နှစ်ဆယ်ဖြစ်ပြီး ညီအကို နှစ်ယောက်နဲ့ ညီမလေးတစ်ယောက် ရှိပါတယ်။ အဖေက ငါးဆယ်၊ အမေက လေးဆယ့်ရှစ်နှစ်ပါ။ အိပ်ခန်း ၃ ခန်းနဲ့ ရေချိုးခန်း ၂ ခန်းပါတဲ့ အိမ်မှာ နေပါတယ်။ တစ်ပတ်မှာ ၇ ရက်၊ တစ်နှစ်မှာ ၁၂ လ ရှိပါတယ်။ ဖုန်းနံပါတ်မှာ ဂဏန်း ၁၁ လုံး ပါဝင်ပြီး ဂရုတစိုက် မှတ်ထားပါတယ်။ ဈေးသွားရင် ပန်းသီး ၅ လုံး ဒါမှမဟုတ် ကြက်ဥ ၁၀ လုံး ဝယ်ဖို့ ပိုက်ဆံရေတွက်ရပါတယ်။ ၁ ကနေ ၁၀၀ အထိ ရေတွက်တတ်ဖို့က English ကျွမ်းကျင်ဖို့ ပထမဆုံးခြေလှမ်းပါ။',
+        conversation: [
+          ['A','How old are you?','သင့်အသက် ဘယ်လောက်လဲ?'],
+          ['B','I am twenty years old. How about you?','ကျွန်တော် အသက် နှစ်ဆယ်ပါ။ သင်ကရော?'],
+          ['A','I am eighteen. How many brothers do you have?','ကျွန်မ ဆယ့်ရှစ်ပါ။ သင့်မှာ ညီအကို ဘယ်နှယောက်ရှိလဲ?'],
+          ['B','I have two brothers. Do you have any siblings?','ညီအကို နှစ်ယောက် ရှိပါတယ်။ သင့်မှာ မောင်နှမရှိလား?'],
+          ['A','Yes, I have one sister. What is your phone number?','ဟုတ်တယ် ကျွန်မမှာ ညီမတစ်ယောက် ရှိတယ်။ သင့်ဖုန်းနံပါတ် ဘယ်လဲ?'],
+          ['B','My phone number is zero nine five, one two three.','ကျွန်တော့်ဖုန်းနံပါတ်က သုညကိုးငါး၊ တစ်နှစ်သုံးပါ။']
+        ],
+        practical: [
+          ['ကျွန်တော့်အသက် နှစ်ဆယ်ဖြစ်ပြီး တက္ကသိုလ်မှာ ပညာသင်နေပါတယ်။', 'I am twenty years old and I am studying at university.'],
+          ['ကျွန်မမှာ ညီအကို သုံးယောက်ရှိပြီး အားလုံးက ကျောင်းတက်နေကြပါတယ်။', 'I have three brothers and they are all attending school.'],
+          ['ဒီနေ့ ဈေးမှာ ပန်းသီး ငါးလုံးနဲ့ ကြက်ဥ ဆယ်လုံး ဝယ်ခဲ့ပါတယ်။', 'Today, I bought five apples and ten eggs at the market.'],
+          ['တစ်ပတ်မှာ ခုနစ်ရက်ရှိပြီး တစ်နှစ်မှာ ဆယ့်နှစ်လ ရှိပါတယ်။', 'There are seven days in a week and twelve months in a year.'],
+          ['ခင်ဗျားရဲ့ ဖုန်းနံပါတ်က ဘယ်လိုလဲ၊ ကျွန်တော် မှတ်ထားလို့ရမလား?', 'What is your phone number? Can I write it down?'],
+          ['ဒီစာအုပ်က ဈေးနှုန်း ငါးထောင်ကျပ်လောက် ရှိမယ်လို့ ထင်ပါတယ်။', 'I think this book costs about five thousand kyats.']
+        ],
+        mockTest: [
+          ["'Twenty' ဆိုတာ ဘယ်နှလဲ?",['၁၀','၂၀','၃၀','၅၀'],1],
+          ["'How old are you?' ကို ဘယ်လိုဖြေမလဲ?",['I am fine','I am twenty','I am from Yangon','Yes'],1],
+          ["'Twelve' ရဲ့ မြန်မာလို?",['တစ်ဆယ်','တစ်ဆယ့်တစ်','တစ်ဆယ့်နှစ်','နှစ်ဆယ်'],2],
+          ["'Hundred' ဆိုတာ?",['တစ်ဆယ်','တစ်ရာ','တစ်ထောင်','နှစ်ရာ'],1],
+          ["'Seven' ရဲ့ နံပါတ်?",['၅','၆','၇','၈'],2]
+        ]
+      },
+      // Lesson 3
+      {
+        id: 'beg-3', unit: 'Unit 3', title: 'Time & Daily Routine', titleMM: 'အချိန်နှင့် နေ့စဉ်လုပ်ငန်းစဉ်',
+        explanation: 'အချိန်နာရီ မေးမြန်းခြင်းနှင့် မနက်မှ ညအထိ နေ့စဉ်လုပ်ဆောင်မှုများကို ပြောပြပုံကို လေ့ကျင့်ပါမည်။',
+        vocab: [
+          ['Time', 'အချိန် - နာရီ၊ မိနစ်၊ စက္ကန့်တို့ဖြင့် တိုင်းတာသော အရာဖြစ်သည်။'],
+          ['Morning', 'မနက်ခင်း - နေထွက်ချိန်မှ နေ့လယ်အထိ အချိန်ကာလဖြစ်သည်။'],
+          ['Afternoon', 'နေ့လယ် - နေ့လယ် ၁၂ နာရီမှ ညနေ ၅ နာရီအတွင်း အချိန်ကာလဖြစ်သည်။'],
+          ['Wake up', 'အိပ်ရာနိုးသည် - အိပ်ပျော်နေရာမှ နိုးထလာခြင်းကို ဆိုလိုသည်။'],
+          ['Breakfast', 'မနက်စာ - မနက်ခင်းတွင် စားသော ပထမဆုံး အစားအစာဖြစ်သည်။'],
+          ['Start', 'စတင်သည် - တစ်စုံတစ်ခုကို စတင်လုပ်ဆောင်ခြင်းဖြစ်သည်။'],
+          ['Finish', 'ပြီးဆုံးသည် - လုပ်ဆောင်နေသည့် အရာတစ်ခု အဆုံးသတ်သွားခြင်းဖြစ်သည်။'],
+          ['Sleep', 'အိပ်စက်သည် - ခန္ဓာကိုယ်နှင့် ဦးနှောက် အနားယူရန် အိပ်ခြင်းဖြစ်သည်။'],
+          ['O\'clock', 'နာရီ - အချိန်ကို အတိအကျ ဖော်ပြရာတွင် သုံးသော စကားလုံးဖြစ်သည်။'],
+          ['Every day', 'နေ့တိုင်း - နေ့ရက်တိုင်းတွင် ပုံမှန်လုပ်ဆောင်သော အရာများအတွက် သုံးသည်။']
+        ],
+        patterns: [
+          ['What time is it?', 'ဘယ်နာရီလဲ?'],
+          ['It is [Time] o\'clock.', '[နာရီ] နာရီပါ။'],
+          ['I wake up at [Time].', 'ကျွန်တော် [အချိန်] မှာ နိုးတယ်။'],
+          ['I go to work at [Time].', 'ကျွန်တော် [အချိန်] မှာ အလုပ်သွားတယ်။'],
+          ['When do you [Action]?', 'သင်က ဘယ်အချိန် [လုပ်ဆောင်ချက်] လုပ်လဲ?']
+        ],
+        paragraphEN: 'Time is very important in our daily lives. I usually wake up at six o\'clock in the morning. After I wake up, I brush my teeth and take a shower. I eat my breakfast at seven o\'clock, and then I go to work at eight. I work from nine in the morning until five in the evening. After work, I go home and have dinner with my family at seven o\'clock. In my free time, I like to watch TV or read a book. I always go to bed at ten o\'clock at night to get enough sleep for the next day.',
+        paragraphMM: 'ကျွန်တော်တို့ရဲ့ နေ့စဉ်ဘဝမှာ အချိန်က အရမ်းအရေးကြီးပါတယ်။ ကျွန်တော်က မနက်ခြောက်နာရီမှာ ပုံမှန် အိပ်ရာနိုးပါတယ်။ နိုးပြီးတာနဲ့ သွားတိုက်ပြီး ရေချိုးပါတယ်။ ခုနစ်နာရီမှာ မနက်စာစားပြီး ရှစ်နာရီမှာ အလုပ်သွားပါတယ်။ မနက်ကိုးနာရီကနေ ညနေငါးနာရီအထိ အလုပ်လုပ်ပါတယ်။ အလုပ်ပြီးရင် အိမ်ပြန်ပြီး ညနေခုနစ်နာရီမှာ မိသားစုနဲ့အတူ ညစာစားပါတယ်။ အားလပ်ချိန်မှာ တီဗီကြည့်တာ ဒါမှမဟုတ် စာအုပ်ဖတ်တာကို နှစ်သက်ပါတယ်။ နောက်နေ့အတွက် အိပ်ရေးဝအောင် ညဆယ်နာရီမှာ အမြဲအိပ်ပါတယ်။',
+        conversation: [
+          ['A','What time is it now?','အခု ဘယ်နာရီလဲ?'],
+          ['B','It is seven o\'clock.','ခုနစ်နာရီပါ။'],
+          ['A','When do you wake up every day?','နေ့တိုင်း ဘယ်အချိန် နိုးလဲ?'],
+          ['B','I wake up at six in the morning.','မနက်ခြောက်နာရီမှာ နိုးပါတယ်။'],
+          ['A','When do you finish your work?','အလုပ် ဘယ်အချိန် ပြီးလဲ?'],
+          ['B','I finish work at five in the evening.','ညနေငါးနာရီမှာ အလုပ်ပြီးပါတယ်။']
+        ],
+        practical: [
+          ['အခု ဘယ်နာရီလဲခင်ဗျာ? ကျွန်တော် အလုပ်သွားဖို့ အချိန်ရှိပါတယ်။', 'What time is it now? I have time to go to work.'],
+          ['ကျွန်မက မနက်တိုင်း ခြောက်နာရီမှာ အိပ်ရာနိုးပါတယ်။', 'I wake up at six o\'clock every morning.'],
+          ['သင် ဘယ်အချိန် မနက်စာစားလဲ? ကျွန်တော်က ခုနစ်နာရီမှာ စားပါတယ်။', 'When do you eat breakfast? I eat at seven o\'clock.'],
+          ['ညနေငါးနာရီမှာ အလုပ်ပြီးတာနဲ့ ကျွန်တော် အိမ်ပြန်ပါတယ်။', 'I go home as soon as I finish work at five o\'clock in the evening.'],
+          ['ကျွန်တော်တို့ ညစာကို ညနေခုနစ်နာရီမှာ အတူတူစားကြပါတယ်။', 'We eat dinner together at seven o\'clock in the evening.'],
+          ['ကျွန်မက နေ့တိုင်း ညဆယ်နာရီမှာ အိပ်ပါတယ်။', 'I go to bed at ten o\'clock every night.']
+        ],
+        mockTest: [
+          ["'What time is it?' ကို ဘယ်လိုဖြေမလဲ?",['It is five o\'clock','I am fine','My name is Aung','Yes'],0],
+          ["'Morning' ဆိုတာ ဘယ်အချိန်လဲ?",['မနက်','နေ့လယ်','ညနေ','ည'],0],
+          ["'Wake up' ရဲ့ အဓိပ္ပာယ်?",['အိပ်သည်','နိုးသည်','စားသည်','သောက်သည်'],1],
+          ["'I finish work ___ five.'",['in','on','at','by'],2],
+          ["'Every day' ဆိုတာ?",['နေ့တိုင်း','ညတိုင်း','အပတ်တိုင်း','လတိုင်း'],0]
+        ]
+      },
+      // Lesson 4
+      {
+        id: 'beg-4', unit: 'Unit 4', title: 'Family & Friends', titleMM: 'မိသားစုနှင့် သူငယ်ချင်းများ',
+        explanation: 'မိသားစုဝင်များ၏ အမည်များနှင့် မိမိမိသားစု၊ သူငယ်ချင်းများအကြောင်း ပြောဆိုပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Father', 'အဖေ - မိမိကို မွေးဖွားပေးခဲ့သော အထီးကျား မိဘဖြစ်သည်။'],
+          ['Mother', 'အမေ - မိမိကို မွေးဖွားပေးခဲ့သော အမျိုးသမီး မိဘဖြစ်သည်။'],
+          ['Brother', 'ညီအကို - မိဘတူညီသော အထီးကျား မောင်နှမဖြစ်သည်။'],
+          ['Sister', 'ညီမ/အစ်မ - မိဘတူညီသော အမျိုးသမီး မောင်နှမဖြစ်သည်။'],
+          ['Family', 'မိသားစု - မိဘ၊ သားသမီးများ ပါဝင်သော အိမ်ထောင်စုဖြစ်သည်။'],
+          ['Love', 'ချစ်ခြင်း - နက်ရှိုင်းသော ခံစားချက်နှင့် ဂရုစိုက်မှုကို ပြသခြင်းဖြစ်သည်။'],
+          ['Together', 'အတူတကွ - လူနှစ်ဦး သို့မဟုတ် ထို့ထက်ပိုသော သူများ အတူတူရှိနေခြင်းဖြစ်သည်။'],
+          ['Help', 'ကူညီသည် - တစ်စုံတစ်ယောက်ကို လိုအပ်နေချိန်တွင် လက်ကမ်းကူညီခြင်းဖြစ်သည်။'],
+          ['Happy', 'ပျော်ရွှင်သည် - ကောင်းမွန်သော ခံစားချက်ရှိနေခြင်းဖြစ်သည်။'],
+          ['Close', 'ရင်းနှီးသော - ခံစားချက်အရ အလွန်နီးကပ်သော ဆက်ဆံရေးရှိခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['This is my [family member].', 'ဒါက ကျွန်တော့်ရဲ့ [မိသားစုဝင်] ပါ။'],
+          ['I have [Number] brothers.', 'ကျွန်တော့်မှာ ညီအကို [ဂဏန်း] ယောက် ရှိတယ်။'],
+          ['We live together.', 'ကျွန်တော်တို့ အတူတူ နေထိုင်ပါတယ်။'],
+          ['My family is very close.', 'ကျွန်တော့်မိသားစုက အရမ်းရင်းနှီးပါတယ်။'],
+          ['I love my family.', 'ကျွန်တော် မိသားစုကို ချစ်ပါတယ်။']
+        ],
+        paragraphEN: 'My family is very important to me. There are five people in my family: my father, my mother, my two brothers, and me. My father is a teacher, and my mother is a nurse. They work very hard to take care of us. My brothers are both students. We live together in a small house in Mandalay. We always eat dinner together and share our daily stories. On weekends, we like to go to the park or watch movies at home. My family is very close, and we always help and love each other. I am very happy to have such a wonderful family.',
+        paragraphMM: 'ကျွန်တော့်မိသားစုက ကျွန်တော့်အတွက် အရမ်းအရေးကြီးပါတယ်။ ကျွန်တော့်မိသားစုမှာ ငါးယောက်ရှိပါတယ်။ အဖေ၊ အမေ၊ ညီအကိုနှစ်ယောက်နဲ့ ကျွန်တော်ပါ။ အဖေက ဆရာတစ်ယောက်ဖြစ်ပြီး အမေက သူနာပြုတစ်ယောက်ပါ။ သူတို့က ကျွန်တော်တို့ကို ပြုစုစောင့်ရှောက်ဖို့ အရမ်းကြိုးစားလုပ်ကိုင်ပါတယ်။ ညီအကိုနှစ်ယောက်စလုံးက ကျောင်းသားတွေပါ။ ကျွန်တော်တို့က မန္တလေးမှာ ရှိတဲ့ အိမ်ငယ်လေးတစ်ခုမှာ အတူတူနေထိုင်ပါတယ်။ ကျွန်တော်တို့က ညစာကို အမြဲတမ်း အတူတူစားပြီး နေ့စဉ်အဖြစ်အပျက်တွေကို မျှဝေလေ့ရှိပါတယ်။ စနေ၊ တနင်္ဂနွေတွေမှာ ပန်းခြံသွားတာ ဒါမှမဟုတ် အိမ်မှာ ရုပ်ရှင်ကြည့်တာတွေ လုပ်လေ့ရှိပါတယ်။ ကျွန်တော့်မိသားစုက အရမ်းရင်းနှီးပြီး အမြဲတမ်း အချင်းချင်း ကူညီပြီး ချစ်ခင်ကြပါတယ်။ ဒီလိုကောင်းမွန်တဲ့ မိသားစုတစ်ခုရှိတဲ့အတွက် ကျွန်တော် အရမ်းပျော်ရွှင်ပါတယ်။',
+        conversation: [
+          ['A','How many people are in your family?','သင့်မိသားစုမှာ ဘယ်နှယောက်ရှိလဲ?'],
+          ['B','There are four people in my family.','ကျွန်တော့်မိသားစုမှာ လေးယောက်ရှိပါတယ်။'],
+          ['A','Do you have any brothers or sisters?','သင့်မှာ ညီအကို ဒါမှမဟုတ် မောင်နှမရှိလား?'],
+          ['B','Yes, I have one older sister.','ဟုတ်တယ်၊ အစ်မတစ်ယောက် ရှိပါတယ်။'],
+          ['A','What does your father do?','သင့်အဖေက ဘာလုပ်လဲ?'],
+          ['B','My father is a doctor. He works at the hospital.','ကျွန်တော့်အဖေက ဆရာဝန်ပါ။ ဆေးရုံမှာ အလုပ်လုပ်ပါတယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော့်မိသားစုမှာ အဖေ၊ အမေ၊ ကျွန်တော်နဲ့ ညီမလေး စုစုပေါင်း လေးယောက်ရှိပါတယ်။', 'There are four people in my family: my father, my mother, me, and my younger sister.'],
+          ['ကျွန်မတို့မိသားစုက အရမ်းရင်းနှီးပြီး အမြဲတမ်း အတူတူ အချိန်ဖြုန်းလေ့ရှိပါတယ်။', 'Our family is very close and we always spend time together.'],
+          ['ကျွန်တော့်အစ်မက ကျောင်းဆရာမတစ်ယောက်ဖြစ်ပြီး သူမရဲ့ကျောင်းသားတွေကို အရမ်းချစ်ပါတယ်။', 'My older sister is a school teacher and she loves her students very much.'],
+          ['သင့်မိသားစုက ဘယ်မှာနေထိုင်လဲ? မန္တလေးမှာလား?', 'Where does your family live? Do they live in Mandalay?'],
+          ['ကျွန်တော်တို့ ညနေတိုင်း ညစာကို အတူတူစားပြီး နေ့စဉ်အကြောင်းအရာတွေကို ပြောလေ့ရှိပါတယ်။', 'We eat dinner together every evening and talk about our daily lives.'],
+          ['ကျွန်မမှာ ညီအကိုနှစ်ယောက်ရှိပြီး သူတို့နှစ်ယောက်စလုံးက တက္ကသိုလ်ကျောင်းသားတွေပါ။', 'I have two brothers and both of them are university students.']
+        ],
+        mockTest: [
+          ["'Mother' ဆိုတာ ဘယ်သူလဲ?",['အဖေ','အမေ','ညီအကို','ညီမ'],1],
+          ["'I have two ___.' (ညီအကို ၂ ယောက်)",['sister','brother','brothers','sisters'],2],
+          ["'Family' ရဲ့ အဓိပ္ပာယ်?",['မိသားစု','သူငယ်ချင်း','ဆရာ','ကျောင်းသား'],0],
+          ["'We live ___ .' (အတူတူနေတယ်)",['alone','together','apart','away'],1],
+          ["'Love' ရဲ့ အဓိပ္ပာယ်?",['မုန်းတီး','ချစ်ခင်','ကြောက်','ဝမ်းနည်း'],1]
+        ]
+      },
+      // Lesson 5
+      {
+        id: 'beg-5', unit: 'Unit 5', title: 'Food & Drinks', titleMM: 'အစားအစာနှင့် သောက်စရာများ',
+        explanation: 'နေ့စဉ်သုံး အစားအစာနှင့် သောက်စရာ ဝေါဟာရများ၊ စားသောက်ဆိုင်တွင် မှာယူပုံများကို လေ့လာပါ။',
+        vocab: [
+          ['Rice', 'ထမင်း - ကမ္ဘာ့လူဦးရေအများစု စားသုံးသော အဓိက အစားအစာဖြစ်သည်။'],
+          ['Water', 'ရေ - သက်ရှိတိုင်း ရှင်သန်ရန် မရှိမဖြစ်လိုအပ်သော အရည်ဖြစ်သည်။'],
+          ['Chicken', 'ကြက်သား - ကြက်မှရရှိသော အသားဖြစ်ပြီး ချက်ပြုတ်စားသုံးသည်။'],
+          ['Egg', 'ကြက်ဥ - ကြက်များမှ ဥပေးသော အစားအစာဖြစ်သည်။'],
+          ['Bread', 'ပေါင်မုန့် - ဂျုံမှုန့်ဖြင့် ပြုလုပ်ထားသော အစားအစာဖြစ်သည်။'],
+          ['Apple', 'ပန်းသီး - ချိုမြိန်ပြီး ကျန်းမာရေးအတွက် ကောင်းသော သစ်သီးဖြစ်သည်။'],
+          ['Delicious', 'အရသာရှိသော - အစားအစာ သို့မဟုတ် သောက်စရာ စားလို့ကောင်းခြင်းဖြစ်သည်။'],
+          ['Eat', 'စားသည် - အစားအစာကို ပါးစပ်မှတစ်ဆင့် ကိုယ်ထဲသို့ သွင်းခြင်းဖြစ်သည်။'],
+          ['Drink', 'သောက်သည် - အရည်ကို ပါးစပ်မှတစ်ဆင့် ကိုယ်ထဲသို့ သွင်းခြင်းဖြစ်သည်။'],
+          ['Hungry', 'ဆာလောင်သည် - အစားအစာ စားလိုသော ခံစားချက်ဖြစ်သည်။']
+        ],
+        patterns: [
+          ['I am hungry.', 'ကျွန်တော် ဗိုက်ဆာတယ်။'],
+          ['I want to eat [food].', 'ကျွန်တော် [အစားအစာ] စားချင်တယ်။'],
+          ['I would like to drink [drink].', 'ကျွန်တော် [သောက်စရာ] သောက်ချင်ပါတယ်။'],
+          ['It is delicious.', 'အရသာရှိတယ်။'],
+          ['What is your favorite food?', 'သင်အကြိုက်ဆုံး အစားအစာက ဘာလဲ?']
+        ],
+        paragraphEN: 'Food is a very important part of our life. Every morning, I eat bread and drink tea for breakfast. For lunch, I usually eat rice with chicken and vegetables. I love to eat apples because they are sweet and healthy. In the evening, my family and I eat dinner together. My mother cooks very delicious food. Sometimes, we go to a restaurant and eat noodles or pizza. I always drink a lot of water every day because it is good for my health. When I am hungry, I like to eat a quick snack like an egg or some fruit. What is your favorite food?',
+        paragraphMM: 'ကျွန်တော်တို့ရဲ့ ဘဝမှာ အစားအစာက အရမ်းအရေးကြီးပါတယ်။ မနက်တိုင်း မနက်စာအနေနဲ့ ပေါင်မုန့်စားပြီး လက်ဖက်ရည်သောက်ပါတယ်။ နေ့လယ်စာအတွက် များသောအားဖြင့် ထမင်းနဲ့ ကြက်သား၊ ဟင်းသီးဟင်းရွက်တွေ စားပါတယ်။ ပန်းသီးက ချိုမြိန်ပြီး ကျန်းမာရေးအတွက် ကောင်းတာကြောင့် စားရတာ ကြိုက်ပါတယ်။ ညနေမှာ မိသားစုနဲ့အတူ ညစာစားပါတယ်။ အမေက အရမ်းအရသာရှိတဲ့ အစားအစာတွေ ချက်ပြုတ်ပေးပါတယ်။ တစ်ခါတလေ စားသောက်ဆိုင်သွားပြီး ခေါက်ဆွဲ ဒါမှမဟုတ် ပီဇာစားလေ့ရှိပါတယ်။ ကျန်းမာရေးအတွက် ကောင်းတာကြောင့် နေ့တိုင်း ရေများများသောက်ပါတယ်။ ဗိုက်ဆာတဲ့အခါ ကြက်ဥ ဒါမှမဟုတ် သစ်သီးလိုမျိုး အဆာပြေစားလေ့ရှိပါတယ်။ သင့်အကြိုက်ဆုံး အစားအစာက ဘာလဲ?',
+        conversation: [
+          ['A','I am very hungry. Are you hungry too?','ကျွန်တော် အရမ်းဗိုက်ဆာတယ်။ သင်ရော ဆာလား?'],
+          ['B','Yes, I am. What do you want to eat?','ဟုတ်တယ် ဆာတယ်။ ဘာစားချင်လဲ?'],
+          ['A','I want to eat rice and chicken. What about you?','ထမင်းနဲ့ ကြက်သားစားချင်တယ်။ သင်ကရော?'],
+          ['B','I would like to eat bread and drink milk.','ကျွန်တော်ကတော့ ပေါင်မုန့်စားပြီး နို့သောက်ချင်တယ်။'],
+          ['A','That sounds good. Do you like apples?','ကောင်းတယ်နော်။ ပန်းသီး ကြိုက်လား?'],
+          ['B','Yes, I love apples. They are delicious and healthy.','ဟုတ်တယ် ပန်းသီးအရမ်းကြိုက်တယ်။ အရသာရှိပြီး ကျန်းမာရေးအတွက်ကောင်းတယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော် အရမ်းဗိုက်ဆာတယ်။ ထမင်းနဲ့ ကြက်သားစားချင်ပါတယ်။', 'I am very hungry. I want to eat rice and chicken.'],
+          ['ဒီပန်းသီးက အရမ်းအရသာရှိတယ်။ နောက်တစ်လုံးစားချင်ပါတယ်။', 'This apple is very delicious. I want to eat another one.'],
+          ['မနက်စာအနေနဲ့ ပေါင်မုန့်နဲ့ ကြက်ဥ စားလေ့ရှိပါတယ်။', 'I usually eat bread and eggs for breakfast.'],
+          ['သင်က ရေသောက်ချင်လား ဒါမှမဟုတ် လက်ဖက်ရည်သောက်ချင်လား?', 'Do you want to drink water or tea?'],
+          ['ကျွန်မတို့ ညနေမှာ စားသောက်ဆိုင်သွားပြီး ခေါက်ဆွဲစားကြရအောင်နော်။', 'Let us go to a restaurant and eat noodles in the evening.'],
+          ['ကျန်းမာရေးအတွက် နေ့တိုင်း ရေများများ သောက်ဖို့ လိုအပ်ပါတယ်။', 'It is necessary to drink a lot of water every day for good health.']
+        ],
+        mockTest: [
+          ["'Rice' ဆိုတာ ဘာလဲ?",['ထမင်း','ပေါင်မုန့်','ကြက်ဥ','ပန်းသီး'],0],
+          ["'I am ___ .' (ဗိုက်ဆာတယ်)",['thirsty','hungry','happy','sad'],1],
+          ["'Drink' ရဲ့ အဓိပ္ပာယ်?",['စားသည်','သောက်သည်','အိပ်သည်','သွားသည်'],1],
+          ["'Delicious' ဆိုတာ?",['အရသာမရှိ','အရသာရှိ','ချိုသည်','ခါးသည်'],1],
+          ["'Apple' ဆိုတာ ဘာလဲ?",['သစ်သီး','ဟင်းသီးဟင်းရွက်','အသား','ငါး'],0]
+        ]
+      },
+      // Lesson 6
+      {
+        id: 'beg-6', unit: 'Unit 6', title: 'Colors & Shapes', titleMM: 'အရောင်များနှင့် ပုံသဏ္ဌာန်များ',
+        explanation: 'ပတ်ဝန်းကျင်ရှိ အရာဝတ္ထုများ၏ အရောင်နှင့် ပုံသဏ္ဌာန်များကို ဖော်ပြပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Red', 'အနီရောင် - သွေးနှင့် မီးကဲ့သို့ ထင်ရှားသော အရောင်ဖြစ်သည်။'],
+          ['Blue', 'အပြာရောင် - ကောင်းကင်နှင့် ပင်လယ်ရေ၏ အရောင်ဖြစ်သည်။'],
+          ['Green', 'အစိမ်းရောင် - သစ်ရွက်များနှင့် မြက်ခင်းများ၏ အရောင်ဖြစ်သည်။'],
+          ['Yellow', 'အဝါရောင် - နေရောင်ခြည်နှင့် သံပုရာသီး၏ အရောင်ဖြစ်သည်။'],
+          ['Black', 'အမည်းရောင် - အလင်းရောင် လုံးဝမရှိသည့်အခါ မြင်ရသော အရောင်ဖြစ်သည်။'],
+          ['White', 'အဖြူရောင် - နှင်းနှင့် နို့၏ အရောင်ဖြစ်သည်။'],
+          ['Circle', 'အဝိုင်း - ဘေးပတ်လည် အကွေးအတိုင်း ပုံသဏ္ဌာန်ဖြစ်သည်။'],
+          ['Square', 'စတုရန်း - လေးနားညီပြီး အနားအားလုံး တူညီသော ပုံသဏ္ဌာန်ဖြစ်သည်။'],
+          ['Color', 'အရောင် - အလင်းရောင်ကြောင့် မျက်စိဖြင့် မြင်ရသော ဂုဏ်သတ္တိဖြစ်သည်။'],
+          ['Shape', 'ပုံသဏ္ဌာန် - အရာဝတ္ထုတစ်ခု၏ အပြင်ပန်း အနေအထားဖြစ်သည်။']
+        ],
+        patterns: [
+          ['What color is this?', 'ဒါက ဘာအရောင်လဲ?'],
+          ['This is [color].', 'ဒါက [အရောင်] ပါ။'],
+          ['My favorite color is [color].', 'ကျွန်တော့်အကြိုက်ဆုံးအရောင်က [အရောင်] ပါ။'],
+          ['It is a [shape].', 'ဒါက [ပုံသဏ္ဌာန်] ပါ။'],
+          ['The [object] is [color].', '[အရာဝတ္ထု] က [အရောင်] ပါ။']
+        ],
+        paragraphEN: 'Our world is full of beautiful colors and shapes. Look around you: the sky is blue, the grass is green, and the sun is yellow. My favorite color is blue because it makes me feel calm and peaceful. I also like red apples and white clouds. Everything around us has a shape. A ball is a circle, and a box is a square. A clock on the wall is usually a circle. When I draw a picture, I use many different colors like red, yellow, and green to make it beautiful. Learning about colors and shapes helps us describe the world better.',
+        paragraphMM: 'ကျွန်တော်တို့ရဲ့ ကမ္ဘာကြီးက လှပတဲ့ အရောင်တွေနဲ့ ပုံသဏ္ဌာန်တွေနဲ့ ပြည့်နှက်နေပါတယ်။ သင်တို့ ပတ်ဝန်းကျင်ကို ကြည့်လိုက်ပါ - ကောင်းကင်က အပြာရောင်၊ မြက်ပင်တွေက အစိမ်းရောင်၊ နေရောင်ခြည်က အဝါရောင်ပါ။ ကျွန်တော့်အကြိုက်ဆုံးအရောင်က အပြာရောင်ပါ၊ ဘာလို့လဲဆိုတော့ အဲဒါက ကျွန်တော့်ကို ငြိမ်သက်ပြီး အေးချမ်းတဲ့ ခံစားချက်ကို ပေးလို့ပါ။ အနီရောင်ပန်းသီးတွေနဲ့ အဖြူရောင်တိမ်တိုက်တွေကိုလည်း ကြိုက်ပါတယ်။ ကျွန်တော်တို့ ပတ်ဝန်းကျင်က အရာဝတ္ထုတိုင်းမှာ ပုံသဏ္ဌာန်ရှိပါတယ်။ ဘောလုံးက အဝိုင်းဖြစ်ပြီး သေတ္တာက စတုရန်းဖြစ်ပါတယ်။ နံရံပေါ်က နာရီက များသောအားဖြင့် အဝိုင်းဖြစ်ပါတယ်။ ကျွန်တော် ပုံဆွဲတဲ့အခါ လှပအောင်လုပ်ဖို့ အနီရောင်၊ အဝါရောင်၊ အစိမ်းရောင်လို မတူညီတဲ့ အရောင်တွေ အများကြီး သုံးပါတယ်။ အရောင်တွေနဲ့ ပုံသဏ္ဌာန်တွေအကြောင်း သင်ယူခြင်းက ကျွန်တော်တို့ ကမ္ဘာကြီးကို ပိုကောင်းမွန်စွာ ဖော်ပြနိုင်ဖို့ ကူညီပေးပါတယ်။',
+        conversation: [
+          ['A','What color is your bag?','သင့်အိတ်က ဘာအရောင်လဲ?'],
+          ['B','My bag is black. What about yours?','ကျွန်တော့်အိတ်က အမည်းရောင်ပါ။ သင်ကရော?'],
+          ['A','My bag is red. What is your favorite color?','ကျွန်မအိတ်က အနီရောင်ပါ။ သင့်အကြိုက်ဆုံးအရောင်က?'],
+          ['B','My favorite color is blue. I love the sky.','ကျွန်တော့်အကြိုက်ဆုံးက အပြာရောင်ပါ။ ကောင်းကင်ကို ကြိုက်တယ်။'],
+          ['A','Look at that clock. What shape is it?','အဲဒီနာရီကို ကြည့်ပါဦး။ ဘာပုံသဏ္ဌာန်လဲ?'],
+          ['B','It is a circle.','အဝိုင်းပုံပါ။']
+        ],
+        practical: [
+          ['ကျွန်တော့်အကြိုက်ဆုံးအရောင်က အစိမ်းရောင်ဖြစ်ပြီး သစ်ပင်တွေကို ကြိုက်ပါတယ်။', 'My favorite color is green and I love trees.'],
+          ['ဒီသေတ္တာက စတုရန်းပုံဖြစ်ပြီး အပြာရောင်ပါ။', 'This box is a square and it is blue.'],
+          ['ကောင်းကင်က အပြာရောင်ဖြစ်ပြီး တိမ်တွေက အဖြူရောင်ပါ။', 'The sky is blue and the clouds are white.'],
+          ['သင့်အကြိုက်ဆုံး အရောင်က ဘာလဲ? ကျွန်မကတော့ အနီရောင်ပါ။', 'What is your favorite color? Mine is red.'],
+          ['ဘောလုံးက အဝိုင်းပုံဖြစ်ပြီး ကစားရတာ ပျော်ပါတယ်။', 'A ball is a circle and it is fun to play with.'],
+          ['ဒီပန်းပွင့်လေးက အဝါရောင်ဖြစ်ပြီး အရမ်းလှပါတယ်။', 'This flower is yellow and it is very beautiful.']
+        ],
+        mockTest: [
+          ["'Red' ဆိုတာ ဘာအရောင်လဲ?",['အနီ','အပြာ','အစိမ်း','အဝါ'],0],
+          ["'Sky' က ဘာအရောင်လဲ?",['Red','Blue','Green','Yellow'],1],
+          ["'Circle' ဆိုတာ?",['အဝိုင်း','စတုရန်း','တြိဂံ','စတုဂံ'],0],
+          ["'My favorite color ___ blue.'",['am','is','are','be'],1],
+          ["'Shape' ရဲ့ အဓိပ္ပာယ်?",['အရောင်','ပုံသဏ္ဌာန်','အရွယ်အစား','အရသာ'],1]
+        ]
+      },
+      // Lesson 7
+      {
+        id: 'beg-7', unit: 'Unit 7', title: 'Body Parts & Health', titleMM: 'ခန္ဓာကိုယ်နှင့် ကျန်းမာရေး',
+        explanation: 'ခန္ဓာကိုယ် အစိတ်အပိုင်းများနှင့် ကျန်းမာရေး အခြေအနေများကို ဖော်ပြပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Head', 'ဦးခေါင်း - ခန္ဓာကိုယ်၏ အပေါ်ဆုံးအပိုင်းဖြစ်ပြီး ဦးနှောက်ပါဝင်သည်။'],
+          ['Eye', 'မျက်လုံး - ကြည့်ရှုရန် အသုံးပြုသော အင်္ဂါအစိတ်အပိုင်းဖြစ်သည်။'],
+          ['Hand', 'လက် - ပစ္စည်းများကို ကိုင်တွယ်ရန် အသုံးပြုသော အင်္ဂါအစိတ်အပိုင်းဖြစ်သည်။'],
+          ['Leg', 'ခြေထောက် - လမ်းလျှောက်ရန် အသုံးပြုသော ခန္ဓာကိုယ်အောက်ပိုင်း အစိတ်အပိုင်းဖြစ်သည်။'],
+          ['Stomach', 'ဗိုက် - အစားအစာများ ချေဖျက်သည့် ခန္ဓာကိုယ်အတွင်းပိုင်း အင်္ဂါဖြစ်သည်။'],
+          ['Sick', 'ဖျားနာသည် - ကျန်းမာရေး မကောင်းမွန်သော အခြေအနေဖြစ်သည်။'],
+          ['Pain', 'နာကျင်မှု - ခန္ဓာကိုယ်တွင် ခံစားရသော မသက်မသာ နာကျင်ခြင်းဖြစ်သည်။'],
+          ['Doctor', 'ဆရာဝန် - ဖျားနာသူများကို ကုသပေးသော ကျန်းမာရေးဝန်ထမ်းဖြစ်သည်။'],
+          ['Medicine', 'ဆေး - ဖျားနာမှုကို သက်သာစေရန် သောက်သုံးသော အရာဖြစ်သည်။'],
+          ['Healthy', 'ကျန်းမာသော - ရောဂါကင်းပြီး ကိုယ်ကာယကောင်းမွန်သော အခြေအနေဖြစ်သည်။']
+        ],
+        patterns: [
+          ['My [body part] hurts.', 'ကျွန်တော့် [ခန္ဓာကိုယ်အပိုင်း] နာနေတယ်။'],
+          ['I am sick.', 'ကျွန်တော် ဖျားနာနေတယ်။'],
+          ['I need to see a doctor.', 'ကျွန်တော် ဆရာဝန်နဲ့ ပြဖို့လိုတယ်။'],
+          ['Take this medicine.', 'ဒီဆေးကို သောက်ပါ။'],
+          ['Are you healthy?', 'သင်က ကျန်းမာရေးကောင်းလား?']
+        ],
+        paragraphEN: 'Our body is made up of many different parts. We have a head, two eyes, two hands, and two legs. We use our eyes to see, our ears to hear, and our hands to touch things. It is very important to keep our body healthy. To be healthy, we must eat good food, drink water, and exercise every day. Sometimes, we get sick. When I have a headache or my stomach hurts, I tell my mother. If the pain is bad, I go to see a doctor. The doctor gives me some medicine to make me feel better. We must always take care of our body parts to stay strong and healthy.',
+        paragraphMM: 'ကျွန်တော်တို့ရဲ့ ခန္ဓာကိုယ်ကို မတူညီတဲ့ အစိတ်အပိုင်းတွေ အများကြီးနဲ့ ဖွဲ့စည်းထားပါတယ်။ ကျွန်တော်တို့မှာ ဦးခေါင်း၊ မျက်လုံးနှစ်လုံး၊ လက်နှစ်ဖက်နဲ့ ခြေထောက်နှစ်ချောင်း ရှိပါတယ်။ ကြည့်ဖို့ မျက်လုံးကို သုံးပြီး၊ ကြားဖို့ နားကို သုံးကာ၊ ပစ္စည်းတွေ ကိုင်တွယ်ဖို့ လက်ကို သုံးပါတယ်။ ခန္ဓာကိုယ်ကို ကျန်းမာစွာ ထိန်းသိမ်းထားဖို့ အရမ်းအရေးကြီးပါတယ်။ ကျန်းမာဖို့အတွက် နေ့တိုင်း အာဟာရရှိတဲ့ အစားအစာတွေ စားရမယ်၊ ရေသောက်ရမယ်၊ လေ့ကျင့်ခန်းလုပ်ရပါမယ်။ တစ်ခါတလေ ကျွန်တော်တို့ ဖျားနာတတ်ပါတယ်။ ကျွန်တော် ခေါင်းကိုက်တဲ့အခါ ဒါမှမဟုတ် ဗိုက်နာတဲ့အခါ အမေကို ပြောပြပါတယ်။ နာကျင်မှုက ပြင်းထန်ရင် ဆရာဝန်နဲ့ သွားပြပါတယ်။ သက်သာလာအောင် ဆရာဝန်က ဆေးတွေ ပေးပါတယ်။ သန်မာပြီး ကျန်းမာနေဖို့ ခန္ဓာကိုယ် အစိတ်အပိုင်းတွေကို အမြဲတမ်း ဂရုစိုက်ရပါမယ်။',
+        conversation: [
+          ['A','Hello! You do not look well. Are you sick?','မင်္ဂလာပါ! သင်နေမကောင်းသလိုပဲ။ ဖျားနာနေလား?'],
+          ['B','Yes, I am. My head hurts a lot.','ဟုတ်တယ်။ ကျွန်တော့်ခေါင်းက အရမ်းကိုက်နေတယ်။'],
+          ['A','I am sorry to hear that. Do you need to see a doctor?','ကြားရတာ ဝမ်းနည်းပါတယ်။ ဆရာဝန်နဲ့ ပြဖို့လိုလား?'],
+          ['B','Yes, I think I need some medicine.','ဟုတ်တယ်၊ ဆေးလောက်တော့ လိုမယ်ထင်တယ်။'],
+          ['A','Please take rest and drink a lot of water.','ကျေးဇူးပြုပြီး အနားယူပြီး ရေများများသောက်ပါ။'],
+          ['B','Thank you for your advice.','အကြံပေးတဲ့အတွက် ကျေးဇူးတင်ပါတယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော့်ခေါင်းအရမ်းကိုက်နေလို့ ဒီနေ့ ကျောင်းမတက်နိုင်ဘူးဖြစ်နေတယ်။', 'My head hurts a lot, so I cannot go to school today.'],
+          ['သင့်ဗိုက်နာနေတယ်ဆိုရင် ဒီဆေးကို သောက်ကြည့်ပါ။', 'If you have a stomachache, try taking this medicine.'],
+          ['ကျွန်မက အအေးမိနေလို့ ဆရာဝန်နဲ့ သွားပြဖို့ လိုအပ်နေပါတယ်။', 'I have a cold, so I need to go see a doctor.'],
+          ['ကျန်းမာရေးကောင်းမွန်ဖို့ဆိုရင် နေ့တိုင်း လေ့ကျင့်ခန်း လုပ်ဖို့လိုပါတယ်။', 'To stay healthy, you need to exercise every day.'],
+          ['ကျွန်တော့်မျက်လုံးတွေ နာကျင်နေလို့ အနားယူဖို့ လိုအပ်နေပါတယ်။', 'My eyes are hurting, so I need to rest.'],
+          ['သင့်လက်တွေ ဘာကြောင့် နီနေတာလဲ? နာကျင်နေလား?', 'Why are your hands red? Are they hurting?']
+        ],
+        mockTest: [
+          ["'Head' ဆိုတာ ဘာလဲ?",['ဦးခေါင်း','လက်','ခြေထောက်','ဗိုက်'],0],
+          ["'My head ___ .' (ကိုက်တယ်)",['hurts','hurt','hurting','is hurt'],0],
+          ["'Doctor' ဆိုတာ ဘယ်သူလဲ?",['ဆရာမ','ဆရာဝန်','ရဲ','ကျောင်းသား'],1],
+          ["'I am ___ .' (ဖျားနာတယ်)",['happy','sick','strong','good'],1],
+          ["'Medicine' ရဲ့ အဓိပ္ပာယ်?",['အစားအစာ','ဆေး','အဝတ်အစား','စာအုပ်'],1]
+        ]
+      },
+      // Lesson 8
+      {
+        id: 'beg-8', unit: 'Unit 8', title: 'Clothes & Shopping', titleMM: 'အဝတ်အစားနှင့် ဈေးဝယ်ခြင်း',
+        explanation: 'အဝတ်အစားနှင့် အသုံးအဆောင် ဝေါဟာရများ၊ ဈေးဝယ်ခြင်း အခြေခံ စကားပြောများကို လေ့လာပါ။',
+        vocab: [
+          ['Shirt', 'အင်္ကျီ - ခန္ဓာကိုယ်အပေါ်ပိုင်းတွင် ဝတ်ဆင်သော အဝတ်အစားဖြစ်သည်။'],
+          ['Pants', 'ဘောင်းဘီ - ခြေထောက်နှစ်ချောင်းကို ဝတ်ဆင်သော အဝတ်အစားဖြစ်သည်။'],
+          ['Shoes', 'ဖိနပ် - ခြေထောက်ကို ကာကွယ်ရန် ဝတ်ဆင်သော အရာဖြစ်သည်။'],
+          ['Hat', 'ဦးထုပ် - ဦးခေါင်းကို နေရောင်နှင့် အအေးဒဏ်မှ ကာကွယ်ရန် ဆောင်းသော အရာဖြစ်သည်။'],
+          ['Dress', 'ဂါဝန် - အမျိုးသမီးများ ဝတ်ဆင်လေ့ရှိသော တစ်ဆက်တည်း အဝတ်အစားဖြစ်သည်။'],
+          ['Buy', 'ဝယ်ယူသည် - ငွေပေး၍ ပစ္စည်းတစ်ခုကို ပိုင်ဆိုင်ခွင့်ရယူခြင်းဖြစ်သည်။'],
+          ['Sell', 'ရောင်းချသည် - ပစ္စည်းတစ်ခုကို ငွေနှင့် လဲလှယ်ပေးခြင်းဖြစ်သည်။'],
+          ['Price', 'ဈေးနှုန်း - ပစ္စည်းတစ်ခုအတွက် ပေးရမည့် ငွေပမာဏဖြစ်သည်။'],
+          ['Money', 'ပိုက်ဆံ - ပစ္စည်းများ ဝယ်ယူရာတွင် အသုံးပြုသော ငွေကြေးဖြစ်သည်။'],
+          ['Shop', 'ဆိုင် - ပစ္စည်းများ ရောင်းချသော နေရာဖြစ်သည်။']
+        ],
+        patterns: [
+          ['How much is this?', 'ဒါ ဘယ်လောက်လဲ?'],
+          ['I want to buy [item].', 'ကျွန်တော် [ပစ္စည်း] ဝယ်ချင်တယ်။'],
+          ['Do you have this in [color]?', 'ဒါကို [အရောင်] ရှိလား?'],
+          ['It is too expensive.', 'ဈေးအရမ်းကြီးတယ်။'],
+          ['I will take it.', 'ဒါကို ယူမယ်။']
+        ],
+        paragraphEN: 'Shopping for clothes is a fun activity. Today, I went to a shop to buy some new clothes. I need a new shirt and a pair of pants for work. When I entered the shop, I saw many beautiful dresses, shoes, and hats. I asked the shopkeeper, "How much is this blue shirt?" He told me the price. I thought the price was okay, so I decided to buy it. I also saw a nice black hat. I tried it on, and it looked very good on me. I paid the money and left the shop happily. Buying new clothes makes me feel fresh and confident.',
+        paragraphMM: 'အဝတ်အစားတွေ ဈေးဝယ်ထွက်တာက ပျော်စရာကောင်းတဲ့ လှုပ်ရှားမှုတစ်ခုပါ။ ဒီနေ့ အဝတ်အစားအသစ်တွေ ဝယ်ဖို့ ဆိုင်တစ်ဆိုင်ကို သွားခဲ့ပါတယ်။ အလုပ်အတွက် အင်္ကျီအသစ်တစ်ထည်နဲ့ ဘောင်းဘီတစ်ထည် လိုအပ်နေပါတယ်။ ဆိုင်ထဲ ဝင်လိုက်တဲ့အခါ လှပတဲ့ ဂါဝန်တွေ၊ ဖိနပ်တွေ၊ ဦးထုပ်တွေ အများကြီး တွေ့လိုက်ရပါတယ်။ ဆိုင်ပိုင်ရှင်ကို "ဒီအပြာရောင်အင်္ကျီက ဘယ်လောက်လဲ" လို့ မေးလိုက်ပါတယ်။ သူက ဈေးနှုန်းကို ပြောပြပါတယ်။ ဈေးနှုန်းက သင့်တင့်တယ်လို့ ထင်တဲ့အတွက် ဝယ်ဖို့ ဆုံးဖြတ်လိုက်ပါတယ်။ လှပတဲ့ အမည်းရောင်ဦးထုပ်တစ်လုံးလည်း တွေ့ပါတယ်။ ဆောင်းကြည့်လိုက်တော့ ကျွန်တော့်နဲ့ အရမ်းကိုက်ပါတယ်။ ပိုက်ဆံပေးချေပြီး ဆိုင်ကနေ ပျော်ရွှင်စွာ ထွက်ခွာခဲ့ပါတယ်။ အဝတ်အစားအသစ်တွေ ဝယ်ခြင်းက ကျွန်တော့်ကို လန်းဆန်းပြီး ယုံကြည်မှုရှိလာစေပါတယ်။',
+        conversation: [
+          ['A','Excuse me, how much is this shirt?','တစ်ဆိတ်လောက်ဗျာ၊ ဒီအင်္ကျီက ဘယ်လောက်လဲ?'],
+          ['B','It is twenty dollars.','နှစ်ဆယ်ဒေါ်လာပါ။'],
+          ['A','Do you have this in a larger size?','ဒါကို အရွယ်အစား ပိုကြီးတာ ရှိလား?'],
+          ['B','Yes, we do. Here you go.','ဟုတ်ကဲ့ ရှိပါတယ်။ ဒီမှာပါ။'],
+          ['A','It looks good. I will take it.','ကောင်းပါတယ်။ ဒါကို ယူမယ်။'],
+          ['B','Great! That will be twenty dollars.','အဆင်ပြေပါတယ်! နှစ်ဆယ်ဒေါ်လာ ကျပါမယ်။']
+        ],
+        practical: [
+          ['ဒီအင်္ကျီက ဘယ်လောက်လဲခင်ဗျာ? ကျွန်တော် ဝယ်ချင်လို့ပါ။', 'How much is this shirt? I want to buy it.'],
+          ['ဒီဖိနပ်က ဈေးအရမ်းကြီးတယ်။ တခြားတစ်ခု ပြပေးလို့ရမလား?', 'These shoes are too expensive. Can you show me another one?'],
+          ['ကျွန်မက အဝတ်အစားအသစ်တွေ ဝယ်ဖို့ ဈေးသွားချင်ပါတယ်။', 'I want to go to the market to buy some new clothes.'],
+          ['ဒီအမည်းရောင်ဦးထုပ်လေးက ကျွန်တော့်နဲ့ အရမ်းကိုက်တယ်နော်။', 'This black hat looks very good on me.'],
+          ['သင်က အင်္ကျီအပြာနဲ့ ဘောင်းဘီအမည်းကို ဝယ်ချင်တာလား?', 'Do you want to buy the blue shirt and the black pants?'],
+          ['ကျေးဇူးတင်ပါတယ်။ ဒီပစ္စည်းလေးကို ဝယ်လိုက်ပါမယ်။', 'Thank you. I will buy this item.']
+        ],
+        mockTest: [
+          ["'Shirt' ဆိုတာ ဘာလဲ?",['အင်္ကျီ','ဘောင်းဘီ','ဖိနပ်','ဦးထုပ်'],0],
+          ["'How much is this?' ကို ဘာမေးတာလဲ?",['အရောင်','ဈေးနှုန်း','အရွယ်အစား','နေရာ'],1],
+          ["'I want to ___ a shirt.'",['buy','sell','eat','drink'],0],
+          ["'Shoes' ဆိုတာ?",['ဖိနပ်','အင်္ကျီ','ဘောင်းဘီ','ဦးထုပ်'],0],
+          ["'Money' ရဲ့ အဓိပ္ပာယ်?",['ပိုက်ဆံ','ဆိုင်','ဈေးနှုန်း','ဝယ်သည်'],0]
+        ]
+      },
+      // Lesson 9
+      {
+        id: 'beg-9', unit: 'Unit 9', title: 'Animals & Nature', titleMM: 'တိရစ္ဆာန်နှင့် သဘာဝ',
+        explanation: 'အိမ်မွေး၊ တောရိုင်း တိရစ္ဆာန်နှင့် သဘာဝပတ်ဝန်းကျင်ဆိုင်ရာ ဝေါဟာရများကို လေ့လာပါ။',
+        vocab: [
+          ['Dog', 'ခွေး - လူများနှင့် ရင်းနှီးပြီး အိမ်မွေးတိရစ္ဆာန်အဖြစ် မွေးမြူလေ့ရှိသည်။'],
+          ['Cat', 'ကြောင် - နူးညံ့သိမ်မွေ့ပြီး အိမ်မွေးတိရစ္ဆာန်အဖြစ် လူကြိုက်များသည်။'],
+          ['Bird', 'ငှက် - အတောင်ပံရှိပြီး ပျံသန်းနိုင်သော တိရစ္ဆာန်ဖြစ်သည်။'],
+          ['Tree', 'သစ်ပင် - ပင်စည်နှင့် အကိုင်းအခက်များရှိသော အပင်ကြီးဖြစ်သည်။'],
+          ['Flower', 'ပန်းပွင့် - အရောင်အသွေးစုံပြီး လှပသော အပင်အစိတ်အပိုင်းဖြစ်သည်။'],
+          ['Water', 'ရေ - သဘာဝတွင် တွေ့ရသော အရေးကြီးဆုံး အရည်ဖြစ်သည်။'],
+          ['Sun', 'နေ - ကမ္ဘာကို အလင်းရောင်နှင့် အပူဓာတ်ပေးသော ကြယ်ဖြစ်သည်။'],
+          ['Sky', 'ကောင်းကင် - ကမ္ဘာ့မျက်နှာပြင်အထက် အာကာသအတွင်း မြင်ရသော နေရာဖြစ်သည်။'],
+          ['Animal', 'တိရစ္ဆာန် - သက်ရှိသတ္တဝါ တစ်မျိုးဖြစ်ပြီး အစာစားပြီး လှုပ်ရှားနိုင်သည်။'],
+          ['Nature', 'သဘာဝ - လူတို့ဖန်တီးခြင်းမဟုတ်ဘဲ သဘာဝအတိုင်း ဖြစ်ပေါ်နေသော အရာများဖြစ်သည်။']
+        ],
+        patterns: [
+          ['I have a pet [animal].', 'ကျွန်တော့်မှာ အိမ်မွေး [တိရစ္ဆာန်] ရှိတယ်။'],
+          ['The [animal] is very cute.', '[တိရစ္ဆာန်] က အရမ်းချစ်စရာကောင်းတယ်။'],
+          ['I love nature.', 'ကျွန်တော် သဘာဝကို ချစ်တယ်။'],
+          ['Look at the [tree/flower].', '[သစ်ပင်/ပန်းပွင့်] ကို ကြည့်ပါဦး။'],
+          ['The sky is blue today.', 'ဒီနေ့ ကောင်းကင်က အပြာရောင်ပါ။']
+        ],
+        paragraphEN: 'Nature is beautiful and full of life. I love spending time outside. In the morning, I can see the bright sun in the blue sky. There are many green trees and colorful flowers around my house. I have a pet dog named Max. He is very friendly and cute. I also like to watch birds flying in the sky. Sometimes, I go to the zoo to see wild animals like lions, tigers, and elephants. It is very important to protect nature and take care of animals. We should not cut down too many trees and must keep our environment clean. Nature gives us fresh air and water, so we must love and respect it.',
+        paragraphMM: 'သဘာဝတရားက လှပပြီး သက်ရှိတွေနဲ့ ပြည့်နှက်နေပါတယ်။ ကျွန်တော် အပြင်မှာ အချိန်ဖြုန်းရတာကို နှစ်သက်ပါတယ်။ မနက်ခင်းမှာ အပြာရောင်ကောင်းကင်အောက်က တောက်ပတဲ့ နေရောင်ကို မြင်နိုင်ပါတယ်။ ကျွန်တော့်အိမ်ပတ်ဝန်းကျင်မှာ အစိမ်းရောင်သစ်ပင်တွေနဲ့ အရောင်စုံပန်းပွင့်တွေ အများကြီးရှိပါတယ်။ မက်စ် (Max) လို့ခေါ်တဲ့ အိမ်မွေးခွေးတစ်ကောင် ရှိပါတယ်။ သူက အရမ်းဖော်ရွေပြီး ချစ်စရာကောင်းပါတယ်။ ကောင်းကင်မှာ ပျံသန်းနေတဲ့ ငှက်တွေကို ကြည့်ရတာလည်း ကြိုက်ပါတယ်။ တစ်ခါတလေ ခြင်္သေ့၊ ကျားနဲ့ ဆင်လို တောရိုင်းတိရစ္ဆာန်တွေကို ကြည့်ဖို့ တိရစ္ဆာန်ဥယျာဉ်ကို သွားလေ့ရှိပါတယ်။ သဘာဝကို ကာကွယ်ဖို့နဲ့ တိရစ္ဆာန်တွေကို ဂရုစိုက်ဖို့က အရမ်းအရေးကြီးပါတယ်။ သစ်ပင်တွေ အလွန်အကျွံ မခုတ်လှဲသင့်ဘဲ ပတ်ဝန်းကျင်ကို သန့်ရှင်းအောင် ထိန်းသိမ်းရပါမယ်။ သဘာဝက ကျွန်တော်တို့ကို လေကောင်းလေသန့်နဲ့ ရေကို ပေးစွမ်းတာကြောင့် ချစ်ခင်လေးစားရပါမယ်။',
+        conversation: [
+          ['A','Do you have any pets?','သင့်မှာ အိမ်မွေးတိရစ္ဆာန် ရှိလား?'],
+          ['B','Yes, I have a cat. She is very cute.','ဟုတ်တယ်၊ ကျွန်မမှာ ကြောင်တစ်ကောင် ရှိတယ်။ သူမက အရမ်းချစ်စရာကောင်းတယ်။'],
+          ['A','I love cats! I have a dog.','ကျွန်တော် ကြောင်တွေကို ချစ်တယ်! ကျွန်တော့်မှာ ခွေးတစ်ကောင် ရှိတယ်။'],
+          ['B','That is nice. What do you like about nature?','ကောင်းတယ်နော်။ သဘာဝအပေါ် ဘာတွေ သဘောကျလဲ?'],
+          ['A','I love the green trees and the blue sky.','အစိမ်းရောင်သစ်ပင်တွေနဲ့ အပြာရောင်ကောင်းကင်ကို သဘောကျတယ်။'],
+          ['B','Me too. We must protect our nature.','ကျွန်မလည်း အတူတူပဲ။ ငါတို့ သဘာဝကို ကာကွယ်ရမယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော့်မှာ အိမ်မွေးခွေးတစ်ကောင် ရှိပြီး သူ့နာမည်က ဘော့ဘ်လို့ခေါ်ပါတယ်။', 'I have a pet dog and his name is Bob.'],
+          ['ဒီနေ့ ကောင်းကင်က အရမ်းလှပြီး နေရောင်ခြည်လည်း တောက်ပနေပါတယ်။', 'The sky is very beautiful today and the sunshine is bright.'],
+          ['သစ်ပင်တွေက အစိမ်းရောင်ဖြစ်ပြီး ပန်းပွင့်လေးတွေက အရမ်းလှပါတယ်။', 'The trees are green and the flowers are very beautiful.'],
+          ['သဘာဝပတ်ဝန်းကျင်ကို သန့်ရှင်းအောင် ထိန်းသိမ်းဖို့ အားလုံးက တာဝန်ရှိပါတယ်။', 'Everyone is responsible for keeping the environment clean.'],
+          ['ကျွန်မက တိရစ္ဆာန်ဥယျာဉ်သွားပြီး ဆင်ကြီးတွေကို ကြည့်ချင်ပါတယ်။', 'I want to go to the zoo and see the big elephants.'],
+          ['သင့်အိမ်မှာ အိမ်မွေးတိရစ္ဆာန် ဘာတွေ မွေးထားလဲ?', 'What kind of pets do you have at home?']
+        ],
+        mockTest: [
+          ["'Dog' ဆိုတာ ဘာလဲ?",['ခွေး','ကြောင်','ငှက်','ငါး'],0],
+          ["'Tree' ရဲ့ အဓိပ္ပာယ်?",['သစ်ပင်','ပန်းပင်','မြက်','ရေ'],0],
+          ["'The sky is ___ .'",['green','blue','red','black'],1],
+          ["'I have a pet ___ .' (ကြောင်)",['dog','cat','bird','fish'],1],
+          ["'Nature' ဆိုတာ?",['သဘာဝ','မြို့','အိမ်','ကျောင်း'],0]
+        ]
+      },
+      // Lesson 10
+      {
+        id: 'beg-10', unit: 'Unit 10', title: 'Weather & Seasons', titleMM: 'ရာသီဥတုနှင့် ရာသီများ',
+        explanation: 'ရာသီဥတု ဖော်ပြချက်များနှင့် ရာသီ ၄ ခုအကြောင်း ပြောဆိုပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Sunny', 'နေသာသော - နေရောင်ခြည် တောက်ပနေသော ရာသီဥတုအခြေအနေဖြစ်သည်။'],
+          ['Rainy', 'မိုးရွာသော - မိုးရွာနေသော ရာသီဥတုအခြေအနေဖြစ်သည်။'],
+          ['Cloudy', 'တိမ်ထူသော - ကောင်းကင်တွင် တိမ်များ ဖုံးလွှမ်းနေသော အခြေအနေဖြစ်သည်။'],
+          ['Windy', 'လေတိုက်သော - လေပြင်းတိုက်ခတ်နေသော ရာသီဥတုအခြေအနေဖြစ်သည်။'],
+          ['Hot', 'ပူသော - အပူချိန် မြင့်မားနေသော အခြေအနေဖြစ်သည်။'],
+          ['Cold', 'အေးသော - အပူချိန် နိမ့်နေသော အခြေအနေဖြစ်သည်။'],
+          ['Summer', 'နွေရာသီ - အပူဆုံးရာသီဖြစ်ပြီး မတ်လမှ မေလအတွင်း ဖြစ်သည်။'],
+          ['Rainy Season', 'မိုးရာသီ - မိုးအများဆုံး ရွာသွန်းသော ရာသီဖြစ်ပြီး ဇွန်မှ အောက်တိုဘာအတွင်း ဖြစ်သည်။'],
+          ['Winter', 'ဆောင်းရာသီ - အအေးဆုံးရာသီဖြစ်ပြီး နိုဝင်ဘာမှ ဖေဖော်ဝါရီအတွင်း ဖြစ်သည်။'],
+          ['Weather', 'ရာသီဥတု - နေ့စဉ် ပြောင်းလဲနေသော လေ၊ မိုး၊ နေရောင်ခြည် အခြေအနေဖြစ်သည်။']
+        ],
+        patterns: [
+          ['How is the weather today?', 'ဒီနေ့ ရာသီဥတု ဘယ်လိုလဲ?'],
+          ['It is [weather condition] today.', 'ဒီနေ့ [ရာသီဥတု] ဖြစ်တယ်။'],
+          ['I like [season] season.', 'ကျွန်တော် [ရာသီ] ကို ကြိုက်တယ်။'],
+          ['It is very hot.', 'အရမ်းပူတယ်။'],
+          ['Take an umbrella, it is raining.', 'ထီးယူသွားပါ၊ မိုးရွာနေတယ်။']
+        ],
+        paragraphEN: 'Weather changes every day, and there are four main seasons in a year. In my country, Myanmar, we have three main seasons: the hot season, the rainy season, and the cold season. The hot season is usually from March to May. It is very sunny and hot, so we drink a lot of water. The rainy season is from June to October. It is very wet and cloudy. We always carry an umbrella when we go outside. The cold season is from November to February. It is very cool and windy. I love the cold season because I like to wear warm clothes. We should always check the weather before going out.',
+        paragraphMM: 'ရာသီဥတုက နေ့တိုင်း ပြောင်းလဲနေပြီး တစ်နှစ်မှာ အဓိက ရာသီ ၄ ခု ရှိပါတယ်။ ကျွန်တော့်နိုင်ငံ မြန်မာမှာတော့ အဓိက ရာသီ ၃ ခု ရှိပါတယ်။ နွေရာသီ၊ မိုးရာသီနဲ့ ဆောင်းရာသီပါ။ နွေရာသီက များသောအားဖြင့် မတ်လကနေ မေလအထိ ဖြစ်ပါတယ်။ အရမ်းနေသာပြီး ပူတဲ့အတွက် ရေအများကြီး သောက်ရပါတယ်။ မိုးရာသီက ဇွန်လကနေ အောက်တိုဘာလအထိ ဖြစ်ပါတယ်။ အရမ်းစိုစွတ်ပြီး တိမ်ထူတတ်ပါတယ်။ အပြင်ထွက်တဲ့အခါ ထီးကို အမြဲတမ်း ယူသွားပါတယ်။ ဆောင်းရာသီက နိုဝင်ဘာလကနေ ဖေဖော်ဝါရီလအထိ ဖြစ်ပါတယ်။ အရမ်းအေးပြီး လေတိုက်တတ်ပါတယ်။ ကျွန်တော် ဆောင်းရာသီကို ကြိုက်ပါတယ်၊ ဘာလို့လဲဆိုတော့ ပူနွေးတဲ့ အဝတ်အစားတွေ ဝတ်ရတာ ကြိုက်လို့ပါ။ အပြင်မထွက်ခင် ရာသီဥတုကို အမြဲတမ်း စစ်ဆေးသင့်ပါတယ်။',
+        conversation: [
+          ['A','How is the weather today?','ဒီနေ့ ရာသီဥတု ဘယ်လိုလဲ?'],
+          ['B','It is very sunny and hot.','အရမ်းနေသာပြီး ပူပါတယ်။'],
+          ['A','Oh, I need to drink a lot of water.','အိုး၊ ကျွန်တော် ရေအများကြီး သောက်ဖို့လိုတယ်။'],
+          ['B','Yes. Do you like the hot season?','ဟုတ်တယ်။ နွေရာသီကို ကြိုက်လား?'],
+          ['A','No, I prefer the cold season. What about you?','မကြိုက်ဘူး၊ ဆောင်းရာသီကို ပိုကြိုက်တယ်။ သင်ကရော?'],
+          ['B','I like the rainy season because it is cool.','ကျွန်တော်ကတော့ မိုးရာသီကို ကြိုက်တယ်၊ အေးမြလို့။']
+        ],
+        practical: [
+          ['ဒီနေ့ ရာသီဥတုက အရမ်းပူပြီး နေသာနေပါတယ်။', 'The weather is very hot and sunny today.'],
+          ['အပြင်မှာ မိုးရွာနေတဲ့အတွက် ထီးမမေ့ပါနဲ့။', 'It is raining outside, so do not forget your umbrella.'],
+          ['ကျွန်မက ဆောင်းရာသီကို ကြိုက်တယ်၊ အေးမြတဲ့လေကို ခံစားရတာ ပျော်လို့။', 'I like the cold season because I enjoy feeling the cool breeze.'],
+          ['နွေရာသီမှာ အရမ်းပူတဲ့အတွက် ရေခဲမုန့်စားရတာ အရမ်းကောင်းပါတယ်။', 'It is very hot in summer, so eating ice cream is great.'],
+          ['သင့်နိုင်ငံမှာ ဘယ်ရာသီက အအေးဆုံးလဲ?', 'Which season is the coldest in your country?'],
+          ['ကောင်းကင်မှာ တိမ်တွေအများကြီးရှိပြီး မိုးရွာတော့မယ်လို့ ထင်ပါတယ်။', 'There are many clouds in the sky, and I think it is going to rain.']
+        ],
+        mockTest: [
+          ["'Rainy' ဆိုတာ?",['မိုးရွာသော','နေသာသော','အေးသော','ပူသော'],0],
+          ["'Hot' ရဲ့ ဆန့်ကျင်ဘက်?",['Cold','Warm','Sunny','Windy'],0],
+          ["'How is the ___ today?'",['weather','season','rain','sun'],0],
+          ["'Summer' ဆိုတာ ဘာရာသီလဲ?",['နွေ','မိုး','ဆောင်း','သောင်းကျန်း'],0],
+          ["'I like the cold ___ .'",['summer','season','weather','rain'],1]
+        ]
+      },
+      // Lesson 11
+      {
+        id: 'beg-11', unit: 'Unit 11', title: 'Asking for Directions', titleMM: 'လမ်းမေးခြင်း',
+        explanation: 'မြို့သစ်တစ်ခုသို့ ရောက်ရှိသည့်အခါ ဘူတာရုံ၊ လေဆိပ်၊ ဘဏ်နှင့် ဟိုတယ်များသို့ သွားရောက်ရန် လမ်းမေးနည်းနှင့် ညွှန်ပြနည်းများကို လေ့လာပါ။',
+        vocab: [
+          ['Left', 'ဘယ်ဘက် - မိမိမျက်နှာမူရာ ဦးတည်ချက်မှ ဘယ်ဘက်အခြမ်းဖြစ်သည်။'],
+          ['Right', 'ညာဘက် - မိမိမျက်နှာမူရာ ဦးတည်ချက်မှ ညာဘက်အခြမ်းဖြစ်သည်။'],
+          ['Straight', 'တည့်တည့် - ဘေးတိုက်မသွားဘဲ ရှေ့သို့ တည့်တည့်သွားခြင်းဖြစ်သည်။'],
+          ['Turn', 'ကွေ့သည် - လမ်းတစ်လမ်းမှ တစ်လမ်းသို့ ဦးတည်ချက်ပြောင်းခြင်းဖြစ်သည်။'],
+          ['Near', 'အနီး - အကွာအဝေး မဝေးသော နေရာဖြစ်သည်။'],
+          ['Far', 'အကွာ - အကွာအဝေး ဝေးသော နေရာဖြစ်သည်။'],
+          ['Bank', 'ဘဏ် - ငွေသိမ်းဆည်းခြင်းနှင့် ငွေလဲလှယ်ခြင်း ပြုလုပ်သော နေရာဖြစ်သည်။'],
+          ['Hospital', 'ဆေးရုံ - ဖျားနာသူများကို ကုသပေးသော နေရာဖြစ်သည်။'],
+          ['Station', 'ဘူတာရုံ - ရထား သို့မဟုတ် ဘတ်စ်ကား စီးရန် နေရာဖြစ်သည်။'],
+          ['Map', 'မြေပုံ - နေရာဒေသများကို ရေးဆွဲဖော်ပြထားသော ပုံဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Excuse me, where is the [place]?', 'တစ်ဆိတ်လောက်ဗျာ၊ [နေရာ] က ဘယ်မှာလဲ?'],
+          ['How can I get to the [place]?', '[နေရာ] ကို ဘယ်လိုသွားရမလဲ?'],
+          ['Go straight and turn left/right.', 'တည့်တည့်သွားပြီး ဘယ်/ညာ ကွေ့ပါ။'],
+          ['It is near the [landmark].', 'အဲဒါက [အမှတ်အသား] အနီးမှာ ရှိတယ်။'],
+          ['Is it far from here?', 'ဒီကနေ ဝေးလား?']
+        ],
+        paragraphEN: 'When we visit a new city, we often need to ask for directions. Yesterday, I went to a new town to visit my friend. I did not know the way to his house, so I asked a kind man on the street. I said, "Excuse me, how can I get to the hospital?" He smiled and told me, "Go straight for two blocks, then turn right. The hospital is on your left, next to the bank." I followed his directions. It was very easy to find. I thanked him and continued my journey. Asking for directions is a very useful skill when you travel to different places.',
+        paragraphMM: 'မြို့အသစ်တစ်ခုကို ရောက်တဲ့အခါ လမ်းမေးဖို့ လိုအပ်တတ်ပါတယ်။ မနေ့က သူငယ်ချင်းအိမ် လည်ပတ်ဖို့ မြို့သစ်တစ်ခုကို သွားခဲ့ပါတယ်။ သူ့အိမ်လမ်းကို မသိတဲ့အတွက် လမ်းပေါ်မှာ ကြင်နာတဲ့ လူတစ်ယောက်ကို မေးလိုက်ပါတယ်။ "တစ်ဆိတ်လောက်ဗျာ၊ ဆေးရုံကို ဘယ်လိုသွားရမလဲ" လို့ မေးလိုက်ပါတယ်။ သူက ပြုံးပြီး "လမ်းနှစ်တုံးစာ တည့်တည့်သွားပြီး ညာဘက်ကွေ့လိုက်ပါ။ ဆေးရုံက ဘဏ်ဘေးမှာ၊ သင့်ဘယ်ဘက်ခြမ်းမှာ ရှိပါတယ်" လို့ ပြောပါတယ်။ သူပြောတဲ့အတိုင်း လိုက်သွားတော့ အလွယ်တကူ ရှာတွေ့ပါတယ်။ ကျေးဇူးတင်ကြောင်း ပြောပြီး ခရီးကို ဆက်ခဲ့ပါတယ်။ နေရာတွေကို သွားလာတဲ့အခါ လမ်းမေးတတ်တာက အရမ်းအသုံးဝင်တဲ့ ကျွမ်းကျင်မှုတစ်ခုပါ။',
+        conversation: [
+          ['A','Excuse me, where is the train station?','တစ်ဆိတ်လောက်ဗျာ၊ ရထားဘူတာရုံက ဘယ်မှာလဲ?'],
+          ['B','Go straight for two blocks and turn left.','လမ်းနှစ်တုံးစာ တည့်တည့်သွားပြီး ဘယ်ဘက်ကွေ့ပါ။'],
+          ['A','Is it far from here?','ဒီကနေ ဝေးလား?'],
+          ['B','No, it is very near. About five minutes on foot.','မဝေးပါဘူး၊ အရမ်းနီးပါတယ်။ လမ်းလျှောက်ရင် ငါးမိနစ်လောက်ပါ။'],
+          ['A','Thank you so much for your help.','ကူညီတဲ့အတွက် အရမ်းကျေးဇူးတင်ပါတယ်။'],
+          ['B','You are welcome. Have a nice day!','ရပါတယ်။ ကောင်းသောနေ့လေးဖြစ်ပါစေ!']
+        ],
+        practical: [
+          ['ဘဏ်ကို ဘယ်လိုသွားရမလဲခင်ဗျာ? ကျွန်တော် ဒီမြို့ကို အသစ်ရောက်တာပါ။', 'How can I get to the bank? I am new to this city.'],
+          ['တည့်တည့်သွားပြီး ဒုတိယလမ်းထောင့်မှာ ညာဘက်ကွေ့ပါ။', 'Go straight and turn right at the second corner.'],
+          ['ဆေးရုံက ဒီကနေ ဝေးသလား? လမ်းလျှောက်သွားလို့ ရမလား?', 'Is the hospital far from here? Can I walk there?'],
+          ['ခွင့်လွှတ်ပါဦး၊ အနီးဆုံး ဘတ်စ်ကားမှတ်တိုင် ဘယ်မှာရှိလဲ?', 'Excuse me, where is the nearest bus stop?'],
+          ['ဘူတာရုံက ဘဏ်ရဲ့ ဘေးမှာ ရှိပါတယ်၊ အရမ်းရှာရလွယ်ပါတယ်။', 'The station is next to the bank, it is very easy to find.'],
+          ['ကျေးဇူးတင်ပါတယ်၊ သင့်အကူအညီမပါဘဲ ကျွန်တော် လမ်းမတွေ့နိုင်မှာပါ။', 'Thank you, I would not have found the way without your help.']
+        ],
+        mockTest: [
+          ["'Left' ဆိုတာ?",['ဘယ်','ညာ','တည့်တည့်','အနီး'],0],
+          ["'Go ___ .' (တည့်တည့်သွား)",['left','right','straight','back'],2],
+          ["'How can I get to the ___ ?' (ဆေးရုံ)",['bank','hospital','station','school'],1],
+          ["'Turn' ရဲ့ အဓိပ္ပာယ်?",['ကွေ့သည်','သွားသည်','ရပ်သည်','မေးသည်'],0],
+          ["'Is it far ___ here?'",['to','from','at','in'],1]
+        ]
+      },
+      // Lesson 12
+      {
+        id: 'beg-12', unit: 'Unit 12', title: 'Hobbies & Free Time', titleMM: 'ဝါသနာနှင့် အားလပ်ချိန်',
+        explanation: 'ဝါသနာနှင့် အားလပ်ချိန် လုပ်ငန်းများအကြောင်း ပြောဆိုပုံကို လေ့လာပါ။',
+        vocab: [
+          ['Hobby', 'ဝါသနာ - အားလပ်ချိန်တွင် ပျော်ရွှင်မှုအတွက် လုပ်ဆောင်သော အရာဖြစ်သည်။'],
+          ['Read', 'ဖတ်သည် - စာအုပ်၊ သတင်းစာ စသည်တို့ကို ဖတ်ရှုခြင်းဖြစ်သည်။'],
+          ['Play', 'ကစားသည် - အားကစား သို့မဟုတ် ဂိမ်းများကို ပျော်ရွှင်စွာ လုပ်ဆောင်ခြင်းဖြစ်သည်။'],
+          ['Listen', 'နားထောင်သည် - သီချင်း သို့မဟုတ် အသံများကို အာရုံစိုက်၍ နားထောင်ခြင်းဖြစ်သည်။'],
+          ['Music', 'ဂီတ - သံစဉ်များဖြင့် ဖွဲ့စည်းထားသော အနုပညာဖြစ်သည်။'],
+          ['Movie', 'ရုပ်ရှင် - သရုပ်ဆောင်များဖြင့် ရိုက်ကူးထားသော ဇာတ်လမ်းဖြစ်သည်။'],
+          ['Travel', 'ခရီးသွားသည် - တစ်နေရာမှ တစ်နေရာသို့ သွားလာခြင်းဖြစ်သည်။'],
+          ['Enjoy', 'နှစ်သက်သည် - တစ်စုံတစ်ခုကို ပျော်ရွှင်စွာ လုပ်ဆောင်ခြင်းဖြစ်သည်။'],
+          ['Free time', 'အားလပ်ချိန် - အလုပ် သို့မဟုတ် ကျောင်းမှ အားလပ်သော အချိန်ဖြစ်သည်။'],
+          ['Fun', 'ပျော်စရာ - ရွှင်လန်းပြီး စိတ်လက်ပေါ့ပါးစေသော အရာဖြစ်သည်။']
+        ],
+        patterns: [
+          ['What is your hobby?', 'သင့်ဝါသနာက ဘာလဲ?'],
+          ['My hobby is [hobby].', 'ကျွန်တော့်ဝါသနာက [ဝါသနာ] ပါ။'],
+          ['I like to [action] in my free time.', 'အားလပ်ချိန်မှာ ကျွန်တော် [လုပ်ဆောင်ချက်] လုပ်ရတာ ကြိုက်တယ်။'],
+          ['I enjoy [action].', 'ကျွန်တော် [လုပ်ဆောင်ချက်] လုပ်ရတာ နှစ်သက်တယ်။'],
+          ['It is very fun.', 'အရမ်းပျော်စရာကောင်းတယ်။']
+        ],
+        paragraphEN: 'Everyone has a hobby, and hobbies are very important for our happiness. In my free time, I love to read books. Reading helps me learn new things and relax my mind. My favorite books are about travel and adventure. I also enjoy listening to music. When I listen to my favorite songs, I feel very happy and relaxed. On weekends, I often play football with my friends in the park. It is a great way to exercise and have fun. Sometimes, I watch movies at home with my family. Having a hobby is a wonderful way to spend your free time and enjoy your life.',
+        paragraphMM: 'လူတိုင်းမှာ ဝါသနာတစ်ခုစီ ရှိကြပြီး ဝါသနာတွေက ကျွန်တော်တို့ရဲ့ ပျော်ရွှင်မှုအတွက် အရမ်းအရေးကြီးပါတယ်။ အားလပ်ချိန်မှာ ကျွန်တော် စာအုပ်တွေဖတ်ရတာကို နှစ်သက်ပါတယ်။ စာဖတ်တာက အရာသစ်တွေ သင်ယူနိုင်ပြီး စိတ်ကို အနားယူစေပါတယ်။ ကျွန်တော့်အကြိုက်ဆုံး စာအုပ်တွေက ခရီးသွား စွန့်စားခန်းတွေအကြောင်းပါ။ သီချင်းနားထောင်ရတာကိုလည်း နှစ်သက်ပါတယ်။ အကြိုက်ဆုံးသီချင်းတွေကို နားထောင်တဲ့အခါ အရမ်းပျော်ရွှင်ပြီး စိတ်လက်ပေါ့ပါးလာပါတယ်။ စနေ၊ တနင်္ဂနွေတွေမှာ သူငယ်ချင်းတွေနဲ့အတူ ပန်းခြံမှာ ဘောလုံးကစားလေ့ရှိပါတယ်။ လေ့ကျင့်ခန်းဖြစ်စေပြီး ပျော်စရာလည်းကောင်းတဲ့ နည်းလမ်းကောင်းတစ်ခုပါ။ တစ်ခါတလေ အိမ်မှာ မိသားစုနဲ့အတူ ရုပ်ရှင်ကြည့်လေ့ရှိပါတယ်။ ဝါသနာတစ်ခုထားရှိခြင်းက အားလပ်ချိန်ကို အကျိုးရှိရှိ ဖြတ်သန်းပြီး ဘဝကို ပျော်ရွှင်စွာ နေထိုင်နိုင်ဖို့ အံ့သြဖွယ်နည်းလမ်းတစ်ခုပါ။',
+        conversation: [
+          ['A','What do you like to do in your free time?','အားလပ်ချိန်မှာ ဘာလုပ်ရတာ ကြိုက်လဲ?'],
+          ['B','I like to listen to music. What about you?','သီချင်းနားထောင်ရတာ ကြိုက်တယ်။ သင်ကရော?'],
+          ['A','I enjoy reading books and playing football.','ကျွန်တော်ကတော့ စာဖတ်တာနဲ့ ဘောလုံးကစားတာကို နှစ်သက်တယ်။'],
+          ['B','That sounds fun. Do you play football every day?','ပျော်စရာကောင်းတယ်နော်။ နေ့တိုင်း ဘောလုံးကစားလား?'],
+          ['A','No, I usually play on weekends with my friends.','မဟုတ်ဘူး၊ များသောအားဖြင့် စနေ၊ တနင်္ဂနွေတွေမှာ သူငယ်ချင်းတွေနဲ့ ကစားတယ်။'],
+          ['B','That is a great hobby.','အရမ်းကောင်းတဲ့ ဝါသနာပါပဲ။']
+        ],
+        practical: [
+          ['ကျွန်တော့်ရဲ့ အားလပ်ချိန်မှာ စာအုပ်ဖတ်တာနဲ့ သီချင်းနားထောင်တာတွေ လုပ်လေ့ရှိပါတယ်။', 'In my free time, I usually read books and listen to music.'],
+          ['သင့်ဝါသနာက ဘာလဲ? ကျွန်မကတော့ ရုပ်ရှင်ကြည့်ရတာကို ကြိုက်ပါတယ်။', 'What is your hobby? I like watching movies.'],
+          ['ကျွန်တော်တို့ စနေနေ့တွေမှာ ပန်းခြံမှာ ဘောလုံးသွားကစားကြရအောင်နော်။', 'Let us go play football in the park on Saturdays.'],
+          ['ခရီးသွားရတာက ကျွန်တော့်ရဲ့ အကြိုက်ဆုံး ဝါသနာပါပဲ၊ နေရာသစ်တွေ သွားရတာကို နှစ်သက်တယ်။', 'Traveling is my favorite hobby, I enjoy going to new places.'],
+          ['ကျွန်မက အားလပ်ချိန်မှာ သူငယ်ချင်းတွေနဲ့ စကားပြောရတာကို အရမ်းသဘောကျပါတယ်။', 'I really enjoy talking with my friends in my free time.'],
+          ['သီချင်းနားထောင်တာက ကျွန်တော့်စိတ်ကို အရမ်းအေးချမ်းစေပါတယ်။', 'Listening to music makes my mind very peaceful.']
+        ],
+        mockTest: [
+          ["'Hobby' ဆိုတာ?",['ဝါသနာ','အလုပ်','ကျောင်း','အိမ်'],0],
+          ["'I like to ___ music.'",['listen','listen to','hear','hear to'],1],
+          ["'Free time' ရဲ့ အဓိပ္ပာယ်?",['အားလပ်ချိန်','အလုပ်ချိန်','ကျောင်းချိန်','အိပ်ချိန်'],0],
+          ["'Reading' က ဘာဝါသနာလဲ?",['စာဖတ်ခြင်း','ကစားခြင်း','အိပ်ခြင်း','စားခြင်း'],0],
+          ["'I ___ playing football.'",['enjoy','enjoys','enjoying','am enjoy'],0]
+        ]
+      },
+      // Lesson 13
+      {
+        id: 'beg-13', unit: 'Unit 13', title: 'Basic Verbs & Actions', titleMM: 'အခြေခံ ကြိယာများနှင့် လုပ်ဆောင်ချက်များ',
+        explanation: 'နေ့စဉ်ဘဝတွင် အသုံးများသော အခြေခံ ကြိယာများ (Verbs) နှင့် လုပ်ဆောင်ချက်များကို လေ့လာပါ။',
+        vocab: [
+          ['Go', 'သွားသည် - တစ်နေရာမှ တစ်နေရာသို့ ရွေ့လျားခြင်းဖြစ်သည်။'],
+          ['Come', 'လာသည် - တစ်နေရာသို့ ဦးတည်၍ ရွေ့လျားလာခြင်းဖြစ်သည်။'],
+          ['See', 'မြင်သည် - မျက်စိဖြင့် အရာဝတ္ထုများကို ကြည့်ရှုသိရှိခြင်းဖြစ်သည်။'],
+          ['Look', 'ကြည့်သည် - အာရုံစိုက်ပြီး မျက်စိဖြင့် ကြည့်ရှုခြင်းဖြစ်သည်။'],
+          ['Make', 'ပြုလုပ်သည် - အရာဝတ္ထုတစ်ခုကို ဖန်တီးခြင်း သို့မဟုတ် ပြင်ဆင်ခြင်းဖြစ်သည်။'],
+          ['Do', 'လုပ်သည် - တာဝန် သို့မဟုတ် လုပ်ဆောင်ချက်တစ်ခုကို ဆောင်ရွက်ခြင်းဖြစ်သည်။'],
+          ['Take', 'ယူသည် - တစ်စုံတစ်ခုကို ကိုင်ယူ သို့မဟုတ် သယ်ယူခြင်းဖြစ်သည်။'],
+          ['Give', 'ပေးသည် - တစ်စုံတစ်ခုကို အခြားသူတစ်ဦးထံ လွှဲအပ်ခြင်းဖြစ်သည်။'],
+          ['Know', 'သိသည် - အကြောင်းအရာတစ်ခုကို နားလည်သိရှိခြင်းဖြစ်သည်။'],
+          ['Think', 'တွေးသည် - ဦးနှောက်ဖြင့် အကြောင်းအရာတစ်ခုကို စဉ်းစားခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['I [verb] every day.', 'ကျွန်တော် နေ့တိုင်း [ကြိယာ] တယ်။'],
+          ['Can you [verb]?', 'သင် [ကြိယာ] လုပ်နိုင်လား?'],
+          ['I want to [verb].', 'ကျွန်တော် [ကြိယာ] လုပ်ချင်တယ်။'],
+          ['Please [verb] here.', 'ကျေးဇူးပြုပြီး ဒီမှာ [ကြိယာ] ပါ။'],
+          ['Do you [verb]?', 'သင် [ကြိယာ] လုပ်လား?']
+        ],
+        paragraphEN: 'Verbs are action words, and they are very important in English. Every day, we do many actions. In the morning, I wake up and go to the bathroom. I take a shower and eat my breakfast. Then, I go to work or school. I see my friends and we talk together. Sometimes, I make coffee for my parents. I think learning English is very fun. Can you speak English? Yes, I can. I know many English words now. I want to learn more verbs because they help me make better sentences. When you give someone a smile, they feel happy.',
+        paragraphMM: 'ကြိယာဆိုတာ လုပ်ဆောင်ချက်ကို ပြသတဲ့ စကားလုံးတွေဖြစ်ပြီး English မှာ အရမ်းအရေးကြီးပါတယ်။ နေ့တိုင်း ကျွန်တော်တို့ လုပ်ဆောင်ချက်တွေ အများကြီး လုပ်ပါတယ်။ မနက်ခင်းမှာ အိပ်ရာနိုးပြီး ရေချိုးခန်းကို သွားပါတယ်။ ရေချိုးပြီး မနက်စာစားပါတယ်။ ပြီးတော့ အလုပ် ဒါမှမဟုတ် ကျောင်းကို သွားပါတယ်။ သူငယ်ချင်းတွေနဲ့ တွေ့ပြီး အတူတူ စကားပြောကြပါတယ်။ တစ်ခါတလေ မိဘတွေအတွက် ကော်ဖီဖျော်ပေးပါတယ်။ English သင်ယူရတာက အရမ်းပျော်စရာကောင်းတယ်လို့ ကျွန်တော် ထင်ပါတယ်။ သင် English စကားပြောနိုင်လား? ဟုတ်ကဲ့ ပြောနိုင်ပါတယ်။ အခု ကျွန်တော် English စကားလုံးတွေ အများကြီး သိပါပြီ။ ပိုကောင်းတဲ့ ဝါကျတွေ ဖွဲ့နိုင်ဖို့ ကြိယာတွေ ထပ်လေ့လာချင်ပါတယ်။ တစ်စုံတစ်ယောက်ကို ပြုံးပြလိုက်တဲ့အခါ သူတို့ ပျော်ရွှင်သွားကြပါတယ်။',
+        conversation: [
+          ['A','What do you do every morning?','မနက်တိုင်း ဘာတွေလုပ်လဲ?'],
+          ['B','I wake up, take a shower, and eat breakfast.','အိပ်ရာနိုး၊ ရေချိုး၊ မနက်စာစားတယ်။'],
+          ['A','Do you go to work or school?','အလုပ်သွားလား ဒါမှမဟုတ် ကျောင်းသွားလား?'],
+          ['B','I go to work. What about you?','အလုပ်သွားတယ်။ သင်ကရော?'],
+          ['A','I go to school. I want to learn English.','ကျွန်မ ကျောင်းသွားတယ်။ English သင်ယူချင်လို့။'],
+          ['B','That is great. You can speak English well.','အရမ်းကောင်းတယ်။ သင် English ကောင်းကောင်းပြောနိုင်တယ်။']
+        ],
+        practical: [
+          ['ကျွန်တော် နေ့တိုင်း မနက်ခုနစ်နာရီမှာ အိပ်ရာနိုးပါတယ်။', 'I wake up at seven o\'clock every morning.'],
+          ['သင် အင်္ဂလိပ်လို ကောင်းကောင်း ပြောနိုင်လား? ကျွန်တော် နည်းနည်းတော့ ပြောနိုင်ပါတယ်။', 'Can you speak English well? I can speak a little.'],
+          ['ကျွန်မက သူငယ်ချင်းတွေအတွက် ကော်ဖီဖျော်ပေးချင်ပါတယ်။', 'I want to make coffee for my friends.'],
+          ['ကျေးဇူးပြုပြီး ဒီစာအုပ်လေးကို ကျွန်တော့်ကို ပေးပါလား?', 'Could you please give this book to me?'],
+          ['ကျွန်တော် ဒီအကြောင်းအရာကို နားမလည်သေးလို့ ထပ်တွေးကြည့်ပါမယ်။', 'I do not know this topic yet, so I will think about it again.'],
+          ['သူက ကျွန်တော့်ကို ကြည့်ပြီး ပြုံးပြလိုက်တယ်။', 'He looked at me and gave me a smile.']
+        ],
+        mockTest: [
+          ["'Go' ရဲ့ အဓိပ္ပာယ်?",['သွားသည်','လာသည်','စားသည်','အိပ်သည်'],0],
+          ["'I ___ English every day.' (လေ့လာသည်)",['study','studies','studying','studied'],0],
+          ["'Can you ___ ?' (ပြောနိုင်လား)",['speak','spoke','speaking','speaks'],0],
+          ["'Take' ရဲ့ အဓိပ္ပာယ်?",['ပေးသည်','ယူသည်','သွားသည်','လာသည်'],1],
+          ["'I want to ___ a book.' (ဖတ်ချင်တယ်)",['read','see','look','watch'],0]
+        ]
+      },
+      // Lesson 14
+      {
+        id: 'beg-14', unit: 'Unit 14', title: 'Review & Basic Conversation', titleMM: 'ပြန်လည်လေ့ကျင့်ခြင်းနှင့် အခြေခံစကားပြော',
+        explanation: 'သင်ခန်းစာ ၁ မှ ၁၃ အထိ သင်ယူခဲ့သမျှကို ပြန်လည်လေ့ကျင့်ပြီး နေ့စဉ်သုံး အခြေခံ စကားပြောများကို ပေါင်းစပ်လေ့ကျင့်ပါ။',
+        vocab: [
+          ['Speak', 'ပြောဆိုသည် - စကားလုံးများဖြင့် ဆက်သွယ်ပြောဆိုခြင်းဖြစ်သည်။'],
+          ['Understand', 'နားလည်သည် - အကြောင်းအရာတစ်ခု၏ အဓိပ္ပာယ်ကို သဘောပေါက်ခြင်းဖြစ်သည်။'],
+          ['Learn', 'သင်ယူသည် - ဗဟုသုတ သို့မဟုတ် ကျွမ်းကျင်မှုအသစ်များ ရယူခြင်းဖြစ်သည်။'],
+          ['Practice', 'လေ့ကျင့်သည် - ကျွမ်းကျင်လာစေရန် ထပ်ခါတလဲလဲ ပြုလုပ်ခြင်းဖြစ်သည်။'],
+          ['Remember', 'မှတ်မိသည် - အတိတ်က အကြောင်းအရာများကို ဦးနှောက်ထဲမှ ပြန်လည်စဉ်းစားနိုင်ခြင်းဖြစ်သည်။'],
+          ['Question', 'မေးခွန်း - အချက်အလက်များ သိရှိလိုသည့်အခါ မေးမြန်းသော စကားစုဖြစ်သည်။'],
+          ['Answer', 'အဖြေ - မေးခွန်းတစ်ခုအတွက် ပြန်လည်ဖြေကြားသော စကားစုဖြစ်သည်။'],
+          ['Help', 'ကူညီသည် - တစ်စုံတစ်ယောက်ကို လိုအပ်နေချိန်တွင် ပံ့ပိုးပေးခြင်းဖြစ်သည်။'],
+          ['Easy', 'လွယ်ကူသည် - လုပ်ဆောင်ရ ခက်ခဲမှုမရှိခြင်းဖြစ်သည်။'],
+          ['Difficult', 'ခက်ခဲသည် - လုပ်ဆောင်ရ ကြိုးစားအားထုတ်ရခြင်းဖြစ်သည်။']
+        ],
+        patterns: [
+          ['Can you help me?', 'ကျွန်တော့်ကို ကူညီနိုင်လား?'],
+          ['I do not understand.', 'ကျွန်တော် နားမလည်ဘူး။'],
+          ['Can you repeat that, please?', 'ကျေးဇူးပြုပြီး ထပ်ပြောပေးလို့ရမလား?'],
+          ['How do you say [word] in English?', '[စကားလုံး] ကို English လို ဘယ်လိုပြောလဲ?'],
+          ['Learning English is fun.', 'English သင်ယူရတာ ပျော်စရာကောင်းတယ်။']
+        ],
+        paragraphEN: 'Hello my friend! Today is our last lesson in the Beginner level. You have learned many new words and sentences. Now you can talk about your family, your hobbies, and your daily routine. Learning a new language is not always easy, but you are doing a great job. If you do not understand a word, you can ask a question. Always practice speaking English every day. Do not be afraid to make mistakes because mistakes help you learn. Remember, the more you practice, the better you become. I am very happy to help you learn. Keep going and never give up!',
+        paragraphMM: 'မင်္ဂလာပါ သူငယ်ချင်း! ဒီနေ့က Beginner level ရဲ့ နောက်ဆုံးသင်ခန်းစာပါ။ သင်ဟာ စကားလုံးအသစ်တွေနဲ့ ဝါကျတွေ အများကြီး သင်ယူခဲ့ပြီးပါပြီ။ အခုဆိုရင် သင့်မိသားစု၊ ဝါသနာနဲ့ နေ့စဉ်လုပ်ငန်းဆောင်တာတွေအကြောင်း ပြောဆိုနိုင်ပါပြီ။ ဘာသာစကားအသစ်တစ်ခု သင်ယူတာက အမြဲတမ်း မလွယ်ကူပေမယ့် သင်က အရမ်းကောင်းကောင်း လုပ်နေပါတယ်။ စကားလုံးတစ်လုံး နားမလည်ရင် မေးခွန်းမေးနိုင်ပါတယ်။ နေ့တိုင်း English စကားပြောဖို့ အမြဲလေ့ကျင့်ပါ။ အမှားလုပ်မိမှာ မကြောက်ပါနဲ့၊ အမှားတွေက သင်ယူဖို့ ကူညီပေးလို့ပါ။ လေ့ကျင့်လေ ပိုတော်လာလေပဲဆိုတာ မှတ်ထားပါ။ သင်ယူဖို့ ကူညီပေးရတာ ကျွန်တော် အရမ်းဝမ်းသာပါတယ်။ ဆက်လက်ကြိုးစားပါ၊ ဘယ်တော့မှ လက်မလျှော့ပါနဲ့!',
+        conversation: [
+          ['A','Excuse me, can you help me?','တစ်ဆိတ်လောက်ဗျာ၊ ကျွန်တော့်ကို ကူညီနိုင်လား?'],
+          ['B','Sure. What do you need?','ဟုတ်ကဲ့။ ဘာလိုအပ်လဲ?'],
+          ['A','I do not understand this word. How do you say "Mingalar" in English?','ဒီစကားလုံး နားမလည်ဘူး။ "မင်္ဂလာ" ကို English လို ဘယ်လိုပြောလဲ?'],
+          ['B','We say "Hello" or "Good morning".','"Hello" ဒါမှမဟုတ် "Good morning" လို့ ပြောပါတယ်။'],
+          ['A','Thank you. Can you repeat that, please?','ကျေးဇူးတင်ပါတယ်။ ထပ်ပြောပေးလို့ ရမလား?'],
+          ['B','Yes, "Hello". Learning English is fun!','ဟုတ်ကဲ့၊ "Hello"။ English သင်ယူရတာ ပျော်စရာကောင်းတယ်!']
+        ],
+        practical: [
+          ['ကျွန်တော် ဒီစကားလုံးကို နားမလည်ပါဘူး။ ကူညီပေးလို့ရမလား?', 'I do not understand this word. Can you help me?'],
+          ['ကျေးဇူးပြုပြီး အဲဒါကို ဖြည်းဖြည်းချင်း ထပ်ပြောပေးလို့ ရမလား?', 'Could you please repeat that slowly?'],
+          ['English သင်ယူရတာ ခက်ခဲပေမယ့် ကျွန်တော် နေ့တိုင်း လေ့ကျင့်ပါတယ်။', 'Learning English is difficult, but I practice every day.'],
+          ['အမှားလုပ်မိမှာ မကြောက်ပါနဲ့၊ အမှားတွေက သင်ယူဖို့ ကူညီပေးပါတယ်။', 'Do not be afraid to make mistakes, mistakes help you learn.'],
+          ['သင့်ရဲ့ Beginner level သင်ခန်းစာတွေ အားလုံးပြီးသွားတဲ့အတွက် ဂုဏ်ယူပါတယ်။', 'Congratulations on completing all your Beginner level lessons.'],
+          ['ကျွန်မတို့ နောက် Level ဖြစ်တဲ့ Elementary မှာ ပြန်တွေ့ကြရအောင်နော်။', 'Let us meet again in the next level, Elementary.']
+        ],
+        mockTest: [
+          ["'Understand' ရဲ့ အဓိပ္ပာယ်?",['နားလည်သည်','မေးသည်','ဖြေသည်','ပြောသည်'],0],
+          ["'Can you ___ that?' (ထပ်ပြောပေးလို့ရမလား)",['repeat','say','speak','tell'],0],
+          ["'Help' ရဲ့ အဓိပ္ပာယ်?",['ကူညီသည်','ငြင်းသည်','သွားသည်','လာသည်'],0],
+          ["'Learning English is ___ .' (ပျော်စရာ)",['fun','sad','bad','angry'],0],
+          ["'I do not ___ .' (နားမလည်ဘူး)",['understand','know','see','look'],0]
+        ]
+      }
+    ];
+
+    let currentLessonId = null;
+
+    // ==========================================
+    // 3. UI RENDERING FUNCTIONS
+    // ==========================================
+    function renderGrid() {
+      const grid = document.getElementById('lessonGrid');
+      grid.innerHTML = '';
+      
+      const completed = state.completedLessons || [];
+      let doneCount = 0;
+
+      lessonsData.forEach((lesson, index) => {
+        const isDone = completed.includes(lesson.id);
+        if (isDone) doneCount++;
+
+        const cardHTML = `
+          <div onclick="openLesson('${lesson.id}')" 
+               class="bg-white rounded-2xl p-5 border-2 ${isDone ? 'border-emerald-200 bg-emerald-50/30' : 'border-slate-200 hover:border-emerald-400'} shadow-sm hover:shadow-lg transition-all cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[160px]">
+            ${isDone ? '<div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">✓ ပြီးစီး</div>' : ''}
+            
+            <div>
+              <span class="text-xs font-bold font-mono bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md inline-block mb-3">${lesson.unit}</span>
+              <h3 class="font-bold text-slate-900 text-base leading-tight group-hover:text-emerald-700 transition-colors">${lesson.title}</h3>
+              <p class="text-xs text-slate-500 mt-1">${lesson.titleMM}</p>
+            </div>
+            
+            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+              <span class="text-xs text-slate-400 font-medium">Lesson ${index + 1}</span>
+              <div class="w-7 h-7 rounded-full bg-slate-50 group-hover:bg-emerald-100 flex items-center justify-center transition-colors">
+                <span class="text-slate-400 group-hover:text-emerald-700 font-bold text-xs">→</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+
+      document.getElementById('heroProgressText').innerText = `${doneCount} / 14`;
+      document.getElementById('heroProgressBar').style.width = `${(doneCount / 14) * 100}%`;
+    }
+
+    function openLesson(id) {
+      const lesson = lessonsData.find(l => l.id === id);
+      if (!lesson) return;
+      
+      currentLessonId = id;
+      document.getElementById('gridView').classList.add('hidden');
+      document.getElementById('detailView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+
+      document.getElementById('dUnit').innerText = lesson.unit;
+      document.getElementById('dTitle').innerText = lesson.title;
+      document.getElementById('dTitleMM').innerText = lesson.titleMM;
+      document.getElementById('dExplanation').innerText = lesson.explanation;
+
+      // Vocab
+      document.getElementById('dVocabGrid').innerHTML = lesson.vocab.map(v => `
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between group">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <p class="font-extrabold text-blue-900 text-lg">${v[0]}</p>
+            <button onclick="speakText('${v[0]}')" class="shrink-0 w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-sm audio-btn hover:bg-blue-200 transition-colors">🔊</button>
+          </div>
+          <p class="text-sm text-slate-700 leading-relaxed">${v[1]}</p>
+        </div>
+      `).join('');
+
+      // Patterns
+      document.getElementById('dPatternList').innerHTML = lesson.patterns.map(p => `
+        <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 flex items-start justify-between gap-3">
+          <div>
+            <p class="font-bold text-slate-900 text-base">${p[0]}</p>
+            <p class="text-sm text-slate-600 mt-1">${p[1]}</p>
+          </div>
+          <button onclick="speakText('${p[0].replace(/'/g, "\\'")}')" class="shrink-0 w-9 h-9 rounded-lg bg-blue-800 text-white flex items-center justify-center shadow-sm audio-btn hover:bg-blue-900">🔊</button>
+        </div>
+      `).join('');
+
+      // Paragraph
+      document.getElementById('dParaEN').innerText = lesson.paragraphEN;
+      document.getElementById('dParaMM').innerText = lesson.paragraphMM;
+
+      // Conversation
+      document.getElementById('dConversationList').innerHTML = lesson.conversation.map(c => `
+        <div class="p-4 rounded-xl flex gap-3 ${c[0] === 'A' ? 'bg-indigo-50 border border-indigo-100' : 'bg-emerald-50 border border-emerald-100'}">
+          <span class="w-8 h-8 rounded-full ${c[0] === 'A' ? 'bg-indigo-600' : 'bg-emerald-600'} text-white text-sm font-bold flex items-center justify-center shrink-0">${c[0]}</span>
+          <div class="flex-1">
+            <p class="font-bold text-slate-900 text-base">${c[1]}</p>
+            <p class="text-sm text-slate-600 mt-0.5">${c[2]}</p>
+          </div>
+          <button onclick="speakText('${c[1].replace(/'/g, "\\'")}')" class="shrink-0 w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-blue-700 shadow-sm audio-btn">🔊</button>
+        </div>
+      `).join('');
+
+      // Practical
+      document.getElementById('dPracticalList').innerHTML = lesson.practical.map((p, i) => `
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <p class="font-bold text-slate-900 text-base mb-3">🇲🇲 ${p[0]}</p>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <button onclick="speakText('${p[0]}', 'my-MM')" class="px-4 py-2 rounded-lg bg-blue-800 text-white text-xs font-bold shadow-sm hover:bg-blue-900 flex items-center gap-1">
+              🔊 AI ဖတ်ပြမည် (မြန်မာ)
+            </button>
+            <button onclick="document.getElementById('ans-box-${i}').classList.toggle('hidden')" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold shadow-sm hover:bg-emerald-700">
+              👁️ Show Answer
+            </button>
+            <button onclick="startSpeech(${i})" class="px-4 py-2 rounded-lg bg-amber-500 text-white text-xs font-bold shadow-sm hover:bg-amber-600">
+              🎤 ငါပြောမည်
+            </button>
+          </div>
+          <div id="ans-box-${i}" class="hidden p-4 rounded-lg bg-emerald-100 border border-emerald-200">
+            <p class="font-bold text-emerald-900 text-base">✅ ${p[1]}</p>
+            <button onclick="speakText('${p[1].replace(/'/g, "\\'")}')" class="mt-2 text-xs text-emerald-700 font-bold underline flex items-center gap-1">
+              🔊 အသံနားထောင်
+            </button>
+          </div>
+          <p id="user-speak-${i}" class="text-sm text-amber-700 italic mt-2"></p>
+        </div>
+      `).join('');
+
+      // Mock Test
+      document.getElementById('dMockTestList').innerHTML = lesson.mockTest.map((q, qi) => `
+        <div class="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
+          <p class="font-bold text-slate-900 mb-3 text-base">${qi + 1}. ${q[0]}</p>
+          <div class="space-y-2">
+            ${q[1].map((opt, oi) => `
+              <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-blue-50 cursor-pointer transition-colors">
+                <input type="radio" name="mock_${currentLessonId}_${qi}" value="${oi}" data-correct="${q[2]}" class="w-4 h-4 text-blue-600">
+                <span class="text-sm text-slate-700">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('mockResultBox').classList.add('hidden');
+      
+      const isDone = (state.completedLessons || []).includes(id);
+      const btn = document.getElementById('completeBtn');
+      if (isDone) {
+        btn.className = "px-10 py-4 rounded-2xl bg-slate-300 text-slate-600 font-bold text-lg cursor-not-allowed";
+        btn.innerText = "✓ ဒီသင်ခန်းစာ ပြီးစီးပြီးဖြစ်သည်";
+        btn.disabled = true;
+      } else {
+        btn.className = "px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg shadow-xl shadow-emerald-600/30 transition-all transform hover:-translate-y-1";
+        btn.innerText = "✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)";
+        btn.disabled = false;
+      }
+    }
+
+    function closeLesson() {
+      document.getElementById('detailView').classList.add('hidden');
+      document.getElementById('gridView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function submitMockTest() {
+      const lesson = lessonsData.find(l => l.id === currentLessonId);
+      let correct = 0;
+      const total = lesson.mockTest.length;
+      
+      lesson.mockTest.forEach((q, qi) => {
+        const selected = document.querySelector(`input[name="mock_${currentLessonId}_${qi}"]:checked`);
+        if (selected && parseInt(selected.value) === q[2]) {
+          correct++;
+        }
+      });
+
+      const pass = correct >= Math.ceil(total * 0.7);
+      const resBox = document.getElementById('mockResultBox');
+      resBox.classList.remove('hidden');
+      
+      if (pass) {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-emerald-50 border border-emerald-200 text-emerald-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">🎉 အောင်မြင်ပါသည်!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+        
+        if (!state.awards.includes(`Mock Pass: ${currentLessonId}`)) {
+          state.xp = (state.xp || 0) + 15;
+          state.awards.push(`Mock Pass: ${currentLessonId}`);
+          localStorage.setItem('englishPlatformState', JSON.stringify(state));
+          document.getElementById('xpBadge').innerText = `⚡ ${state.xp} XP`;
+        }
+      } else {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-rose-50 border border-rose-200 text-rose-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">📚 ထပ်ကြိုးစားပါ!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+      }
+    }
+
+    function completeLesson() {
+      if (!state.completedLessons) state.completedLessons = [];
+      
+      if (!state.completedLessons.includes(currentLessonId)) {
+        state.completedLessons.push(currentLessonId);
+        state.xp = (state.xp || 0) + 50;
+        
+        if (!state.awards) state.awards = [];
+        state.awards.push(`Lesson Done: ${currentLessonId}`);
+        
+        localStorage.setItem('englishPlatformState', JSON.stringify(state));
+        alert('✅ သင်ခန်းစာ ပြီးစီးပါပြီ! +50 XP ရရှိပါသည်။');
+        
+        renderGrid();
+        closeLesson();
+      }
+    }
+
+    function logout() {
+      if (confirm('အကောင့်မှ ထွက်မှာ သေချာလား?')) {
+        localStorage.removeItem('englishPlatformState');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Start App
+    renderGrid();
+  </script>
+</body>
+</html>

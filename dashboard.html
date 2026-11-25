@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - English လေ့လာရေး</title>
+  
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Noto Sans Myanmar"', '"Inter"', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Noto Sans Myanmar', sans-serif; background-color: #F8FAFC; color: #0F172A; }
+    .hero-gradient {
+      background-color: #0F172A;
+      background-image: radial-gradient(at 10% 15%, rgba(30, 64, 175, 0.45) 0px, transparent 55%), radial-gradient(at 90% 85%, rgba(5, 150, 105, 0.32) 0px, transparent 52%);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-slate-900">
+        <span class="text-2xl">📚</span> English လေ့လာရေး
+      </a>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <div class="hidden md:flex items-center gap-2.5">
+          <span class="text-sm font-bold text-slate-700">👤 <span id="userName">Student</span></span>
+          <span id="navStatusBadge" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800">ACTIVE</span>
+          <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800" id="awardBadge">🏆 0</span>
+          <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800" id="xpBadge">⚡ 0 XP</span>
+        </div>
+        <button onclick="logout()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-rose-100 hover:text-rose-700 text-slate-700 text-sm font-bold transition-colors">ထွက်မည်</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Welcome & Account Status Banner -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">မင်္ဂလာပါ <span id="welcomeName" class="text-blue-800">Student</span>! 👋</h1>
+        <p class="text-slate-500 mt-1 text-sm">သင်၏ လေ့လာမှု တိုးတက်မှုနှင့် အကောင့်သက်တမ်းကို ဤနေရာမှ စောင့်ကြည့်ပါ။</p>
+        <p id="goalText" class="hidden mt-2 text-xs font-bold text-blue-900 bg-blue-50 border border-blue-200 inline-block px-3 py-1 rounded-lg"></p>
+      </div>
+
+      <!-- Account Info Pills (Key ID, Status, Expire Date) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+        <div class="px-3 py-1.5">
+          <p class="text-[11px] font-bold text-slate-400 uppercase">Key ID</p>
+          <p id="dashKeyId" class="text-sm font-extrabold font-mono text-slate-800 mt-0.5">-</p>
+        </div>
+        <div class="px-3 py-1.5 sm:border-l sm:border-slate-200">
+          <p class="text-[11px] font-bold text-slate-400 uppercase">Status</p>
+          <p class="mt-0.5">
+            <span id="dashStatus" class="inline-block text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">ACTIVE</span>
+          </p>
+        </div>
+        <div class="px-3 py-1.5 sm:border-l sm:border-slate-200">
+          <p class="text-[11px] font-bold text-slate-400 uppercase">Expire Date</p>
+          <p id="dashExpire" class="text-sm font-extrabold text-slate-800 mt-0.5">-</p>
+          <p id="dashDaysLeft" class="text-[11px] font-bold text-emerald-700"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl">📖</div>
+        <div>
+          <p class="text-xs text-slate-500 font-bold">ပြီးစီးသင်ခန်း</p>
+          <p class="text-2xl font-extrabold text-slate-900"><span id="totalLessons">0</span> <span class="text-sm font-normal text-slate-400">/ 70</span></p>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl">🏆</div>
+        <div>
+          <p class="text-xs text-slate-500 font-bold">ဆုတံဆိပ်</p>
+          <p class="text-2xl font-extrabold text-slate-900"><span id="totalAwards">0</span> <span class="text-sm font-normal text-slate-400">ခု</span></p>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl">🎯</div>
+        <div>
+          <p class="text-xs text-slate-500 font-bold">Mock Test ရမှတ်</p>
+          <p class="text-2xl font-extrabold text-slate-900"><span id="totalScore">0</span> <span class="text-sm font-normal text-slate-400">မှတ်</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Level Selection -->
+    <h2 class="text-xl font-bold text-slate-900 mb-4">🪜 သင်တန်း Level ရွေးချယ်ပါ</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      
+      <!-- Beginner -->
+      <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-emerald-500 hover:shadow-lg transition-all cursor-pointer group" onclick="goLevel('beginner')">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">🌱</div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">CEFR A1</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Beginner Level</h3>
+        <p class="text-xs text-slate-500 mt-2 leading-relaxed">အခြေခံမရှိသူများအတွက် - နှုတ်ဆက်ခြင်း၊ နံပါတ်များ၊ အခြေခံစကားလုံးများ</p>
+        
+        <div class="mt-5">
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>တိုးတက်မှု</span>
+            <span id="progtext-beginner">0 / 14</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-500" id="prog-beginner" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Elementary -->
+      <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer group" onclick="goLevel('elementary')">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">🌿</div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">CEFR A2</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Elementary Level</h3>
+        <p class="text-xs text-slate-500 mt-2 leading-relaxed">Simple Present, Past, Future နှင့် အခြေခံ Grammar များ</p>
+        
+        <div class="mt-5">
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>တိုးတက်မှု</span>
+            <span id="progtext-elementary">0 / 14</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-500" id="prog-elementary" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intermediate -->
+      <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-indigo-500 hover:shadow-lg transition-all cursor-pointer group" onclick="goLevel('intermediate')">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">🌳</div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">CEFR B1/B2</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Intermediate Level</h3>
+        <p class="text-xs text-slate-500 mt-2 leading-relaxed">Passive, Conditionals, Reported Speech နှင့် ခေတ်မီသော ဘာသာစကား</p>
+        
+        <div class="mt-5">
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>တိုးတက်မှု</span>
+            <span id="progtext-intermediate">0 / 14</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-indigo-500 h-2.5 rounded-full transition-all duration-500" id="prog-intermediate" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Travel English / Speaking Section -->
+    <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">✈️ နိုင်ငံခြားသွားရောက်မည့်သူများအတွက် စကားပြော (Travel English)</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+      
+      <!-- Speaking Level 1 -->
+      <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-sky-500 hover:shadow-lg transition-all cursor-pointer group" onclick="goLevel('speaking1')">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-14 h-14 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">✈️</div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800">Level 1</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Speaking Level 1 (Travel Basics)</h3>
+        <p class="text-xs text-slate-500 mt-2 leading-relaxed">လေဆိပ်၊ ဟိုတယ်၊ တက္ကစီ၊ စားသောက်ဆိုင် နှင့် ဈေးဝယ်ခြင်း အခြေခံများ</p>
+        
+        <div class="mt-5">
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>တိုးတက်မှု</span>
+            <span id="progtext-speaking1">0 / 14</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-sky-500 h-2.5 rounded-full transition-all duration-500" id="prog-speaking1" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Speaking Level 2 -->
+      <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 hover:border-teal-500 hover:shadow-lg transition-all cursor-pointer group" onclick="goLevel('speaking2')">
+        <div class="flex items-center justify-between mb-4">
+          <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">🌍</div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-teal-100 text-teal-800">Level 2</span>
+        </div>
+        <h3 class="text-xl font-bold text-slate-900">Speaking Level 2 (Living Abroad)</h3>
+        <p class="text-xs text-slate-500 mt-2 leading-relaxed">ကားငှားခြင်း၊ ဟိုတယ်တွင် တိုင်ကြားခြင်း၊ ဆေးဆိုင်၊ ပစ္စည်းပျောက်ဆုံးမှု ဖြေရှင်းခြင်းများ</p>
+        
+        <div class="mt-5">
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>တိုးတက်မှု</span>
+            <span id="progtext-speaking2">0 / 14</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+            <div class="bg-teal-500 h-2.5 rounded-full transition-all duration-500" id="prog-speaking2" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Awards Section -->
+    <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🏆 သင့်ဆုတံဆိပ်များ</h2>
+      <div id="awardList" class="flex flex-wrap gap-3">
+        <!-- Awards တွေကို JS ကနေ ဒီမှာ ထည့်ပါမယ် -->
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXhDVzvrd1IWMKTu_-GTQ8L7zIXcinuPl63vP5AEnGTECS79znYwtyi5UR1Z3ZuKFj/exec';
+
+    function forceLogout(message) {
+      if (message) alert(message);
+      localStorage.removeItem('englishPlatformState');
+      window.location.href = 'login.html';
+    }
+
+    function getTodayYMD() {
+      const now = new Date();
+      const yy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      return `${yy}-${mm}-${dd}`;
+    }
+
+    // ==========================================
+    // 1. Login ဝင်ထားခြင်း ရှိ/မရှိ စစ်ဆေးခြင်း
+    // ==========================================
+    const stateData = localStorage.getItem('englishPlatformState');
+    if (!stateData) {
+      forceLogout('ဤစာမျက်နှာကို ကြည့်ရှုရန် ဦးစွာ Key ID ဖြင့် ဝင်ရောက်ပါ။');
+    }
+
+    let state = {};
+    try {
+      state = JSON.parse(stateData || '{}');
+    } catch (e) {
+      forceLogout('Session data မှားယွင်းနေပါသည်။ ပြန်လည်ဝင်ရောက်ပါ။');
+    }
+
+    if (!state.username || !state.keyId) {
+      forceLogout('ဤစာမျက်နှာကို ကြည့်ရှုရန် ဦးစွာ Key ID ဖြင့် ဝင်ရောက်ပါ။');
+    }
+
+    // ==========================================
+    // 2. Dashboard Data များ ပြသခြင်း
+    // ==========================================
+    function renderDashboard(currentState) {
+      const displayName = currentState.username || 'ကျောင်းသား';
+      document.getElementById('userName').innerText = displayName;
+      document.getElementById('welcomeName').innerText = displayName;
+      document.getElementById('dashKeyId').innerText = currentState.keyId || '-';
+
+      if (currentState.goal) {
+        const goalEl = document.getElementById('goalText');
+        goalEl.innerText = `🎯 ရည်မှန်းချက် - ${currentState.goal}`;
+        goalEl.classList.remove('hidden');
+      }
+
+      // Status ပြသခြင်း
+      const statusVal = (currentState.status || 'ACTIVE').toUpperCase();
+      const dashStatusEl = document.getElementById('dashStatus');
+      const navStatusEl = document.getElementById('navStatusBadge');
+      dashStatusEl.innerText = statusVal;
+      if (navStatusEl) navStatusEl.innerText = statusVal;
+
+      if (statusVal !== 'ACTIVE') {
+        dashStatusEl.className = 'inline-block text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800';
+        if (navStatusEl) navStatusEl.className = 'text-xs font-bold px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800';
+      } else {
+        dashStatusEl.className = 'inline-block text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+        if (navStatusEl) navStatusEl.className = 'text-xs font-bold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800';
+      }
+
+      // Expire Date & Days Left ပြသခြင်း
+      const expireEl = document.getElementById('dashExpire');
+      const daysEl = document.getElementById('dashDaysLeft');
+      if (!currentState.expireDate || currentState.expireDate === 'Unlimited') {
+        expireEl.innerText = 'ကန့်သတ်ချက်မရှိ';
+        daysEl.innerText = 'Lifetime Access';
+        daysEl.className = 'text-[11px] font-bold text-emerald-700';
+      } else {
+        expireEl.innerText = currentState.expireDate;
+        if (typeof currentState.daysLeft === 'number') {
+          if (currentState.daysLeft < 0) {
+            daysEl.innerText = 'သက်တမ်းကုန်ဆုံးပါပြီ';
+            daysEl.className = 'text-[11px] font-bold text-rose-600';
+          } else if (currentState.daysLeft <= 7) {
+            daysEl.innerText = `${currentState.daysLeft} ရက်သာ ကျန်တော့သည်`;
+            daysEl.className = 'text-[11px] font-bold text-amber-600';
+          } else {
+            daysEl.innerText = `${currentState.daysLeft} ရက်ကျန်ရှိသေးသည်`;
+            daysEl.className = 'text-[11px] font-bold text-emerald-700';
+          }
+        } else {
+          daysEl.innerText = '';
+        }
+      }
+
+      // Stats Cards
+      const completedCount = Array.isArray(currentState.completedLessons) ? currentState.completedLessons.length : 0;
+      const awardsCount = Array.isArray(currentState.awards) ? currentState.awards.length : 0;
+      const xpVal = currentState.xp || 0;
+
+      document.getElementById('totalLessons').innerText = completedCount;
+      document.getElementById('totalAwards').innerText = awardsCount;
+      document.getElementById('totalScore').innerText = xpVal;
+      document.getElementById('xpBadge').innerText = `⚡ ${xpVal} XP`;
+      document.getElementById('awardBadge').innerText = `🏆 ${awardsCount}`;
+
+      // Level Progress Bars
+      const progressData = { beginner: 0, elementary: 0, intermediate: 0, speaking1: 0, speaking2: 0 };
+      if (Array.isArray(currentState.completedLessons)) {
+        currentState.completedLessons.forEach(id => {
+          if (id.startsWith('beg-')) progressData.beginner++;
+          else if (id.startsWith('ele-')) progressData.elementary++;
+          else if (id.startsWith('int-')) progressData.intermediate++;
+          else if (id.startsWith('spk2-')) progressData.speaking2++;
+          else if (id.startsWith('spk-')) progressData.speaking1++;
+        });
+      }
+
+      ['beginner', 'elementary', 'intermediate', 'speaking1', 'speaking2'].forEach(lvl => {
+        const done = progressData[lvl];
+        const percent = Math.min(100, (done / 14) * 100);
+        const barEl = document.getElementById(`prog-${lvl}`);
+        const textEl = document.getElementById(`progtext-${lvl}`);
+        if (barEl && textEl) {
+          barEl.style.width = `${percent}%`;
+          textEl.innerText = `${done} / 14`;
+        }
+      });
+
+      // Awards List
+      const awardList = document.getElementById('awardList');
+      awardList.innerHTML = '';
+      if (awardsCount > 0) {
+        currentState.awards.forEach(award => {
+          const div = document.createElement('div');
+          div.className = "px-4 py-2 rounded-xl bg-gradient-to-r from-amber-100 to-yellow-200 border border-amber-300 text-amber-900 text-sm font-bold shadow-sm";
+          div.innerHTML = `🏆 ${award.title || award}`;
+          awardList.appendChild(div);
+        });
+      } else {
+        awardList.innerHTML = `<p class="text-sm text-slate-500">သင်ခန်းစာများ ပြီးစီးပြီး ဆုတံဆိပ်များ ရယူပါ။</p>`;
+      }
+    }
+
+    renderDashboard(state);
+
+    // ==========================================
+    // 3. Expire Date & Live Status စစ်ဆေးခြင်း
+    // ==========================================
+    async function checkAccountValidity() {
+      // Local ExpireDate စစ်ဆေးခြင်း
+      if (state.expireDate && state.expireDate !== 'Unlimited') {
+        if (getTodayYMD() > state.expireDate) {
+          forceLogout('သင့်အကောင့် သက်တမ်းကုန်ဆုံးသွားပါပြီ။');
+          return;
+        }
+      }
+
+      // Google Sheet မှ Status / ExpireDate ပြန်လည်စစ်ဆေးခြင်း
+      try {
+        const url = new URL(SCRIPT_URL);
+        url.searchParams.append('action', 'checkstatus');
+        url.searchParams.append('username', state.username);
+
+        const res = await fetch(url.toString(), { redirect: 'follow' });
+        const data = await res.json();
+
+        if (!data.success) return;
+
+        if (data.status && data.status.toUpperCase() !== 'ACTIVE') {
+          forceLogout('သင့်အကောင့် အသုံးပြုခွင့်ကို ခေတ္တပိတ်ထားပါသည်။');
+          return;
+        }
+
+        if (data.expireDate) {
+          if (getTodayYMD() > data.expireDate) {
+            forceLogout('သင့်အကောင့် သက်တမ်းကုန်ဆုံးသွားပါပြီ။');
+            return;
+          }
+          state.expireDate = data.expireDate;
+          state.daysLeft = data.daysLeft;
+          state.status = data.status;
+          localStorage.setItem('englishPlatformState', JSON.stringify(state));
+          renderDashboard(state);
+        }
+      } catch (err) {
+        console.warn('Live checkStatus skipped:', err);
+      }
+    }
+
+    checkAccountValidity();
+
+    // ==========================================
+    // 4. Navigation & Logout
+    // ==========================================
+    function goLevel(level) {
+      if (level === 'beginner') window.location.href = 'beginner.html';
+      else if (level === 'elementary') window.location.href = 'elementary.html';
+      else if (level === 'intermediate') window.location.href = 'intermediate.html';
+      else if (level === 'speaking1') window.location.href = 'speaking.html';
+      else if (level === 'speaking2') window.location.href = 'speaking1.html';
+    }
+
+    function logout() {
+      if (confirm('အကောင့်မှ ထွက်မှာ သေချာလား?')) {
+        localStorage.removeItem('englishPlatformState');
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>

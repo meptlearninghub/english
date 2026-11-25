@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>အပြောလေ့ကျင့်ခန်း (Travel English) - English လေ့လာရေး</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Noto Sans Myanmar"', '"Inter"', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Noto Sans Myanmar', sans-serif; background-color: #F8FAFC; color: #0F172A; overflow-x: hidden; line-height: 1.8; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .audio-btn:active { transform: scale(0.9); }
+    .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="dashboard.html" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors flex items-center gap-2">
+          <span>←</span> Dashboard
+        </a>
+        <span class="font-bold text-slate-900 hidden sm:block">🗣️ Travel English (အပြောလေ့ကျင့်ခန်း)</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-sky-100 text-sky-800" id="xpBadge">⚡ 0 XP</span>
+        <button onclick="logout()" class="text-sm font-bold text-slate-500 hover:text-rose-600 transition-colors">ထွက်မည်</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIEW 1: LESSON GRID -->
+  <main id="gridView" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 fade-in">
+    
+    <!-- Hero Banner (Sky Blue Theme) -->
+    <div class="rounded-3xl p-8 sm:p-12 mb-10 text-white shadow-xl relative overflow-hidden bg-gradient-to-r from-sky-600 to-teal-500">
+      <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10"></div>
+      <div class="absolute bottom-0 right-32 -mb-10 w-32 h-32 rounded-full bg-white opacity-10"></div>
+      
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-4xl">✈️</span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 border border-white/30">For Travelers</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-bold mb-2">နိုင်ငံခြားသွားရောက်မည့်သူများအတွက် စကားပြော</h1>
+          <p class="text-sm sm:text-base opacity-90 max-w-2xl leading-relaxed">
+            လေဆိပ်၊ ဟိုတယ်၊ စားသောက်ဆိုင်၊ ဈေးဝယ်ခြင်းနှင့် အရေးပေါ်အခြေအနေများတွင် မဖြစ်မနေ သုံးရမည့် စကားပြော (၁၄) ခန်း။ AI အသံဖြင့် နားထောင်ပြီး ကိုယ်တိုင် အသံထွက် လေ့ကျင့်နိုင်ပါသည်။
+          </p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl min-w-[200px] text-center">
+          <p class="text-sm font-bold mb-1">တိုးတက်မှု</p>
+          <p class="text-3xl font-extrabold" id="heroProgressText">0 / 14</p>
+          <div class="w-full bg-black/20 h-2 rounded-full mt-3 overflow-hidden">
+            <div id="heroProgressBar" class="bg-white h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">🎧 သင်ခန်းစာများ</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="lessonGrid"></div>
+  </main>
+
+  <!-- VIEW 2: LESSON DETAIL -->
+  <main id="detailView" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <button onclick="closeLesson()" class="mb-6 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-sm shadow-sm transition-all flex items-center gap-2">
+      <span>←</span> သင်ခန်းစာများသို့ ပြန်သွား
+    </button>
+
+    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-2 h-full bg-sky-500"></div>
+      <span class="text-xs font-bold text-sky-600 bg-sky-50 px-3 py-1 rounded-full mb-3 inline-block" id="dUnit">Lesson 1</span>
+      <h1 class="text-3xl font-extrabold text-slate-900 mb-2" id="dTitle">At the Airport</h1>
+      <p class="text-lg text-slate-500 mb-4" id="dTitleMM">လေဆိပ်တွင်</p>
+      <p class="text-slate-700 leading-relaxed text-sm" id="dExplanation">Explanation...</p>
+    </div>
+
+    <!-- 1. Essential Vocabulary -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">📝 ၁။ မဖြစ်မနေ သိထားရမည့် စကားလုံးများ</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="dVocabGrid"></div>
+    </div>
+
+    <!-- 2. Speaking Patterns -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">💬 ၂။ အသုံးများသော စကားပြော Patterns</h2>
+      <div class="space-y-3" id="dPatternList"></div>
+    </div>
+
+    <!-- 3. Dialogue / AI Voice -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">🔊 ၃။ စကားပြောပုံစံ (AI အသံဖြင့် နားထောင်ပါ)</h2>
+      <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+        <p class="text-slate-800 text-lg leading-loose mb-4 whitespace-pre-line" id="dParaEN">Dialogue...</p>
+        <button onclick="speakText(document.getElementById('dParaEN').innerText)" class="px-5 py-2.5 rounded-xl bg-sky-700 hover:bg-sky-800 text-white text-sm font-bold shadow-sm transition-all flex items-center gap-2 mb-6">
+          🔊 AI အသံဖြင့် နားထောင်မည်
+        </button>
+        <div class="p-5 bg-sky-50 rounded-xl border border-sky-100">
+          <p class="text-sm text-sky-900 leading-loose whitespace-pre-line" id="dParaMM">မြန်မာလို ရှင်းလင်းချက်...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Practical Exercise (Mic Practice) -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">🎯 ၄။ Practical Exercise (အသံထွက် လေ့ကျင့်ရန်)</h2>
+      <p class="text-sm text-slate-500 mb-6">မြန်မာစာကြောင်းကို AI ဖတ်ပြမည်။ သင်က English လို ပြောကြည့်ပါ။ ပြီးလျှင် Show Answer နှိပ်ပါ။</p>
+      <div class="space-y-4" id="dPracticalList"></div>
+    </div>
+
+    <!-- 5. Mini Quiz -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+      <h2 class="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">📝 ၅။ နားလည်မှု စစ်ဆေးရန် (Mini Quiz)</h2>
+      <p class="text-sm text-slate-500 mb-6">မေးခွန်း ၅ ခု ဖြေဆိုပြီးလျှင် ရမှတ်ကြည့်ပါ။</p>
+      <div class="space-y-6" id="dMockTestList"></div>
+      <button onclick="submitMockTest()" class="mt-6 px-8 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold shadow-md transition-all">
+        📊 ရမှတ်ကြည့်မည်
+      </button>
+      <div id="mockResultBox" class="mt-4 hidden p-5 rounded-2xl text-center"></div>
+    </div>
+
+    <div class="text-center mb-10">
+      <button onclick="completeLesson()" id="completeBtn" class="px-10 py-4 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-lg shadow-xl shadow-sky-600/30 transition-all transform hover:-translate-y-1">
+        ✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)
+      </button>
+    </div>
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. AUTHENTICATION & GLOBAL FUNCTIONS
+    // ==========================================
+    const stateData = localStorage.getItem('englishPlatformState');
+    if (!stateData) {
+      alert('ဤစာမျက်နှာကို ကြည့်ရှုရန် ဦးစွာ Key ID ဖြင့် ဝင်ရောက်ပါ။');
+      window.location.href = 'login.html';
+    }
+    let state = JSON.parse(stateData);
+    document.getElementById('xpBadge').innerText = `⚡ ${state.xp || 0} XP`;
+
+    function speakText(text, lang = 'en-US') {
+      if (!('speechSynthesis' in window)) return alert('Browser တွင် AI အသံ မပံ့ပိုးပါ။');
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang;
+      u.rate = 0.9;
+      window.speechSynthesis.speak(u);
+    }
+
+    function startSpeech(index) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return alert('Speech Recognition မပံ့ပိုးပါ။ (Chrome/Edge ကို သုံးပါ)');
+      const rec = new SR();
+      rec.lang = 'en-US';
+      rec.onresult = (e) => {
+        document.getElementById(`user-speak-${index}`).innerText = `🗣️ သင်ပြောသည်: "${e.results[0][0].transcript}"`;
+        document.getElementById(`ans-box-${index}`).classList.remove('hidden');
+      };
+      rec.start();
+      alert('🎤 ပြောပါ...');
+    }
+
+    // ==========================================
+    // 2. DATA FOR 14 TRAVEL ENGLISH LESSONS
+    // ==========================================
+    const lessonsData = [
+      // Lesson 1
+      {
+        id: 'spk-1', unit: 'Lesson 1', title: 'At the Airport', titleMM: 'လေဆိပ်တွင် (Check-in & Boarding)',
+        explanation: 'လေဆိပ်မှာ Check-in လုပ်တဲ့အခါ၊ ထိုင်ခုံရွေးတဲ့အခါနဲ့ Boarding Gate ရှာတဲ့အခါ သုံးရမယ့် စကားပြောတွေဖြစ်ပါတယ်။',
+        vocab: [
+          ['Boarding Pass', 'Boarding လက်မှတ် - လေယာဉ်ပေါ်တက်ခွင့်ပြုတဲ့ လက်မှတ်။'],
+          ['Luggage/Baggage', 'ခရီးဆောင်အိတ် - သင်ယူသွားတဲ့ အိတ်တွေ။'],
+          ['Window Seat', 'ပြတင်းပေါက်နားက ထိုင်ခုံ။'],
+          ['Aisle Seat', 'လေယာဉ်အတွင်း လမ်းလျှောက်လမ်းဘေးက ထိုင်ခုံ။'],
+          ['Gate', 'ဂိတ် - လေယာဉ်တက်ရမယ့် အပေါက်။'],
+          ['Delay', 'နောက်ကျခြင်း - လေယာဉ်ထွက်ချိန် နောက်ကျခြင်း။'],
+          ['Passport', 'နိုင်ငံကူးလက်မှတ်။'],
+          ['Security Check', 'လုံခြုံရေးစစ်ဆေးမှု။'],
+          ['Departure', 'ထွက်ခွာခြင်း။'],
+          ['Arrival', 'ဆိုက်ရောက်ခြင်း။']
+        ],
+        patterns: [
+          ['Where is the check-in counter for [Airline]?', '[လေကြောင်းလိုင်း] ရဲ့ Check-in ကောင်တာ ဘယ်မှာလဲ?'],
+          ['I would like a window seat, please.', 'ပြတင်းပေါက်နားက ထိုင်ခုံ လိုချင်ပါတယ်။'],
+          ['How many bags are you checking in?', 'အိတ် ဘယ်နှလုံး အပ်မှာလဲ?'],
+          ['What time is boarding?', 'ဘယ်အချိန် လေယာဉ်တက်ရမလဲ?'],
+          ['Is the flight delayed?', 'လေယာဉ်က နောက်ကျနေသလား?']
+        ],
+        paragraphEN: 'Staff: Good morning! May I see your passport and ticket, please?\nYou: Good morning. Here you go.\nStaff: Do you have any bags to check in?\nYou: Yes, just one suitcase. Can I have a window seat, please?\nStaff: Sure. Here is your boarding pass. Your flight boards at Gate 12 at 9:30 AM.\nYou: Thank you. Where is the security check?\nStaff: Go straight and turn left.',
+        paragraphMM: 'ဝန်ထမ်း: မင်္ဂလာနံနက်ခင်းပါ! သင့်နိုင်ငံကူးလက်မှတ်နဲ့ လေယာဉ်လက်မှတ် ကြည့်လို့ရမလား?\nသင်: မင်္ဂလာပါ။ ဒီမှာပါ။\nဝန်ထမ်း: အပ်ဖို့ အိတ်ရှိလား?\nသင်: ဟုတ်တယ်၊ သေတ္တာတစ်လုံးပါ။ ပြတင်းပေါက်နားက ထိုင်ခုံရလား?\nဝန်ထမ်း: ရပါတယ်။ ဒါက သင့် Boarding Pass ပါ။ ဂိတ် ၁၂ မှာ မနက် ၉:၃၀ လေယာဉ်တက်ရပါမယ်။\nသင်: ကျေးဇူးတင်ပါတယ်။ လုံခြုံရေးစစ်ဆေးတဲ့နေရာ ဘယ်မှာလဲ?\nဝန်ထမ်း: တည့်တည့်သွားပြီး ဘယ်ဘက်ကွေ့ပါ။',
+        practical: [
+          ['ပြတင်းပေါက်နားက ထိုင်ခုံတစ်ခု လိုချင်ပါတယ်။', 'I would like a window seat, please.'],
+          ['ခရီးဆောင်အိတ် ဘယ်နှလုံး အပ်ရမလဲ?', 'How many bags should I check in?'],
+          ['ကျွန်တော့်လေယာဉ် ဘယ်ဂိတ်ကနေ ထွက်မလဲ?', 'Which gate does my flight depart from?'],
+          ['လေယာဉ်က နောက်ကျနေသလား?', 'Is the flight delayed?'],
+          ['လုံခြုံရေးစစ်ဆေးတဲ့နေရာကို ဘယ်လိုသွားရမလဲ?', 'How do I get to the security check?'],
+          ['ကျွန်တော့်ရဲ့ ခရီးဆောင်အိတ် ပျောက်သွားပါတယ်။', 'I lost my luggage.']
+        ],
+        mockTest: [
+          ["'Where is the check-in ___?'",['counter','desk','table','room'],0],
+          ["'I would like a window ___ .'",['seat','chair','place','spot'],0],
+          ["'Is the flight ___ ?'",['delayed','late','slow','wait'],0],
+          ["'May I see your ___ ?'",['passport','paper','book','card'],0],
+          ["'Your flight ___ at Gate 12.'",['boards','goes','leaves','sits'],0]
+        ]
+      },
+      // Lesson 2
+      {
+        id: 'spk-2', unit: 'Lesson 2', title: 'Immigration & Customs', titleMM: 'လူဝင်မှုကြီးကြပ်ရေးနှင့် အကောက်ခွန်',
+        explanation: 'နိုင်ငံခြားရောက်တာနဲ့ ရင်ဆိုင်ရမယ့် လူဝင်မှုကြီးကြပ်ရေး (Immigration) နဲ့ အကောက်ခွန် (Customs) မှာ မေးလေ့ရှိတဲ့ မေးခွန်းတွေနဲ့ ဖြေပုံကို လေ့လာပါမယ်။',
+        vocab: [
+          ['Purpose of visit', 'ခရီးသွားရခြင်း ရည်ရွယ်ချက်။'],
+          ['Tourism', 'ခရီးသွား လည်ပတ်ခြင်း။'],
+          ['Business', 'စီးပွားရေး ကိစ္စ။'],
+          ['Duration', 'ကြာချိန် - ဘယ်လောက်ကြာကြာ နေမလဲ။'],
+          ['Customs', 'အကောက်ခွန်။'],
+          ['Declare', 'ကြေညာခြင်း - ပစ္စည်းတွေအကြောင်း အကောက်ခွန်မှာ အသိပေးခြင်း။'],
+          ['Return ticket', 'အပြန်လက်မှတ်။'],
+          ['Hotel booking', 'ဟိုတယ် ကြိုတင်မှာထားမှု။'],
+          ['Nothing to declare', 'ကြေညာစရာ မရှိပါ။'],
+          ['Fingerprint', 'လက်ဗွေ။']
+        ],
+        patterns: [
+          ['What is the purpose of your visit?', 'ခရီးသွားရတဲ့ ရည်ရွယ်ချက်က ဘာလဲ?'],
+          ['I am here for tourism/business.', 'ကျွန်တော် ခရီးသွား/စီးပွားရေး ကိစ္စနဲ့ လာတာပါ။'],
+          ['How long will you stay?', 'ဘယ်လောက်ကြာကြာ နေမှာလဲ?'],
+          ['Do you have anything to declare?', 'အကောက်ခွန် ကြေညာစရာ ရှိလား?'],
+          ['Where are you staying?', 'ဘယ်မှာ တည်းခိုမှာလဲ?']
+        ],
+        paragraphEN: 'Officer: Passport, please. What is the purpose of your visit?\nYou: Here is my passport. I am here for tourism.\nOfficer: How long will you stay?\nYou: I will stay for 10 days.\nOfficer: Where are you staying?\nYou: I am staying at the Grand Hotel in the city center.\nOfficer: Do you have anything to declare?\nYou: No, I have nothing to declare.\nOfficer: Okay, welcome. Have a nice trip!',
+        paragraphMM: 'အရာရှိ: နိုင်ငံကူးလက်မှတ် ပြပါ။ ဘာကိစ္စနဲ့ လာတာလဲ?\nသင်: ဒီမှာပါ။ ခရီးသွား လည်ပတ်ဖို့ လာတာပါ။\nအရာရှိ: ဘယ်လောက်ကြာကြာ နေမှာလဲ?\nသင်: ၁၀ ရက် နေမှာပါ။\nအရာရှိ: ဘယ်မှာ တည်းခိုမှာလဲ?\nသင်: မြို့လယ်က Grand Hotel မှာ တည်းခိုမှာပါ။\nအရာရှိ: အကောက်ခွန် ကြေညာစရာ ရှိလား?\nသင်: မရှိပါဘူး။\nအရာရှိ: အိုကေ၊ ကြိုဆိုပါတယ်။ ပျော်ရွှင်တဲ့ ခရီးဖြစ်ပါစေ!',
+        practical: [
+          ['ကျွန်တော် ခရီးသွားဖို့ လာတာပါ။', 'I am here for tourism.'],
+          ['ကျွန်မ ၇ ရက် နေမှာပါ။', 'I will stay for 7 days.'],
+          ['ကျွန်တော် ဒီမှာ ဘာမှ ကြေညာစရာ မရှိပါဘူး။', 'I have nothing to declare.'],
+          ['ကျွန်မရဲ့ အပြန်လက်မှတ် ဒီမှာပါ။', 'Here is my return ticket.'],
+          ['ကျွန်တော် ဟိုတယ်မှာ တည်းခိုမှာပါ။', 'I am staying at a hotel.'],
+          ['ကျွန်တော့်ရဲ့ ခရီးစဉ် ရည်ရွယ်ချက်က စီးပွားရေးပါ။', 'The purpose of my visit is business.']
+        ],
+        mockTest: [
+          ["'What is the ___ of your visit?'",['purpose','reason','why','cause'],0],
+          ["'I am here for ___ .'",['tourism','tour','travel','trip'],0],
+          ["'How long will you ___ ?'",['stay','live','sit','stand'],0],
+          ["'Do you have anything to ___ ?'",['declare','say','speak','tell'],0],
+          ["'I have nothing to ___ .'",['declare','show','give','bring'],0]
+        ]
+      },
+      // Lesson 3
+      {
+        id: 'spk-3', unit: 'Lesson 3', title: 'Taking a Taxi', titleMM: 'တက္ကစီ ငှားခြင်း',
+        explanation: 'ခရီးဆုံးနေရာကို ရောက်ဖို့ တက္ကစီငှားတဲ့အခါ သုံးရမယ့် စကားပြောတွေပါ။',
+        vocab: [
+          ['Taxi stand', 'တက္ကစီ မှတ်တိုင်။'],
+          ['Fare', 'ခရီးစရိတ် / တက္ကစီခ။'],
+          ['Meter', 'မီတာ - ခရီးအကွာအဝေးနဲ့ ခရီးစရိတ်တွက်တဲ့ စက်။'],
+          ['Destination', 'ခရီးဆုံးနေရာ။'],
+          ['Address', 'လိပ်စာ။'],
+          ['Keep the change', 'ကျန်တဲ့ငွေကို ယူထားပါ။'],
+          ['Trunk', 'ကားနောက်ခန်း (အိတ်ထည့်တဲ့နေရာ)။'],
+          ['Traffic jam', 'ယာဉ်ကြော ပိတ်ဆို့မှု။'],
+          ['Route', 'လမ်းကြောင်း။'],
+          ['Drop off', 'ချပေးသည်။']
+        ],
+        patterns: [
+          ['Please take me to [address/place].', 'ကျေးဇူးပြုပြီး [လိပ်စာ] ကို ခေါ်သွားပေးပါ။'],
+          ['How much is the fare to [place]?', '[နေရာ] ကို ဘယ်လောက် ကျမလဲ?'],
+          ['Can you turn on the meter, please?', 'မီတာ ဖွင့်ပေးလို့ ရမလား?'],
+          ['Could you stop here, please?', 'ဒီမှာ ရပ်ပေးလို့ ရမလား?'],
+          ['Can you help me with my luggage?', 'အိတ်တွေ ကူသယ်ပေးလို့ ရမလား?']
+        ],
+        paragraphEN: 'You: Excuse me, are you free?\nDriver: Yes, where to?\nYou: Please take me to the Central Station.\nDriver: Sure. Do you have any bags for the trunk?\nYou: Yes, just one. How much is the fare?\nDriver: It is about 15 dollars on the meter.\nYou: That is fine. Can you drive a bit faster? I am in a hurry.\nDriver: I will try my best, but there is a traffic jam ahead.\nYou: Okay. Please stop here. Keep the change.',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ ကား လွတ်လား?\nမောင်းသူ: ဟုတ်ကဲ့၊ ဘယ်သွားမလဲ?\nသင်: ကျေးဇူးပြုပြီး Central Station ကို ခေါ်သွားပေးပါ။\nမောင်းသူ: ဟုတ်ကဲ့။ ကားနောက်ခန်းထည့်ဖို့ အိတ်ရှိလား?\nသင်: ဟုတ်တယ်၊ တစ်လုံးပါ။ ခရီးစရိတ် ဘယ်လောက်လဲ?\nမောင်းသူ: မီတာအရ ၁၅ ဒေါ်လာလောက် ကျပါမယ်။\nသင်: ရပါတယ်။ နည်းနည်းမြန်မြန် မောင်းပေးလို့ရမလား? အလောတော်ပါ။\nမောင်းသူ: အတတ်နိုင်ဆုံး ကြိုးစားပါမယ်၊ ဒါပေမယ့် ရှေ့မှာ ယာဉ်ကြောပိတ်နေတယ်။\nသင်: အိုကေ။ ဒီမှာ ရပ်ပေးပါ။ ကျန်တဲ့ငွေ ယူထားပါ။',
+        practical: [
+          ['ကျေးဇူးပြုပြီး လေဆိပ်ကို ခေါ်သွားပေးပါ။', 'Please take me to the airport.'],
+          ['ဒီနေရာကို ဘယ်လောက်ကျမလဲ?', 'How much is the fare to this place?'],
+          ['မီတာ ဖွင့်ပေးလို့ရမလား?', 'Could you turn on the meter, please?'],
+          ['ရှေ့မှာ ကားရပ်ပေးလို့ ရမလား?', 'Could you pull over here, please?'],
+          ['ကျွန်တော့်အိတ်တွေ ကူသယ်ပေးလို့ ရမလား?', 'Can you help me with my bags?'],
+          ['ကျွန်တော် အလောတော်ဖြစ်နေလို့ မြန်မြန်မောင်းပေးပါ။', 'I am in a hurry, so please drive fast.']
+        ],
+        mockTest: [
+          ["'Please take me to this ___ .'",['address','place','road','street'],0],
+          ["'How much is the ___ ?'",['fare','money','cost','price'],0],
+          ["'Turn on the ___ , please.'",['meter','machine','clock','radio'],0],
+          ["'Can you stop ___ ?'",['here','there','where','everywhere'],0],
+          ["'Keep the ___ .'",['change','money','cash','bill'],0]
+        ]
+      },
+      // Lesson 4
+      {
+        id: 'spk-4', unit: 'Lesson 4', title: 'Hotel Check-in', titleMM: 'ဟိုတယ် စတင်ဝင်ရောက်ခြင်း',
+        explanation: 'ဟိုတယ်ရောက်တာနဲ့ ကြိုတင်မှာထားတဲ့ အခန်းတောင်းတာ၊ ဝင်ရောက်တာ၊ Wi-Fi မေးတာတွေကို လေ့လာပါမယ်။',
+        vocab: [
+          ['Reservation', 'ကြိုတင်မှာယူထားမှု။'],
+          ['Check-in', 'ဟိုတယ်တွင် စတင်ဝင်ရောက်ခြင်း။'],
+          ['Key card', 'အခန်းဖွင့်ကတ်။'],
+          ['Breakfast included', 'မနက်စာ ပါဝင်ပြီးသား။'],
+          ['Check-out time', 'အခန်းမှ ထွက်ရမည့်အချိန်။'],
+          ['Wi-Fi password', 'Wi-Fi လျှို့ဝှက်ကုဒ်။'],
+          ['Single/Double room', 'တစ်ယောက်ခန်း/နှစ်ယောက်ခန်း။'],
+          ['Luggage storage', 'အိတ်သိမ်းဆောင်။'],
+          ['Room service', 'အခန်းထဲ စားသောက်ရေးဝန်ဆောင်မှု။'],
+          ['Complaint', 'တိုင်ကြားချက်။']
+        ],
+        patterns: [
+          ['I have a reservation under the name of [Name].', '[နာမည်] နဲ့ ကြိုတင်မှာထားပါတယ်။'],
+          ['What time is check-out?', 'အခန်းထွက်ရမည့်အချိန် ဘယ်အချိန်လဲ?'],
+          ['Is breakfast included?', 'မနက်စာ ပါဝင်ပြီးသားလား?'],
+          ['What is the Wi-Fi password?', 'Wi-Fi လျှို့ဝှက်ကုဒ်က ဘာလဲ?'],
+          ['I have a problem with my room.', 'ကျွန်တော့်အခန်းမှာ ပြဿနာတစ်ခု ရှိနေပါတယ်။']
+        ],
+        paragraphEN: 'You: Good evening. I have a reservation under the name of Aung.\nReceptionist: Welcome, Mr. Aung. Let me check. Yes, a double room for three nights. May I see your passport?\nYou: Here it is. Is breakfast included?\nReceptionist: Yes, breakfast is from 7 to 10 AM. Here is your key card. Your room is on the 3rd floor.\nYou: Thank you. What is the Wi-Fi password?\nReceptionist: It is on the back of the key card.\nYou: Great. What time is check-out?\nReceptionist: Check-out is at 12 PM.',
+        paragraphMM: 'သင်: မင်္ဂလာညနေပါ။ အောင်ဆိုတဲ့ နာမည်နဲ့ ကြိုတင်မှာထားပါတယ်။\nဝန်ထမ်း: ကြိုဆိုပါတယ် အောင်ခင်ဗျာ။ စစ်ကြည့်ပါမယ်။ ဟုတ်ကဲ့၊ နှစ်ယောက်ခန်း ၃ ညပါ။ နိုင်ငံကူးလက်မှတ် ကြည့်လို့ ရမလား?\nသင်: ဒီမှာပါ။ မနက်စာ ပါဝင်ပြီးသားလား?\nဝန်ထမ်း: ဟုတ်ကဲ့၊ မနက် ၇ နာရီကို ၁၀ နာရီအတွင်း ပါ။ ဒါက အခန်းဖွင့်ကတ်ပါ။ သင့်အခန်းက ၃ လွှာမှာပါ။\nသင်: ကျေးဇူးတင်ပါတယ်။ Wi-Fi လျှို့ဝှက်ကုဒ်က ဘာလဲ?\nဝန်ထမ်း: ကတ်နောက်ကျောမှာ ရေးထားပါတယ်။\nသင်: ကောင်းပါတယ်။ အခန်းထွက်ရမည့်အချိန်က ဘယ်အချိန်လဲ?\nဝန်ထမ်း: နေ့လယ် ၁၂ နာရီမှာ ထွက်ရပါမယ်။',
+        practical: [
+          ['ကျွန်တော် အောင်ဆိုတဲ့ နာမည်နဲ့ ကြိုတင်မှာထားထားပါတယ်။', 'I have a reservation under the name Aung.'],
+          ['မနက်စာ ပါဝင်ပြီးသားလား?', 'Is breakfast included?'],
+          ['Wi-Fi လျှို့ဝှက်ကုဒ်က ဘာလဲခင်ဗျာ?', 'What is the Wi-Fi password?'],
+          ['အခန်းထွက်ရမည့်အချိန် ဘယ်အချိန်လဲ?', 'What time is check-out?'],
+          ['ကျွန်တော့်အခန်းထဲမှာ လေအေးပေးစက် အလုပ်မလုပ်ပါဘူး။', 'The air conditioner in my room is not working.'],
+          ['ကျွန်တော့်အိတ်တွေကို ဒီမှာ သိမ်းထားလို့ ရမလား?', 'Can I store my luggage here?']
+        ],
+        mockTest: [
+          ["'I have a ___ under the name of Aung.'",['reservation','book','room','ticket'],0],
+          ["'Is breakfast ___ ?'",['included','free','inside','with'],0],
+          ["'What time is ___ ?'",['check-out','check-in','leave','go'],0],
+          ["'What is the Wi-Fi ___ ?'",['password','code','number','key'],0],
+          ["'My room is on the third ___ .'",['floor','level','story','layer'],0]
+        ]
+      },
+      // Lesson 5
+      {
+        id: 'spk-5', unit: 'Lesson 5', title: 'Asking for Directions', titleMM: 'လမ်းမေးခြင်း',
+        explanation: 'မြို့ထဲမှာ လမ်းပျောက်တဲ့အခါ လူတွေကို လမ်းမေးပြီး ဘယ်လိုသွားရမလဲဆိုတာ နားလည်အောင် လေ့လာပါမယ်။',
+        vocab: [
+          ['Turn left/right', 'ဘယ်ဘက်/ညာဘက် ကွေ့သည်။'],
+          ['Go straight', 'တည့်တည့် သွားပါ။'],
+          ['Intersection', 'လမ်းဆုံ။'],
+          ['Traffic light', 'မီးပွိုင့်။'],
+          ['Block', 'လမ်းတုံး (အဆောက်အအုံတစ်ခုနဲ့တစ်ခုကြား အကွာအဝေး)။'],
+          ['Across from', 'မျက်နှာချင်းဆိုင်။'],
+          ['Next to', 'ဘေးမှာ။'],
+          ['Corner', 'လမ်းထောင့်။'],
+          ['Landmark', 'အမှတ်အသား အဆောက်အအုံ။'],
+          ['Far', 'ဝေးသည်။']
+        ],
+        patterns: [
+          ['Excuse me, how do I get to [place]?', 'တစ်ဆိတ်လောက်ဗျာ၊ [နေရာ] ကို ဘယ်လိုသွားရမလဲ?'],
+          ['Is it far from here?', 'ဒီကနေ ဝေးလား?'],
+          ['Go straight for two blocks and turn left.', 'လမ်းနှစ်တုံးစာ တည့်တည့်သွားပြီး ဘယ်ဘက်ကွေ့ပါ။'],
+          ['It is across from the bank.', 'ဘဏ်ရဲ့ မျက်နှာချင်းဆိုင်မှာ ရှိတယ်။'],
+          ['Can you show me on the map?', 'မြေပုံပေါ်မှာ ပြပေးလို့ ရမလား?']
+        ],
+        paragraphEN: 'You: Excuse me, I am lost. How do I get to the National Museum?\nLocal: Go straight along this street for two blocks. Then, turn right at the traffic light. The museum is on your left, across from a big park.\nYou: Is it far from here?\nLocal: No, it is about a 10-minute walk.\nYou: Can you show me on this map?\nLocal: Sure. Look, you are here. Walk this way, then turn right here.\nYou: Thank you so much for your help!\nLocal: You are welcome. Have a nice day!',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ ကျွန်တော် လမ်းပျောက်နေလို့ပါ။ အမျိုးသားပြတိုက်ကို ဘယ်လိုသွားရမလဲ?\nဒေသခံ: ဒီလမ်းအတိုင်း လမ်းနှစ်တုံးစာ တည့်တည့်သွားပါ။ ပြီးတော့ မီးပွိုင့်မှာ ညာဘက်ကွေ့ပါ။ ပြတိုက်က ပန်းခြံကြီးရဲ့ မျက်နှာချင်းဆိုင်၊ သင့်ဘယ်ဘက်မှာ ရှိပါတယ်။\nသင်: ဒီကနေ ဝေးလား?\nဒေသခံ: မဝေးပါဘူး၊ ၁၀ မိနစ်လောက် လမ်းလျှောက်ရပါမယ်။\nသင်: ဒီမြေပုံပေါ်မှာ ပြပေးလို့ ရမလား?\nဒေသခံ: ဟုတ်ကဲ့။ ကြည့်ပါ၊ သင်က ဒီမှာ။ ဒီအတိုင်းလျှောက်ပြီး ဒီမှာ ညာဘက်ကွေ့ပါ။\nသင်: ကူညီပေးတဲ့အတွက် အရမ်းကျေးဇူးတင်ပါတယ်!\nဒေသခံ: ရပါတယ်။ ကောင်းသောနေ့လေးဖြစ်ပါစေ!',
+        practical: [
+          ['ဆေးရုံကို ဘယ်လိုသွားရမလဲခင်ဗျာ?', 'How do I get to the hospital?'],
+          ['ဒီကနေ ဝေးသလား?', 'Is it far from here?'],
+          ['တည့်တည့်သွားပြီး ပထမလမ်းထောင့်မှာ ဘယ်ဘက်ကွေ့ပါ။', 'Go straight and turn left at the first corner.'],
+          ['ဘဏ်က စာတိုက်ရဲ့ ဘေးမှာ ရှိတယ်။', 'The bank is next to the post office.'],
+          ['မြေပုံပေါ်မှာ ပြပေးလို့ရမလား?', 'Can you show me on the map?'],
+          ['အနီးဆုံး ဘတ်စ်ကားမှတ်တိုင် ဘယ်မှာလဲ?', 'Where is the nearest bus stop?']
+        ],
+        mockTest: [
+          ["'Go ___ for two blocks.'",['straight','left','right','back'],0],
+          ["'Turn ___ at the traffic light.'",['left','straight','back','stop'],0],
+          ["'Is it ___ from here?'",['far','long','away','much'],0],
+          ["'It is ___ from the bank.'",['across','next','near','behind'],0],
+          ["'How do I get ___ the museum?'",['to','at','in','by'],0]
+        ]
+      },
+      // Lesson 6
+      {
+        id: 'spk-6', unit: 'Lesson 6', title: 'At a Restaurant', titleMM: 'စားသောက်ဆိုင်တွင်',
+        explanation: 'စားသောက်ဆိုင်မှာ ထိုင်ခုံရှာတာ၊ ဟင်းပွဲမှာတာ၊ ငွေရှင်းတာတွေအတွက် လိုအပ်တဲ့ စကားပြောတွေပါ။',
+        vocab: [
+          ['Menu', 'ဟင်းလျာစာရင်း။'],
+          ['Order', 'မှာယူသည်။'],
+          ['Bill/Check', 'ငွေတောင်းခံလွှာ။'],
+          ['Tip', 'အပိုဆုငွေ။'],
+          ['Water', 'ရေ။'],
+          ['Vegetarian', 'အသက်သတ်လွတ်။'],
+          ['Spicy', 'အစပ်ပေါ။'],
+          ['Recommend', 'အကြံပြုသည်။'],
+          ['Takeaway', 'ပါဆယ်ထုပ်။'],
+          ['Delicious', 'အရသာရှိသည်။']
+        ],
+        patterns: [
+          ['A table for two, please.', 'နှစ်ယောက်စာ စားပွဲ လိုချင်ပါတယ်။'],
+          ['Can I see the menu, please?', 'ဟင်းလျာစာရင်း ကြည့်လို့ ရမလား?'],
+          ['What do you recommend?', 'ဘာကို အကြံပြုလဲ?'],
+          ['I would like to order [food].', '[အစားအစာ] မှာချင်ပါတယ်။'],
+          ['Can I have the bill, please?', 'ငွေရှင်းလို့ ရမလား?']
+        ],
+        paragraphEN: 'Waiter: Good evening! How many people?\nYou: Two people, please.\nWaiter: Right this way. Here is the menu.\nYou: Thank you. What do you recommend?\nWaiter: Our grilled salmon is very popular and delicious.\nYou: Okay, I will have the grilled salmon, and my friend will have the chicken pasta. Also, two glasses of water, please.\nWaiter: Sure. Would you like anything else?\nYou: No, that is all for now. (After eating) Excuse me, can we have the bill, please?\nWaiter: Here you go. That will be 45 dollars.\nYou: Here is 50 dollars. Keep the change.',
+        paragraphMM: 'စားပွဲထိုး: မင်္ဂလာညနေပါ! ဘယ်နှယောက်လဲ?\nသင်: နှစ်ယောက်ပါ။\nစားပွဲထိုး: ဒီဘက်ကို လာပါ။ ဒါက ဟင်းလျာစာရင်းပါ။\nသင်: ကျေးဇူးတင်ပါတယ်။ ဘာကို အကြံပြုလဲ?\nစားပွဲထိုး: ကျွန်တော်တို့ရဲ့ ကင်ထားတဲ့ ဆော်လမွန်ငါးက အရမ်းရေပန်းစားပြီး အရသာရှိပါတယ်။\nသင်: အိုကေ၊ ကျွန်တော် ဆော်လမွန်ငါး မှာမယ်၊ သူငယ်ချင်းက ကြက်သားပါစတာ မှာမယ်။ ပြီးတော့ ရေနှစ်ခွက်ပါ။\nစားပွဲထိုး: ဟုတ်ကဲ့။ ကျန်တာ မှာချင်သေးလား?\nသင်: မရှိပါဘူး၊ အခုလောက်ပဲ။ (စားပြီးတဲ့အခါ) တစ်ဆိတ်လောက်ဗျာ၊ ငွေရှင်းလို့ ရမလား?\nစားပွဲထိုး: ဒီမှာပါ။ ၄၅ ဒေါ်လာ ကျပါမယ်။\nသင်: ဒီမှာ ၅၀ ဒေါ်လာပါ။ ကျန်တာယူထားပါ။',
+        practical: [
+          ['နှစ်ယောက်စာ စားပွဲ ရှိလား?', 'Do you have a table for two?'],
+          ['ဟင်းလျာစာရင်း ကြည့်လို့ ရမလား?', 'Can I see the menu, please?'],
+          ['ဒီဆိုင်မှာ ဘာကို အကြံပြုလဲ?', 'What do you recommend here?'],
+          ['ကျွန်တော် ကြက်သားပါစတာ မှာချင်ပါတယ်။', 'I would like to order chicken pasta.'],
+          ['ငွေတောင်းခံလွှာ ယူလာပေးလို့ ရမလား?', 'Could I have the bill, please?'],
+          ['ကတ်နဲ့ ရှင်းလို့ ရမလား?', 'Can I pay by card?']
+        ],
+        mockTest: [
+          ["'A table ___ two, please.'",['for','to','at','in'],0],
+          ["'Can I see the ___ ?'",['menu','bill','food','water'],0],
+          ["'What do you ___ ?'",['recommend','say','tell','speak'],0],
+          ["'Can I have the ___ ?'",['bill','menu','water','table'],0],
+          ["'Keep the ___ .'",['change','money','bill','cash'],0]
+        ]
+      },
+      // Lesson 7
+      {
+        id: 'spk-7', unit: 'Lesson 7', title: 'Shopping & Bargaining', titleMM: 'ဈေးဝယ်ခြင်းနှင့် ဈေးဆစ်ခြင်း',
+        explanation: 'အဝတ်အစား ဝယ်တဲ့အခါ အရွယ်အစား မေးတာ၊ ဈေးဆစ်တာနဲ့ ငွေရှင်းတာတွေကို လေ့လာပါမယ်။',
+        vocab: [
+          ['Size', 'အရွယ်အစား။'],
+          ['Try on', 'ဝတ်ကြည့်သည်။'],
+          ['Discount', 'လျှော့စျေး။'],
+          ['Expensive', 'ဈေးကြီးသည်။'],
+          ['Cheap', 'ဈေးသက်သာသည်။'],
+          ['Receipt', 'ငွေရှင်းလက်မှတ်။'],
+          ['Credit card', 'အကြွေးဝယ်ကတ်။'],
+          ['Cash', 'ငွေသား။'],
+          ['Fitting room', 'အဝတ်အစား လဲဝတ်ခန်း။'],
+          ['Bargain', 'ဈေးဆစ်သည်။']
+        ],
+        patterns: [
+          ['How much is this?', 'ဒါ ဘယ်လောက်လဲ?'],
+          ['Do you have this in a larger/smaller size?', 'ဒါကို အရွယ်ပိုကြီး/သေး ရှိလား?'],
+          ['Can I try this on?', 'ဒါကို ဝတ်ကြည့်လို့ ရမလား?'],
+          ['It is too expensive. Can you give me a discount?', 'ဈေးအရမ်းကြီးတယ်။ လျှော့ပေးလို့ ရမလား?'],
+          ['I will take it.', 'ဒါကို ယူမယ်။']
+        ],
+        paragraphEN: 'You: Excuse me, how much is this shirt?\nShopkeeper: It is 25 dollars.\nYou: It is a bit expensive. Can you give me a discount?\nShopkeeper: I can give it to you for 20 dollars.\nYou: Okay. Do you have this in a medium size?\nShopkeeper: Yes, here you go. The fitting room is over there.\nYou: (After trying) It fits perfectly. I will take it. Can I pay by credit card?\nShopkeeper: Yes, we accept cards. Here is your receipt.\nYou: Thank you.',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ ဒီအင်္ကျီ ဘယ်လောက်လဲ?\nဆိုင်ပိုင်ရှင်: ၂၅ ဒေါ်လာပါ။\nသင်: နည်းနည်း ဈေးကြီးတယ်နော်။ လျှော့ပေးလို့ ရမလား?\nဆိုင်ပိုင်ရှင်: ၂၀ ဒေါ်လာဆိုရင် ပေးလို့ရပါတယ်။\nသင်: အိုကေ။ ဒါကို Medium size ရှိလား?\nဆိုင်ပိုင်ရှင်: ဟုတ်ကဲ့၊ ဒီမှာပါ။ အဝတ်လဲခန်းက ဟိုမှာပါ။\nသင်: (ဝတ်ကြည့်ပြီး) ကိုက်တယ်နော်။ ဒါကို ယူမယ်။ ကတ်နဲ့ ရှင်းလို့ ရမလား?\nဆိုင်ပိုင်ရှင်: ဟုတ်ကဲ့၊ ကတ်လက်ခံပါတယ်။ ဒါက သင့်ငွေရှင်းလက်မှတ်ပါ။\nသင်: ကျေးဇူးတင်ပါတယ်။',
+        practical: [
+          ['ဒီအင်္ကျီ ဘယ်လောက်လဲ?', 'How much is this shirt?'],
+          ['အရွယ်အစား ပိုကြီးတာ ရှိလား?', 'Do you have this in a larger size?'],
+          ['ဝတ်ကြည့်လို့ ရမလား?', 'Can I try this on?'],
+          ['ဈေးနည်းနည်း လျှော့ပေးလို့ ရမလား?', 'Can you give me a discount?'],
+          ['ငွေသားနဲ့ ရှင်းမှာလား ကတ်နဲ့ ရှင်းမှာလား?', 'Will you pay by cash or card?'],
+          ['ဒါကို ယူလိုက်ပါမယ်။', 'I will take it.']
+        ],
+        mockTest: [
+          ["'How much ___ this?'",['is','are','am','be'],0],
+          ["'Can I try this ___ ?'",['on','in','at','out'],0],
+          ["'Do you have a ___ ?'",['discount','cheap','money','price'],0],
+          ["'I will ___ it.'",['take','buy','get','bring'],0],
+          ["'Can I pay by ___ card?'",['credit','money','cash','bank'],0]
+        ]
+      },
+      // Lesson 8
+      {
+        id: 'spk-8', unit: 'Lesson 8', title: 'Public Transport', titleMM: 'အများသုံးယာဉ် (ဘတ်စ်ကား/ရထား)',
+        explanation: 'ဘတ်စ်ကား ဒါမှမဟုတ် ရထားစီးတဲ့အခါ လက်မှတ်ဝယ်တာ၊ ဘယ် platform မှာ စောင့်ရမလဲ မေးတာတွေကို လေ့လာပါမယ်။',
+        vocab: [
+          ['Ticket', 'လက်မှတ်။'],
+          ['Subway/Train', 'မြေအောက်ရထား/ရထား။'],
+          ['Platform', 'ပလက်ဖောင်း - ရထားတက်ရမည့်နေရာ။'],
+          ['Stop', 'မှတ်တိုင်။'],
+          ['Route', 'လမ်းကြောင်း။'],
+          ['One-way ticket', 'တစ်လမ်းသွား လက်မှတ်။'],
+          ['Round-trip', 'အသွားအပြန် လက်မှတ်။'],
+          ['Transfer', 'လဲစီးသည်။'],
+          ['Schedule', 'အချိန်ဇယား။'],
+          ['Map', 'မြေပုံ။']
+        ],
+        patterns: [
+          ['Where can I buy a ticket?', 'လက်မှတ် ဘယ်မှာဝယ်ရမလဲ?'],
+          ['I would like a one-way ticket to [place].', '[နေရာ] ကို တစ်လမ်းသွား လက်မှတ်တစ်စောင် လိုချင်ပါတယ်။'],
+          ['Which platform does the train leave from?', 'ရထားက ဘယ် platform ကနေ ထွက်မလဲ?'],
+          ['Does this bus go to [place]?', 'ဒီဘတ်စ်ကား [နေရာ] ကို သွားလား?'],
+          ['How many stops until [place]?', '[နေရာ] ရောက်ဖို့ ဘယ်နှမှတ်တိုင် လိုသေးလဲ?']
+        ],
+        paragraphEN: 'You: Excuse me, where can I buy a ticket to the city center?\nStaff: You can buy it from the machine over there.\nYou: Thank you. Which platform does the train leave from?\nStaff: It leaves from Platform 3.\nYou: How often do the trains run?\nStaff: Every 10 minutes.\nYou: Great. Does this train go directly to the city center?\nStaff: No, you need to transfer at the next station.\nYou: Okay, thank you for your help.',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ မြို့လယ်ကို သွားဖို့ လက်မှတ် ဘယ်မှာဝယ်ရမလဲ?\nဝန်ထမ်း: ဟိုနားက စက်ကနေ ဝယ်လို့ရပါတယ်။\nသင်: ကျေးဇူးတင်ပါတယ်။ ရထားက ဘယ် platform ကနေ ထွက်မလဲ?\nဝန်ထမ်း: Platform 3 ကနေ ထွက်ပါတယ်။\nသင်: ရထားက ဘယ်လောက်ကြာကြာ တစ်ခါထွက်လဲ?\nဝန်ထမ်း: ၁၀ မိနစ်တစ်ခါ ထွက်ပါတယ်။\nသင်: ကောင်းတယ်။ ဒီရထားက မြို့လယ်ကို တိုက်ရိုက် သွားလား?\nဝန်ထမ်း: မဟုတ်ပါဘူး၊ နောက်ဘူတာမှာ လဲစီးဖို့ လိုပါတယ်။\nသင်: အိုကေ၊ ကူညီပေးတဲ့အတွက် ကျေးဇူးတင်ပါတယ်။',
+        practical: [
+          ['လက်မှတ် ဘယ်မှာဝယ်ရမလဲ?', 'Where can I buy a ticket?'],
+          ['မြို့လယ်ကို သွားဖို့ လက်မှတ်တစ်စောင် လိုချင်ပါတယ်။', 'I would like a ticket to the city center.'],
+          ['ဘယ် platform ကနေ ရထားတက်ရမလဲ?', 'Which platform should I go to?'],
+          ['ဒီဘတ်စ်ကား လေဆိပ်ကို သွားလား?', 'Does this bus go to the airport?'],
+          ['ဘယ်နှမှတ်တိုင် လိုသေးလဲ?', 'How many stops are left?'],
+          ['ကျွန်တော် နောက်ဘူတာမှာ လဲစီးရမှာလား?', 'Do I need to transfer at the next station?']
+        ],
+        mockTest: [
+          ["'Where can I buy a ___ ?'",['ticket','book','card','money'],0],
+          ["'Which ___ does the train leave from?'",['platform','station','stop','road'],0],
+          ["'Does this bus go ___ the airport?'",['to','at','in','by'],0],
+          ["'You need to ___ at the next station.'",['transfer','change','stop','get'],0],
+          ["'How many ___ are left?'",['stops','roads','ways','lines'],0]
+        ]
+      },
+      // Lesson 9
+      {
+        id: 'spk-9', unit: 'Lesson 9', title: 'Sightseeing & Tours', titleMM: 'အထင်ကရနေရာများ လည်ပတ်ခြင်း',
+        explanation: 'ခရီးသွား နေရာတွေမှာ လက်မှတ်ဝယ်တာ၊ ဓာတ်ပုံကူရိုက်ပေးတာ၊ နေရာတွေအကြောင်း မေးတာတွေကို လေ့လာပါမယ်။',
+        vocab: [
+          ['Tour', 'ခရီးစဉ်။'],
+          ['Guide', 'လမ်းညွှန်။'],
+          ['Ticket', 'လက်မှတ်။'],
+          ['Museum', 'ပြတိုက်။'],
+          ['Photo', 'ဓာတ်ပုံ။'],
+          ['Entrance fee', 'ဝင်ကြေး။'],
+          ['Guided tour', 'လမ်းညွှန်ပါသော ခရီးစဉ်။'],
+          ['Souvenir', 'အမှတ်တရ ပစ္စည်း။'],
+          ['Crowded', 'လူများသည်။'],
+          ['Beautiful view', 'လှပသော ရှုခင်း။']
+        ],
+        patterns: [
+          ['Two tickets for the tour, please.', 'ခရီးစဉ်အတွက် လက်မှတ် နှစ်စောင် ပေးပါ။'],
+          ['How much is the entrance fee?', 'ဝင်ကြေး ဘယ်လောက်လဲ?'],
+          ['Can you take a photo for me?', 'ဓာတ်ပုံ တစ်ပုံ ကူရိုက်ပေးလို့ ရမလား?'],
+          ['What time does the museum close?', 'ပြတိုက် ဘယ်အချိန် ပိတ်လဲ?'],
+          ['Is there an English guide?', 'English လမ်းညွှန် ရှိလား?']
+        ],
+        paragraphEN: 'You: Excuse me, how much is a ticket for the city tour?\nStaff: It is 30 dollars per person.\nYou: Two tickets, please. What time does the tour start?\nStaff: It starts at 9 AM from this spot.\nYou: Great. Is there an English-speaking guide?\nStaff: Yes, there is. The guide will be holding a red flag.\nYou: Thank you. (Later) Excuse me, could you take a photo of us, please?\nStranger: Sure, no problem. Say cheese!\nYou: Thank you so much!',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ မြို့လည်ပတ် ခရီးစဉ်အတွက် လက်မှတ်က ဘယ်လောက်လဲ?\nဝန်ထမ်း: တစ်ယောက်ကို ၃၀ ဒေါ်လာပါ။\nသင်: နှစ်စောင် ပေးပါ။ ခရီးစဉ်က ဘယ်အချိန် စတင်လဲ?\nဝန်ထမ်း: မနက် ၉ နာရီမှာ ဒီနေရာကနေ စပါတယ်။\nသင်: ကောင်းတယ်။ English ပြောတဲ့ လမ်းညွှန် ပါလား?\nဝန်ထမ်း: ဟုတ်ကဲ့၊ ပါပါတယ်။ လမ်းညွှန်က အနီရောင်အလံ ကိုင်ထားပါလိမ့်မယ်။\nသင်: ကျေးဇူးတင်ပါတယ်။ (နောက်ပိုင်း) တစ်ဆိတ်လောက်ဗျာ၊ ကျွန်တော်တို့ကို ဓာတ်ပုံလေး ကူရိုက်ပေးလို့ ရမလား?\n stranger: ဟုတ်ကဲ့၊ ရပါတယ်။ ပြုံးပါဦး!\nသင်: အရမ်းကျေးဇူးတင်ပါတယ်!',
+        practical: [
+          ['ခရီးစဉ်အတွက် လက်မှတ်နှစ်စောင် လိုချင်ပါတယ်။', 'I would like two tickets for the tour, please.'],
+          ['ဝင်ကြေး ဘယ်လောက်လဲခင်ဗျာ?', 'How much is the entrance fee?'],
+          ['ဓာတ်ပုံလေး ကူရိုက်ပေးလို့ ရမလား?', 'Could you take a photo for me, please?'],
+          ['ပြတိုက်က ဘယ်အချိန် ပိတ်လဲ?', 'What time does the museum close?'],
+          ['အင်္ဂလိပ်လို ပြောတဲ့ လမ်းညွှန် ရှိလား?', 'Is there an English-speaking guide?'],
+          ['အမှတ်တရ ပစ္စည်းတွေ ဘယ်မှာဝယ်ရမလဲ?', 'Where can I buy souvenirs?']
+        ],
+        mockTest: [
+          ["'Two ___ for the tour, please.'",['tickets','books','cards','seats'],0],
+          ["'How much is the ___ fee?'",['entrance','enter','in','out'],0],
+          ["'Can you take a ___ for me?'",['photo','picture','camera','image'],0],
+          ["'What time does it ___ ?'",['close','closed','closing','closes'],0],
+          ["'Is there an English ___ ?'",['guide','book','map','tour'],0]
+        ]
+      },
+      // Lesson 10
+      {
+        id: 'spk-10', unit: 'Lesson 10', title: 'Emergencies & Help', titleMM: 'အရေးပေါ် အခြေအနေများနှင့် အကူအညီတောင်းခံခြင်း',
+        explanation: 'ပစ္စည်းပျောက်တာ၊ ခိုးခံရတာ ဒါမှမဟုတ် ရောဂါဖြစ်တဲ့အခါ အကူအညီတောင်းတဲ့ စကားပြောတွေပါ။',
+        vocab: [
+          ['Help', 'အကူအညီ။'],
+          ['Police', 'ရဲ။'],
+          ['Lost', 'ပျောက်ဆုံးသည်။'],
+          ['Stolen', 'ခိုးယူခံရသည်။'],
+          ['Passport', 'နိုင်ငံကူးလက်မှတ်။'],
+          ['Hospital', 'ဆေးရုံ။'],
+          ['Ambulance', 'လူနာတင်ကား။'],
+          ['Emergency', 'အရေးပေါ်။'],
+          ['Wallet', 'ပိုက်ဆံအိတ်။'],
+          ['Embassy', 'သံရုံး။']
+        ],
+        patterns: [
+          ['Help me, please!', 'ကျေးဇူးပြုပြီး ကူညီပါ!'],
+          ['I lost my passport/wallet.', 'ကျွန်တော့် နိုင်ငံကူးလက်မှတ်/ပိုက်ဆံအိတ် ပျောက်သွားပါတယ်။'],
+          ['My bag was stolen.', 'ကျွန်တော့်အိတ် ခိုးခံလိုက်ရပါတယ်။'],
+          ['I need a doctor.', 'ကျွန်တော် ဆရာဝန် လိုအပ်ပါတယ်။'],
+          ['Call an ambulance!', 'လူနာတင်ကား ခေါ်ပါ!'],
+          ['Where is the nearest police station?', 'အနီးဆုံး ရဲစခန်း ဘယ်မှာလဲ?']
+        ],
+        paragraphEN: 'You: Excuse me, I need help. I lost my wallet.\nPolice: Where did you lose it?\nYou: I think I left it in the taxi. It has my credit cards and some cash.\nPolice: Do you remember the taxi number?\nYou: No, I do not. But I have the receipt from the taxi.\nPolice: Okay, we will try to track it down. You should also call your embassy to cancel your cards.\nYou: Thank you. Where is the nearest embassy?\nPolice: It is about two blocks from here. Do you need a police report for your insurance?\nYou: Yes, please.',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ အကူအညီလိုပါတယ်။ ကျွန်တော့်ပိုက်ဆံအိတ် ပျောက်သွားလို့ပါ။\nရဲ: ဘယ်မှာ ပျောက်သွားတာလဲ?\nသင်: တက္ကစီပေါ်မှာ ကျန်ခဲ့တယ်လို့ ထင်ပါတယ်။ ကျွန်တော့်ရဲ့ အကြွေးဝယ်ကတ်တွေနဲ့ ပိုက်ဆံတချို့ ပါပါတယ်။\nရဲ: တက္ကစီ နံပါတ်ကို မှတ်မိလား?\nသင်: မမှတ်မိပါဘူး။ ဒါပေမယ့် တက္ကစီငွေရှင်းလက်မှတ် ရှိပါတယ်။\nရဲ: အိုကေ၊ ရှာဖွေပေးပါမယ်။ သင့်ရဲ့ ကတ်တွေ ပယ်ဖျက်ဖို့ သံရုံးကို ဖုန်းဆက်သင့်ပါတယ်။\nသင်: ကျေးဇူးတင်ပါတယ်။ အနီးဆုံး သံရုံး ဘယ်မှာလဲ?\nရဲ: ဒီကနေ လမ်းနှစ်တုံးလောက်ပါ။ အာမခံအတွက် ရဲစခန်း အစီရင်ခံစာ လိုပါသလား?\nသင်: လိုပါတယ်။',
+        practical: [
+          ['ကူညီပါဦး! ကျွန်တော့်ပိုက်ဆံအိတ် ပျောက်သွားလို့ပါ။', 'Help me, please! I lost my wallet.'],
+          ['ကျွန်မ အိတ် ခိုးခံလိုက်ရပါတယ်။', 'My bag was stolen.'],
+          ['ကျွန်တော် ဆရာဝန် လိုအပ်နေပါတယ်။', 'I need a doctor.'],
+          ['လူနာတင်ကား ခေါ်ပေးပါ။', 'Please call an ambulance.'],
+          ['အနီးဆုံး ရဲစခန်း ဘယ်မှာလဲ?', 'Where is the nearest police station?'],
+          ['ကျွန်တော့်ရဲ့ နိုင်ငံကူးလက်မှတ် ပျောက်သွားပါတယ်။', 'I lost my passport.']
+        ],
+        mockTest: [
+          ["'I need ___ .'",['help','save','aid','care'],0],
+          ["'I ___ my wallet.'",['lost','lose','losing','loses'],0],
+          ["'Call an ___ !'",['ambulance','police','doctor','hospital'],0],
+          ["'Where is the police ___ ?'",['station','office','room','house'],0],
+          ["'My bag was ___ .'",['stolen','steal','stealing','steals'],0]
+        ]
+      },
+      // Lesson 11
+      {
+        id: 'spk-11', unit: 'Lesson 11', title: 'At the Pharmacy/Doctor', titleMM: 'ဆေးဆိုင် နှင့် ဆရာဝန်',
+        explanation: 'ခရီးသွားရင်း နေမကောင်းဖြစ်တဲ့အခါ ဆေးဆိုင်မှာ ဆေးဝယ်တာ၊ ဆရာဝန်နဲ့ ပြတာတွေကို လေ့လာပါမယ်။',
+        vocab: [
+          ['Medicine', 'ဆေး။'],
+          ['Headache', 'ခေါင်းကိုက်ခြင်း။'],
+          ['Fever', 'အဖျားတက်ခြင်း။'],
+          ['Stomachache', 'ဗိုက်နာခြင်း။'],
+          ['Cough', 'ချောင်းဆိုးခြင်း။'],
+          ['Prescription', 'ဆရာဝန်ဆေးညွှန်း။'],
+          ['Painkiller', 'အကိုက်အခဲပျောက်ဆေး။'],
+          ['Allergic', 'ဓာတ်မတည့်ခြင်း။'],
+          ['Pills', 'ဆေးလုံး။'],
+          ['Symptoms', 'ရောဂါလက္ခဏာများ။']
+        ],
+        patterns: [
+          ['I have a headache/fever.', 'ကျွန်တော် ခေါင်းကိုက်/ဖျားနေတယ်။'],
+          ['I need some medicine.', 'ကျွန်တော် ဆေးလိုအပ်ပါတယ်။'],
+          ['Do I need a prescription?', 'ဆေးညွှန်း လိုအပ်ပါသလား?'],
+          ['I am allergic to [medicine].', 'ကျွန်တော် [ဆေး] နဲ့ ဓာတ်မတည့်ပါဘူး။'],
+          ['How often should I take this?', 'ဒီဆေးကို ဘယ်လောက်ကြာကြာ သောက်ရမလဲ?']
+        ],
+        paragraphEN: 'You: Excuse me, I have a bad headache and a fever. Can you give me something?\nPharmacist: Do you have any other symptoms? Like a cough or stomachache?\nYou: No, just a headache and fever.\nPharmacist: Okay. Here is some medicine for the fever and pain. Take one pill every 6 hours.\nYou: Do I need a prescription for this?\nPharmacist: No, this is over-the-counter medicine. But if you do not feel better in two days, you should see a doctor.\nYou: Are there any side effects?\nPharmacist: It might make you sleepy. Do not drive after taking it.\nYou: Okay, thank you.',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ ကျွန်တော် ခေါင်းအရမ်းကိုက်ပြီး ဖျားနေပါတယ်။ တစ်ခုခု ပေးလို့ရမလား?\nဆေးဝန်ထမ်း: ချောင်းဆိုးတာ ဒါမှမဟုတ် ဗိုက်နာတာရော ရှိလား?\nသင်: မရှိပါဘူး၊ ခေါင်းကိုက်တာနဲ့ အဖျားပဲ ရှိပါတယ်။\nဆေးဝန်ထမ်း: အိုကေ။ ဒါက အဖျားနဲ့ အကိုက်အခဲပျောက်ဆေးပါ။ ၆ နာရီတစ်ခါ ဆေးလုံးတစ်လုံး သောက်ပါ။\nသင်: ဒီဆေးအတွက် ဆေးညွှန်း လိုအပ်ပါသလား?\nဆေးဝန်ထမ်း: မလိုပါဘူး၊ ဒါက ဆေးညွှန်းမလိုတဲ့ ဆေးပါ။ ဒါပေမယ့် နှစ်ရက်အတွင်း မသက်သာရင် ဆရာဝန်နဲ့ ပြသင့်ပါတယ်။\nသင်: ဘေးထွက်ဆိုးကျိုး ရှိပါသလား?\nဆေးဝန်ထမ်း: အိပ်ငိုက်နိုင်ပါတယ်။ သောက်ပြီး ကားမမောင်းပါနဲ့။\nသင်: အိုကေ၊ ကျေးဇူးတင်ပါတယ်။',
+        practical: [
+          ['ကျွန်တော် ခေါင်းကိုက်ပြီး ဖျားနေလို့ပါ။', 'I have a headache and a fever.'],
+          ['အကိုက်အခဲပျောက်ဆေး လိုချင်ပါတယ်။', 'I need some painkillers.'],
+          ['ဆေးညွှန်း လိုအပ်ပါသလား?', 'Do I need a prescription?'],
+          ['ကျွန်မ ပဋိဇီဝဆေးနဲ့ ဓာတ်မတည့်ပါဘူး။', 'I am allergic to antibiotics.'],
+          ['ဒီဆေးကို ဘယ်နှနာရီတစ်ခါ သောက်ရမလဲ?', 'How often should I take this medicine?'],
+          ['ကျွန်တော့်ဗိုက်နာနေလို့ ဆရာဝန်နဲ့ ပြချင်ပါတယ်။', 'I have a stomachache and I want to see a doctor.']
+        ],
+        mockTest: [
+          ["'I have a ___ .' (ခေါင်းကိုက်)",['headache','fever','cough','pain'],0],
+          ["'Do I need a ___ ?'",['prescription','medicine','doctor','hospital'],0],
+          ["'I am ___ to this medicine.'",['allergic','allergy','allergies','allergen'],0],
+          ["'How often should I ___ this?'",['take','eat','drink','use'],0],
+          ["'You should see a ___ .'",['doctor','nurse','pharmacist','dentist'],0]
+        ]
+      },
+      // Lesson 12
+      {
+        id: 'spk-12', unit: 'Lesson 12', title: 'Making Friends & Small Talk', titleMM: 'မိတ်ဆွေဖွဲ့ခြင်းနှင့် စကားစမြည်ပြောခြင်း',
+        explanation: 'ခရီးသွားရင်း လူတွေနဲ့ မိတ်ဆွေဖွဲ့တဲ့အခါ ရိုးရှင်းတဲ့ စကားစမြည်တွေ ပြောတတ်ဖို့ လိုပါတယ်။',
+        vocab: [
+          ['Hometown', 'ဇာတိမြို့။'],
+          ['Visit', 'လည်ပတ်သည်။'],
+          ['Enjoy', 'သဘောကျသည်။'],
+          ['Weather', 'ရာသီဥတု။'],
+          ['First time', 'ပထမဆုံးအကြိမ်။'],
+          ['Travel alone', 'တစ်ယောက်တည်း ခရီးသွားသည်။'],
+          ['Recommendation', 'အကြံပြုချက်။'],
+          ['Culture', 'ယဉ်ကျေးမှု။'],
+          ['Interesting', 'စိတ်ဝင်စားဖို့ကောင်းသည်။'],
+          ['Keep in touch', 'အဆက်အသွယ် မပြတ်စေနဲ့။']
+        ],
+        patterns: [
+          ['Where are you from?', 'သင်က ဘယ်ကလဲ?'],
+          ['Is this your first time here?', 'ဒီကို ပထမဆုံး ရောက်တာလား?'],
+          ['How do you like it here?', 'ဒီမှာ ဘယ်လိုနေလဲ/သဘောကျလား?'],
+          ['Do you have any recommendations for places to visit?', 'သွားလည်ဖို့ နေရာတွေ အကြံပြုချက် ရှိလား?'],
+          ['Nice to meet you. Let us keep in touch.', 'တွေ့ရတာ ဝမ်းသာပါတယ်။ အဆက်အသွယ် မပြတ်ရအောင်နော်။']
+        ],
+        paragraphEN: 'Stranger: Hi! Are you traveling alone?\nYou: Yes, I am. I am visiting from Myanmar.\nStranger: Oh, Myanmar! Welcome. Is this your first time in Paris?\nYou: Yes, it is. I am very excited to be here.\nStranger: How do you like it so far?\nYou: I love it. The architecture is beautiful. But the weather is a bit cold for me.\nStranger: Yes, it can be chilly. Do you have any plans for today?\nYou: I am going to visit the Eiffel Tower. Do you have any recommendations for good local food?\nStranger: You must try the croissants at the bakery down the street. They are amazing!\nYou: Thanks for the tip. Nice to meet you!',
+        paragraphMM: ' stranger: ဟိုင်း! တစ်ယောက်တည်း ခရီးသွားနေတာလား?\nသင်: ဟုတ်တယ်။ မြန်မာကနေ လာလည်တာပါ။\n stranger: အိုး၊ မြန်မာလား! ကြိုဆိုပါတယ်။ ပါရီကို ပထမဆုံး ရောက်တာလား?\nသင်: ဟုတ်တယ်။ ဒီကို ရောက်ရတာ အရမ်းစိတ်လှုပ်ရှားနေတယ်။\n stranger: အခုထိ ဘယ်လိုနေလဲ/သဘောကျလား?\nသင်: အရမ်းသဘောကျတယ်။ အဆောက်အအုံတွေက လှပါတယ်။ ဒါပေမယ့် ရာသီဥတုက ကျွန်တော့်အတွက် နည်းနည်းအေးတယ်။\n stranger: ဟုတ်တယ်၊ အေးတတ်ပါတယ်။ ဒီနေ့ အစီအစဉ် ရှိလား?\nသင်: ကျွန်တော် Eiffel Tower သွားလည်မလို့။ ဒေသခံ အစားအစာ ကောင်းကောင်းတွေအတွက် အကြံပြုချက် ရှိလား?\n stranger: ဒီလမ်းပေါ်က မုန့်ဆိုင်က croissants ကို မဖြစ်မနေ စမ်းကြည့်ပါ။ အရမ်းကောင်းပါတယ်!\nသင်: အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါတယ်။ တွေ့ရတာ ဝမ်းသာပါတယ်!',
+        practical: [
+          ['သင်က ဘယ်ကလဲ?', 'Where are you from?'],
+          ['ဒီကို ပထမဆုံး ရောက်တာလား?', 'Is this your first time here?'],
+          ['ဒီမှာ ဘယ်လိုနေလဲ/သဘောကျလား?', 'How do you like it here?'],
+          ['သွားလည်ဖို့ နေရာတွေ အကြံပြုပေးလို့ ရမလား?', 'Do you have any recommendations for places to visit?'],
+          ['ကျွန်တော် မြန်မာကပါ။', 'I am from Myanmar.'],
+          ['တွေ့ရတာ ဝမ်းသာပါတယ်။ အဆက်အသွယ် မပြတ်ရအောင်နော်။', 'Nice to meet you. Let us keep in touch.']
+        ],
+        mockTest: [
+          ["'Where are you ___ ?'",['from','to','at','in'],0],
+          ["'Is this your ___ time here?'",['first','one','two','last'],0],
+          ["'How do you ___ it here?'",['like','love','enjoy','want'],0],
+          ["'Do you have any ___ ?'",['recommendations','advice','tips','ideas'],0],
+          ["'Let us keep in ___ .'",['touch','contact','talk','speak'],0]
+        ]
+      },
+      // Lesson 13
+      {
+        id: 'spk-13', unit: 'Lesson 13', title: 'Money Exchange & ATM', titleMM: 'ငွေလဲလှယ်ခြင်းနှင့် ATM အသုံးပြုခြင်း',
+        explanation: 'နိုင်ငံခြားငွေကို ဒေသခံငွေလဲတာ၊ ATM ကနေ ပိုက်ဆံထုတ်တာတွေကို လေ့လာပါမယ်။',
+        vocab: [
+          ['Exchange rate', 'ငွေလဲလှယ်နှုန်း။'],
+          ['Currency', 'ငွေကြေး။'],
+          ['Cash', 'ငွေသား။'],
+          ['Bank', 'ဘဏ်။'],
+          ['Commission', 'ကော်မရှင် (လဲလှယ်ခ)။'],
+          ['Withdraw', 'ငွေထုတ်သည်။'],
+          ['PIN code', 'လျှို့ဝှက်နံပါတ်။'],
+          ['Receipt', 'ငွေလဲလက်မှတ်။'],
+          ['Balance', 'လက်ကျန်ငွေ။'],
+          ['Insert card', 'ကတ်ထည့်ပါ။']
+        ],
+        patterns: [
+          ['I would like to exchange [amount] dollars.', '[ပမာဏ] ဒေါ်လာ လဲလှယ်ချင်ပါတယ်။'],
+          ['What is the exchange rate today?', 'ဒီနေ့ ငွေလဲလှယ်နှုန်း ဘယ်လောက်လဲ?'],
+          ['Is there a commission fee?', 'ကော်မရှင် ကောက်ခံပါသလား?'],
+          ['Where is the nearest ATM?', 'အနီးဆုံး ATM ဘယ်မှာလဲ?'],
+          ['The ATM kept my card.', 'ATM က ကျွန်တော့်ကတ်ကို မျိုထားတယ်။']
+        ],
+        paragraphEN: 'You: Excuse me, I would like to exchange 100 US dollars to Euros.\nBank Teller: Sure. May I see your passport, please?\nYou: Here you go. What is the exchange rate today?\nBank Teller: It is 1 dollar to 0.92 euros. Is there a commission fee?\nBank Teller: No, we do not charge a commission. Here is your money and the receipt.\nYou: Thank you. Also, where is the nearest ATM? I need to withdraw some cash.\nBank Teller: There is one right outside the bank, on your left.\nYou: Great. Does it accept foreign cards?\nBank Teller: Yes, it does. Have a good day!',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ အမေရိကန်ဒေါ်လာ ၁၀၀ ကို ယူရိုငွေလဲချင်ပါတယ်။\nဘဏ်ဝန်ထမ်း: ဟုတ်ကဲ့။ နိုင်ငံကူးလက်မှတ် ကြည့်လို့ရမလား?\nသင်: ဒီမှာပါ။ ဒီနေ့ ငွေလဲလှယ်နှုန်း ဘယ်လောက်လဲ?\nဘဏ်ဝန်ထမ်း: ၁ ဒေါ်လာကို ၀.၉၂ ယူရိုပါ။ ကော်မရှင် ကောက်ခံပါသလား?\nဘဏ်ဝန်ထမ်း: မကောက်ပါဘူး။ ဒါက သင့်ငွေနဲ့ လက်မှတ်ပါ။\nသင်: ကျေးဇူးတင်ပါတယ်။ အနီးဆုံး ATM ဘယ်မှာလဲ? ပိုက်ဆံထုတ်ချင်လို့ပါ။\nဘဏ်ဝန်ထမ်း: ဘဏ်အပြင်မှာ တစ်လုံးရှိပါတယ်၊ သင့်ဘယ်ဘက်မှာပါ။\nသင်: ကောင်းတယ်။ နိုင်ငံခြားကတ်တွေ လက်ခံပါသလား?\nဘဏ်ဝန်ထမ်း: ဟုတ်ကဲ့၊ လက်ခံပါတယ်။ ကောင်းသောနေ့လေးဖြစ်ပါစေ!',
+        practical: [
+          ['ဒေါ်လာ ၁၀၀ ကို ဒေသခံငွေ လဲချင်ပါတယ်။', 'I would like to exchange 100 dollars to local currency.'],
+          ['ဒီနေ့ ငွေလဲလှယ်နှုန်း ဘယ်လောက်လဲ?', 'What is the exchange rate today?'],
+          ['ကော်မရှင် ကောက်ခံပါသလား?', 'Is there a commission fee?'],
+          ['အနီးဆုံး ATM ဘယ်မှာလဲ?', 'Where is the nearest ATM?'],
+          ['ကျွန်တော် ကတ်နဲ့ ပိုက်ဆံထုတ်ချင်ပါတယ်။', 'I want to withdraw money with my card.'],
+          ['ATM က ကျွန်တော့်ကတ်ကို မျိုထားပါတယ်။', 'The ATM kept my card.']
+        ],
+        mockTest: [
+          ["'I would like to ___ 100 dollars.'",['exchange','change','swap','turn'],0],
+          ["'What is the exchange ___ ?'",['rate','price','money','cost'],0],
+          ["'Is there a ___ fee?'",['commission','tax','service','pay'],0],
+          ["'Where is the nearest ___ ?'",['ATM','bank','shop','store'],0],
+          ["'I need to ___ some cash.'",['withdraw','take','get','bring'],0]
+        ]
+      },
+      // Lesson 14
+      {
+        id: 'spk-14', unit: 'Lesson 14', title: 'Travel Problems', titleMM: 'ခရီးသွား အခက်အခဲများ (ပျောက်ဆုံး/နောက်ကျ)',
+        explanation: 'ခရီးစဉ်မှာ လေယာဉ်နောက်ကျတာ၊ အိတ်ပျောက်တာ စတဲ့ ပြဿနာတွေ ကြုံရတဲ့အခါ ဘယ်လို ဖြေရှင်းရမလဲ လေ့လာပါမယ်။',
+        vocab: [
+          ['Missed flight', 'လေယာဉ် လွတ်သွားခြင်း။'],
+          ['Canceled', 'ဖျက်သိမ်းခြင်း။'],
+          ['Delayed', 'နောက်ကျခြင်း။'],
+          ['Lost luggage', 'ပျောက်ဆုံးသွားသော ခရီးဆောင်အိတ်။'],
+          ['Claim', 'တောင်းခံသည်။'],
+          ['Refund', 'ငွေပြန်အမ်းခြင်း။'],
+          ['Compensation', 'လျော်ကြေးပေးခြင်း။'],
+          ['Re-book', 'ပြန်လည် မှာယူသည်။'],
+          ['Connecting flight', 'ဆက်စပ် လေယာဉ်ခရီးစဉ်။'],
+          ['Information desk', 'သတင်းအချက်အလက် ကောင်တာ။']
+        ],
+        patterns: [
+          ['My flight was canceled/delayed.', 'ကျွန်တော့်လေယာဉ် ဖျက်သိမ်း/နောက်ကျသွားပါတယ်။'],
+          ['I missed my connecting flight.', 'ကျွန်တော် ဆက်စပ်လေယာဉ် လွတ်သွားပါတယ်။'],
+          ['My luggage did not arrive.', 'ကျွန်တော့် အိတ် မရောက်လာပါဘူး။'],
+          ['Where is the lost and found?', 'ပျောက်ဆုံးပစ္စည်း ရှာဖွေရေးဌာန ဘယ်မှာလဲ?'],
+          ['Can I get a refund?', 'ငွေပြန်အမ်းလို့ ရမလား?']
+        ],
+        paragraphEN: 'You: Excuse me, I need help. My flight to London was canceled. What should I do?\nStaff: I am sorry for the inconvenience. Let me check your ticket. Yes, the flight was canceled due to bad weather. We can re-book you on the next flight tomorrow morning.\nYou: But I have a connecting flight to New York. I will miss it!\nStaff: Do not worry. We will contact the airline and arrange a new connection for you.\nYou: Will I get a hotel for the night?\nStaff: Yes, we will provide a hotel and meals for tonight. Here is your voucher.\nYou: Thank you. Also, my checked bag is still at the previous airport.\nStaff: We will track your bag and deliver it to your hotel. Please fill out this form.',
+        paragraphMM: 'သင်: တစ်ဆိတ်လောက်ဗျာ၊ အကူအညီလိုပါတယ်။ လန်ဒန်သွား ကျွန်တော့်လေယာဉ် ဖျက်သိမ်းလိုက်ပါတယ်။ ဘာလုပ်ရမလဲ?\nဝန်ထမ်း: အဆင်မပြေဖြစ်တဲ့အတွက် တောင်းပန်ပါတယ်။ လက်မှတ် စစ်ကြည့်ပါမယ်။ ဟုတ်တယ်၊ ရာသီဥတုဆိုးလို့ လေယာဉ်ဖျက်သိမ်းခဲ့တာပါ။ မနက်ဖြန် မနက်ခင်း လေယာဉ်နဲ့ ပြန်မှာပေးလို့ရပါတယ်။\nသင်: ဒါပေမယ့် နယူးယောက်ကို ဆက်စပ်လေယာဉ်နဲ့ သွားရမှာပါ။ အဲဒါ လွတ်သွားမှာပဲ!\nဝန်ထမ်း: စိတ်မပူပါနဲ့။ လေကြောင်းလိုင်းကို ဆက်သွယ်ပြီး ခရီးစဉ်အသစ် စီစဉ်ပေးပါမယ်။\nသင်: ဒီညအတွက် ဟိုတယ်ရမလား?\nဝန်ထမ်း: ဟုတ်ကဲ့၊ ဒီညအတွက် ဟိုတယ်နဲ့ အစားအသောက်တွေ စီစဉ်ပေးပါမယ်။ ဒါက သင့်ဘောက်ချာပါ။\nသင်: ကျေးဇူးတင်ပါတယ်။ ပြီးတော့ ကျွန်တော့်ရဲ့ အိတ်က အရင်လေဆိပ်မှာ ရှိနေတုန်းပါ။\nဝန်ထမ်း: သင့်အိတ်ကို ရှာပြီး ဟိုတယ်ကို ပို့ပေးပါမယ်။ ဒီဖောင်လေး ဖြည့်ပေးပါ။',
+        practical: [
+          ['ကျွန်တော့်လေယာဉ် နောက်ကျနေပါတယ်။', 'My flight is delayed.'],
+          ['ကျွန်တော် ဆက်စပ်လေယာဉ် လွတ်သွားပါတယ်။', 'I missed my connecting flight.'],
+          ['ကျွန်တော့်အိတ် မရောက်လာပါဘူး။', 'My luggage did not arrive.'],
+          ['ပျောက်ဆုံးပစ္စည်း ရှာဖွေရေးဌာန ဘယ်မှာလဲ?', 'Where is the lost and found?'],
+          ['ကျွန်တော် ငွေပြန်အမ်းချင်ပါတယ်။', 'I would like a refund.'],
+          ['ကျွန်တော့်ကို လေယာဉ်အသစ် ပြန်စီစဉ်ပေးလို့ ရမလား?', 'Can you re-book me on a new flight?']
+        ],
+        mockTest: [
+          ["'My flight was ___ .'",['canceled','cancel','canceling','cancels'],0],
+          ["'I ___ my connecting flight.'",['missed','miss','missing','misses'],0],
+          ["'My luggage did not ___ .'",['arrive','come','go','get'],0],
+          ["'Where is the lost and ___ ?'",['found','find','findings','finds'],0],
+          ["'Can I get a ___ ?'",['refund','money','pay','back'],0]
+        ]
+      }
+    ];
+
+    let currentLessonId = null;
+
+    // ==========================================
+    // 3. UI RENDERING FUNCTIONS
+    // ==========================================
+    function renderGrid() {
+      const grid = document.getElementById('lessonGrid');
+      grid.innerHTML = '';
+      
+      const completed = state.completedLessons || [];
+      let doneCount = 0;
+
+      lessonsData.forEach((lesson, index) => {
+        const isDone = completed.includes(lesson.id);
+        if (isDone) doneCount++;
+
+        const cardHTML = `
+          <div onclick="openLesson('${lesson.id}')" 
+               class="bg-white rounded-2xl p-5 border-2 ${isDone ? 'border-sky-200 bg-sky-50/30' : 'border-slate-200 hover:border-sky-400'} shadow-sm hover:shadow-lg transition-all cursor-pointer group relative overflow-hidden flex flex-col justify-between min-h-[160px]">
+            ${isDone ? '<div class="absolute top-0 right-0 bg-sky-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">✓ ပြီးစီး</div>' : ''}
+            
+            <div>
+              <span class="text-xs font-bold font-mono bg-sky-50 text-sky-700 px-2.5 py-1 rounded-md inline-block mb-3">${lesson.unit}</span>
+              <h3 class="font-bold text-slate-900 text-base leading-tight group-hover:text-sky-700 transition-colors">${lesson.title}</h3>
+              <p class="text-xs text-slate-500 mt-1">${lesson.titleMM}</p>
+            </div>
+            
+            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+              <span class="text-xs text-slate-400 font-medium">Lesson ${index + 1}</span>
+              <div class="w-7 h-7 rounded-full bg-slate-50 group-hover:bg-sky-100 flex items-center justify-center transition-colors">
+                <span class="text-slate-400 group-hover:text-sky-700 font-bold text-xs">→</span>
+              </div>
+            </div>
+          </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+
+      document.getElementById('heroProgressText').innerText = `${doneCount} / 14`;
+      document.getElementById('heroProgressBar').style.width = `${(doneCount / 14) * 100}%`;
+    }
+
+    function openLesson(id) {
+      const lesson = lessonsData.find(l => l.id === id);
+      if (!lesson) return;
+      
+      currentLessonId = id;
+      document.getElementById('gridView').classList.add('hidden');
+      document.getElementById('detailView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+
+      document.getElementById('dUnit').innerText = lesson.unit;
+      document.getElementById('dTitle').innerText = lesson.title;
+      document.getElementById('dTitleMM').innerText = lesson.titleMM;
+      document.getElementById('dExplanation').innerText = lesson.explanation;
+
+      // Vocab
+      document.getElementById('dVocabGrid').innerHTML = lesson.vocab.map(v => `
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between group">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <p class="font-extrabold text-sky-900 text-lg">${v[0]}</p>
+            <button onclick="speakText('${v[0]}')" class="shrink-0 w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center text-sm audio-btn hover:bg-sky-200 transition-colors">🔊</button>
+          </div>
+          <p class="text-sm text-slate-700 leading-relaxed">${v[1]}</p>
+        </div>
+      `).join('');
+
+      // Patterns
+      document.getElementById('dPatternList').innerHTML = lesson.patterns.map(p => `
+        <div class="p-4 bg-sky-50 rounded-xl border border-sky-100 flex items-start justify-between gap-3">
+          <div>
+            <p class="font-bold text-slate-900 text-base">${p[0]}</p>
+            <p class="text-sm text-slate-600 mt-1">${p[1]}</p>
+          </div>
+          <button onclick="speakText('${p[0].replace(/'/g, "\\'")}')" class="shrink-0 w-9 h-9 rounded-lg bg-sky-800 text-white flex items-center justify-center shadow-sm audio-btn hover:bg-sky-900">🔊</button>
+        </div>
+      `).join('');
+
+      // Paragraph
+      document.getElementById('dParaEN').innerText = lesson.paragraphEN;
+      document.getElementById('dParaMM').innerText = lesson.paragraphMM;
+
+      // Practical
+      document.getElementById('dPracticalList').innerHTML = lesson.practical.map((p, i) => `
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <p class="font-bold text-slate-900 text-base mb-3">🇲🇲 ${p[0]}</p>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <button onclick="speakText('${p[0]}', 'my-MM')" class="px-4 py-2 rounded-lg bg-sky-800 text-white text-xs font-bold shadow-sm hover:bg-sky-900 flex items-center gap-1">
+              🔊 AI ဖတ်ပြမည် (မြန်မာ)
+            </button>
+            <button onclick="document.getElementById('ans-box-${i}').classList.toggle('hidden')" class="px-4 py-2 rounded-lg bg-teal-600 text-white text-xs font-bold shadow-sm hover:bg-teal-700">
+              👁️ Show Answer
+            </button>
+            <button onclick="startSpeech(${i})" class="px-4 py-2 rounded-lg bg-amber-500 text-white text-xs font-bold shadow-sm hover:bg-amber-600">
+              🎤 ငါပြောမည်
+            </button>
+          </div>
+          <div id="ans-box-${i}" class="hidden p-4 rounded-lg bg-sky-100 border border-sky-200">
+            <p class="font-bold text-sky-900 text-base">✅ ${p[1]}</p>
+            <button onclick="speakText('${p[1].replace(/'/g, "\\'")}')" class="mt-2 text-xs text-sky-700 font-bold underline flex items-center gap-1">
+              🔊 အသံနားထောင်
+            </button>
+          </div>
+          <p id="user-speak-${i}" class="text-sm text-amber-700 italic mt-2"></p>
+        </div>
+      `).join('');
+
+      // Mock Test
+      document.getElementById('dMockTestList').innerHTML = lesson.mockTest.map((q, qi) => `
+        <div class="p-5 bg-white rounded-xl border border-slate-200 shadow-sm">
+          <p class="font-bold text-slate-900 mb-3 text-base">${qi + 1}. ${q[0]}</p>
+          <div class="space-y-2">
+            ${q[1].map((opt, oi) => `
+              <label class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:bg-sky-50 cursor-pointer transition-colors">
+                <input type="radio" name="mock_${currentLessonId}_${qi}" value="${oi}" data-correct="${q[2]}" class="w-4 h-4 text-sky-600">
+                <span class="text-sm text-slate-700">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('mockResultBox').classList.add('hidden');
+      
+      const isDone = (state.completedLessons || []).includes(id);
+      const btn = document.getElementById('completeBtn');
+      if (isDone) {
+        btn.className = "px-10 py-4 rounded-2xl bg-slate-300 text-slate-600 font-bold text-lg cursor-not-allowed";
+        btn.innerText = "✓ ဒီသင်ခန်းစာ ပြီးစီးပြီးဖြစ်သည်";
+        btn.disabled = true;
+      } else {
+        btn.className = "px-10 py-4 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-lg shadow-xl shadow-sky-600/30 transition-all transform hover:-translate-y-1";
+        btn.innerText = "✅ ဒီသင်ခန်းစာ ပြီးစီးမည် (+50 XP)";
+        btn.disabled = false;
+      }
+    }
+
+    function closeLesson() {
+      document.getElementById('detailView').classList.add('hidden');
+      document.getElementById('gridView').classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    function submitMockTest() {
+      const lesson = lessonsData.find(l => l.id === currentLessonId);
+      let correct = 0;
+      const total = lesson.mockTest.length;
+      
+      lesson.mockTest.forEach((q, qi) => {
+        const selected = document.querySelector(`input[name="mock_${currentLessonId}_${qi}"]:checked`);
+        if (selected && parseInt(selected.value) === q[2]) {
+          correct++;
+        }
+      });
+
+      const pass = correct >= Math.ceil(total * 0.7);
+      const resBox = document.getElementById('mockResultBox');
+      resBox.classList.remove('hidden');
+      
+      if (pass) {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-sky-50 border border-sky-200 text-sky-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">🎉 အောင်မြင်ပါသည်!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+        
+        if (!state.awards.includes(`Mock Pass: ${currentLessonId}`)) {
+          state.xp = (state.xp || 0) + 15;
+          state.awards.push(`Mock Pass: ${currentLessonId}`);
+          localStorage.setItem('englishPlatformState', JSON.stringify(state));
+          document.getElementById('xpBadge').innerText = `⚡ ${state.xp} XP`;
+        }
+      } else {
+        resBox.className = "mt-4 p-5 rounded-2xl text-center bg-rose-50 border border-rose-200 text-rose-800 fade-in";
+        resBox.innerHTML = `<p class="text-2xl font-bold mb-1">📚 ထပ်ကြိုးစားပါ!</p><p class="text-lg">ရမှတ်: ${correct} / ${total}</p>`;
+      }
+    }
+
+    function completeLesson() {
+      if (!state.completedLessons) state.completedLessons = [];
+      
+      if (!state.completedLessons.includes(currentLessonId)) {
+        state.completedLessons.push(currentLessonId);
+        state.xp = (state.xp || 0) + 50;
+        
+        if (!state.awards) state.awards = [];
+        state.awards.push(`Lesson Done: ${currentLessonId}`);
+        
+        localStorage.setItem('englishPlatformState', JSON.stringify(state));
+        alert('✅ သင်ခန်းစာ ပြီးစီးပါပြီ! +50 XP ရရှိပါသည်။');
+        
+        renderGrid();
+        closeLesson();
+      }
+    }
+
+    function logout() {
+      if (confirm('အကောင့်မှ ထွက်မှာ သေချာလား?')) {
+        localStorage.removeItem('englishPlatformState');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Start App
+    renderGrid();
+  </script>
+</body>
+</html>
