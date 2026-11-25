@@ -46,7 +46,7 @@
       <p class="text-xs sm:text-sm text-slate-500 mb-6">Admin ထံမှ ရရှိထားသော Username နှင့် Key ID ကို ရိုက်ထည့်ပါ</p>
 
       <!-- Error / Status Message -->
-      <div id="errorMsg" class="hidden mb-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-bold flex items-center gap-2">
+      <div id="errorMsg" class="hidden mb-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-bold flex items-start gap-2">
         <span>❌</span> <span id="errorText">အချက်အလက် မှားယွင်းနေပါသည်။</span>
       </div>
 
@@ -80,10 +80,8 @@
   </div>
 
   <script>
-    // ✅ သင်ပေးထားသော Google Apps Script Web App URL
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXhDVzvrd1IWMKTu_-GTQ8L7zIXcinuPl63vP5AEnGTECS79znYwtyi5UR1Z3ZuKFj/exec';
 
-    // Device တစ်ခုချင်းစီအတွက် Unique ID ထုတ်ပေးခြင်း (Device Binding အတွက်)
     function getOrCreateDeviceId() {
       let devId = localStorage.getItem('eng_platform_device_id');
       if (!devId) {
@@ -127,22 +125,42 @@
 
       setLoading(true);
 
-      try {
-        const url = new URL(SCRIPT_URL);
-        url.searchParams.append('action', 'login');
-        url.searchParams.append('username', username);
-        url.searchParams.append('id', keyId);
-        url.searchParams.append('deviceId', deviceId);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-        const response = await fetch(url.toString(), {
+      try {
+        const fullUrl =
+          `${SCRIPT_URL}?action=login` +
+          `&username=${encodeURIComponent(username)}` +
+          `&id=${encodeURIComponent(keyId)}` +
+          `&deviceId=${encodeURIComponent(deviceId)}` +
+          `&_t=${Date.now()}`;
+
+        const response = await fetch(fullUrl, {
           method: 'GET',
-          redirect: 'follow'
+          redirect: 'follow',
+          signal: controller.signal
         });
 
-        const res = await response.json();
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`HTTP_${response.status}`);
+        }
+
+        const rawText = await response.text();
+        let res;
+        try {
+          res = JSON.parse(rawText);
+        } catch (parseErr) {
+          throw new Error('INVALID_JSON');
+        }
 
         if (res.success) {
-          const oldState = JSON.parse(localStorage.getItem('englishPlatformState') || '{}');
+          let oldState = {};
+          try {
+            oldState = JSON.parse(localStorage.getItem('englishPlatformState') || '{}');
+          } catch (_) {}
 
           const state = {
             keyId: keyId,
@@ -166,8 +184,18 @@
           showError(res.error || 'ဝင်ရောက်ခွင့် မရရှိပါ။');
         }
       } catch (err) {
-        console.error(err);
-        showError('Server နှင့် ချိတ်ဆက်၍ မရပါ။ အင်တာနက်လိုင်း သို့မဟုတ် Deployment Permission (Anyone) ကို စစ်ဆေးပါ။');
+        clearTimeout(timeoutId);
+        console.error('Login error:', err);
+
+        if (err.name === 'AbortError') {
+          showError('Server တုံ့ပြန်ချိန် ကြာနေပါသည်။ အင်တာနက်လိုင်းကို ပြန်စစ်ဆေးပါ။');
+        } else if (err.message === 'INVALID_JSON') {
+          showError('Apps Script မှ JSON မဟုတ်သော Response ပြန်လာပါသည်။ Web App Access ကို Anyone ထားပြီး New version ဖြင့် Deploy ပြန်လုပ်ပါ။');
+        } else if (String(err.message || '').startsWith('HTTP_')) {
+          showError(`Server error (${err.message}) ဖြစ်ပွားနေပါသည်။`);
+        } else {
+          showError('Server နှင့် ချိတ်ဆက်၍ မရပါ။ အင်တာနက်လိုင်း၊ Ad-blocker/VPN သို့မဟုတ် Deployment Permission (Anyone) ကို စစ်ဆေးပါ။');
+        }
       } finally {
         setLoading(false);
       }
