@@ -91,6 +91,51 @@
       return devId;
     }
 
+    function callScriptJsonp(paramsObj, timeoutMs = 15000) {
+      return new Promise((resolve, reject) => {
+        const cbName = '__gas_cb_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+        const script = document.createElement('script');
+        let settled = false;
+
+        const cleanup = () => {
+          if (script.parentNode) script.parentNode.removeChild(script);
+          try { delete window[cbName]; } catch (_) { window[cbName] = undefined; }
+        };
+
+        const timer = setTimeout(() => {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          reject(new Error('TIMEOUT'));
+        }, timeoutMs);
+
+        window[cbName] = function(data) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          cleanup();
+          resolve(data);
+        };
+
+        const query = Object.keys(paramsObj)
+          .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(paramsObj[k])}`)
+          .join('&');
+
+        script.src = `${SCRIPT_URL}?${query}&callback=${encodeURIComponent(cbName)}&_t=${Date.now()}`;
+        script.async = true;
+
+        script.onerror = function() {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          cleanup();
+          reject(new Error('SCRIPT_LOAD_ERROR'));
+        };
+
+        document.body.appendChild(script);
+      });
+    }
+
     const form = document.getElementById('loginForm');
     const errorMsg = document.getElementById('errorMsg');
     const errorText = document.getElementById('errorText');
@@ -125,38 +170,15 @@
 
       setLoading(true);
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000);
-
       try {
-        const fullUrl =
-          `${SCRIPT_URL}?action=login` +
-          `&username=${encodeURIComponent(username)}` +
-          `&id=${encodeURIComponent(keyId)}` +
-          `&deviceId=${encodeURIComponent(deviceId)}` +
-          `&_t=${Date.now()}`;
-
-        const response = await fetch(fullUrl, {
-          method: 'GET',
-          redirect: 'follow',
-          signal: controller.signal
+        const res = await callScriptJsonp({
+          action: 'login',
+          username: username,
+          id: keyId,
+          deviceId: deviceId
         });
 
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-          throw new Error(`HTTP_${response.status}`);
-        }
-
-        const rawText = await response.text();
-        let res;
-        try {
-          res = JSON.parse(rawText);
-        } catch (parseErr) {
-          throw new Error('INVALID_JSON');
-        }
-
-        if (res.success) {
+        if (res && res.success) {
           let oldState = {};
           try {
             oldState = JSON.parse(localStorage.getItem('englishPlatformState') || '{}');
@@ -181,20 +203,14 @@
           localStorage.setItem('englishPlatformState', JSON.stringify(state));
           window.location.href = 'dashboard.html';
         } else {
-          showError(res.error || 'ဝင်ရောက်ခွင့် မရရှိပါ။');
+          showError((res && res.error) || 'ဝင်ရောက်ခွင့် မရရှိပါ။');
         }
       } catch (err) {
-        clearTimeout(timeoutId);
         console.error('Login error:', err);
-
-        if (err.name === 'AbortError') {
+        if (err.message === 'TIMEOUT') {
           showError('Server တုံ့ပြန်ချိန် ကြာနေပါသည်။ အင်တာနက်လိုင်းကို ပြန်စစ်ဆေးပါ။');
-        } else if (err.message === 'INVALID_JSON') {
-          showError('Apps Script မှ JSON မဟုတ်သော Response ပြန်လာပါသည်။ Web App Access ကို Anyone ထားပြီး New version ဖြင့် Deploy ပြန်လုပ်ပါ။');
-        } else if (String(err.message || '').startsWith('HTTP_')) {
-          showError(`Server error (${err.message}) ဖြစ်ပွားနေပါသည်။`);
         } else {
-          showError('Server နှင့် ချိတ်ဆက်၍ မရပါ။ အင်တာနက်လိုင်း၊ Ad-blocker/VPN သို့မဟုတ် Deployment Permission (Anyone) ကို စစ်ဆေးပါ။');
+          showError('Server နှင့် ချိတ်ဆက်၍ မရပါ။ Apps Script Deploy ကို Anyone ထားပြီး New version ပြန်တင်ထားခြင်း ရှိ/မရှိ စစ်ဆေးပါ။');
         }
       } finally {
         setLoading(false);
