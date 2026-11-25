@@ -136,6 +136,35 @@
       });
     }
 
+    async function callScriptFetch(paramsObj, timeoutMs = 15000) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const query = Object.keys(paramsObj)
+          .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(paramsObj[k])}`)
+          .join('&');
+        const res = await fetch(`${SCRIPT_URL}?${query}&_t=${Date.now()}`, {
+          method: 'GET',
+          redirect: 'follow',
+          signal: controller.signal
+        });
+        if (!res.ok) throw new Error('HTTP_' + res.status);
+        const text = await res.text();
+        return JSON.parse(text);
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    async function invokeApi(paramsObj) {
+      try {
+        return await callScriptJsonp(paramsObj);
+      } catch (jsonpErr) {
+        if (jsonpErr.message === 'TIMEOUT') throw jsonpErr;
+        return await callScriptFetch(paramsObj);
+      }
+    }
+
     const form = document.getElementById('loginForm');
     const errorMsg = document.getElementById('errorMsg');
     const errorText = document.getElementById('errorText');
@@ -171,7 +200,7 @@
       setLoading(true);
 
       try {
-        const res = await callScriptJsonp({
+        const res = await invokeApi({
           action: 'login',
           username: username,
           id: keyId,
@@ -207,10 +236,10 @@
         }
       } catch (err) {
         console.error('Login error:', err);
-        if (err.message === 'TIMEOUT') {
+        if (err.name === 'AbortError' || err.message === 'TIMEOUT') {
           showError('Server တုံ့ပြန်ချိန် ကြာနေပါသည်။ အင်တာနက်လိုင်းကို ပြန်စစ်ဆေးပါ။');
         } else {
-          showError('Server နှင့် ချိတ်ဆက်၍ မရပါ။ Apps Script Deploy ကို Anyone ထားပြီး New version ပြန်တင်ထားခြင်း ရှိ/မရှိ စစ်ဆေးပါ။');
+          showError('Server နှင့် ချိတ်ဆက်၍ မရပါ။ Apps Script Deploy တွင် Who has access ကို Anyone ထားပြီး New version ပြန်တင်ထားခြင်း ရှိ/မရှိ စစ်ဆေးပါ။');
         }
       } finally {
         setLoading(false);
